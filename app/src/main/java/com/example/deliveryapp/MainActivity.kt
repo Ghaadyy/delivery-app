@@ -5,6 +5,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.deliveryapp.models.Restaurant
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,5 +19,17 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val restaurants: Array<Restaurant> = Array(10) {
+            Restaurant(
+                "Burger Lovers",
+                "Mansourieh"
+            )
+        }
+
+        val restaurantRv: RecyclerView = findViewById(R.id.restaurants_rv)
+
+        restaurantRv.layoutManager = LinearLayoutManager(this)
+        restaurantRv.adapter = CustomAdapter(restaurants)
     }
 }
