@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">DeliveryApp</string>
+    <string name="restaurant_logo">Restaurant logo</string>
+    <string name="arrow_for_more_details">Arrow for more details</string>
+    <string name="past_orders">Past Orders</string>
 </resources>
