@@ -1,20 +1,20 @@
 package com.example.deliveryapp
 
 import android.os.Bundle
-import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.deliveryapp.data.model.Order
+import com.example.deliveryapp.ui.ViewModel.OrderViewModel
 import com.example.deliveryapp.ui.adapter.OrderAdapter
 
 class MainActivity : AppCompatActivity() {
     private lateinit var orderRecyclerView: RecyclerView
     private lateinit var orderAdapter: OrderAdapter
-    private lateinit var orders: List<Order>
+    private lateinit var orderViewModel: OrderViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,15 +26,16 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        orderAdapter = OrderAdapter(this, emptyList())
+
         orderRecyclerView = findViewById(R.id.orderRecyclerView)
         orderRecyclerView.layoutManager = LinearLayoutManager(this)
-
-        orders = listOf(
-            Order(1, 1, "Cheese on top", 1, "PENDING", "2024-11-14", "123 Street", 50.0, 5.0, 2.0, "Credit Card", 4, true),
-            Order(2, 1, "Boneless", 2, "DELIVERED", "2024-11-13", "456 Avenue", 350.0,3.0, 1.0, "Cash", 5, false)
-        )
-
-        orderAdapter = OrderAdapter(orders)
         orderRecyclerView.adapter = orderAdapter
+
+        orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
+
+        orderViewModel.orders.observe(this) {
+            orderViewModel.orders.value?.let { it1 -> orderAdapter.updateOrders(it1) }
+        }
     }
 }

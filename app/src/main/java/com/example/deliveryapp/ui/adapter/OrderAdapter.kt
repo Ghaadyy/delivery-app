@@ -1,18 +1,30 @@
 package com.example.deliveryapp.ui.adapter
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.deliveryapp.OrderDetailActivity
 import com.example.deliveryapp.R
 import com.example.deliveryapp.data.model.Order
+import com.example.deliveryapp.data.model.OrderStatus
 
-class OrderAdapter(private val orders: List<Order>) : RecyclerView.Adapter<OrderAdapter.ViewHolder>(){
+class OrderAdapter(private val _context: Context, private var _orders: List<Order>) : RecyclerView.Adapter<OrderAdapter.ViewHolder>(){
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val restaurantId: TextView = view.findViewById(R.id.restaurantId)
-        val deliveryDate: TextView = view.findViewById(R.id.deliveryDate)
+        val status: TextView = view.findViewById(R.id.status)
         val orderTotalPrice: TextView = view.findViewById(R.id.orderTotalPrice)
+        var arrow: ImageView = view.findViewById(R.id.arrowIcon)
+    }
+
+    fun updateOrders(orders: List<Order>){
+        _orders = orders
+        notifyDataSetChanged() //TODO("Fix this issue")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,15 +33,26 @@ class OrderAdapter(private val orders: List<Order>) : RecyclerView.Adapter<Order
     }
 
     override fun getItemCount(): Int {
-        return orders.size;
+        return _orders.size;
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val order = orders[position]
+        val order = _orders[position]
         holder.restaurantId.text = order.restaurantId
-        val orderDate = "Delivery Date: ${order.orderDate}";
-        holder.deliveryDate.text = orderDate
+        val status = OrderStatus.fromId(order.status)
+        val message = if(status?.id == 6){
+            "${status.label} on ${order.deliveredDate}"
+        }else{
+            status?.label
+        }
+        holder.status.text = message
         val totalPrice = "Total Price: ${order.subtotal + order.deliveryCharge - order.discountedPrice}";
         holder.orderTotalPrice.text = totalPrice
+
+        holder.arrow.setOnClickListener {
+            val intent = Intent(_context, OrderDetailActivity::class.java)
+            intent.putExtra("order", order)
+            _context.startActivity(intent)
+        }
     }
 }
