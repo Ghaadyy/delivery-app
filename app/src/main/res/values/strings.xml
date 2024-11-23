@@ -3,4 +3,19 @@
     <string name="restaurant_logo">Restaurant logo</string>
     <string name="arrow_for_more_details">Arrow for more details</string>
     <string name="past_orders">Past Orders</string>
+    <string name="driver_logo">Driver Logo</string>
+    <string name="order_stars_rating">order stars rating</string>
+    <string name="driver_rating">driver rating</string>
+    <string name="your_order">Your Order</string>
+    <string name="item_logo">Item logo</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="delivery_charge">Delivery Charge</string>
+    <string name="total">Total</string>
+    <string name="paid_with">Paid with</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="order_rating">Order Rating</string>
+    <string name="reorder">Reorder</string>
+    <string name="track_your_order">Track your order</string>
+    <string name="maps">Maps</string>
+    <string name="estimated_arrival">Estimated Arrival</string>
 </resources>
