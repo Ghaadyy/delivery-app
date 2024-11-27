@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.example.deliveryapp.screens.Home
 import com.example.deliveryapp.screens.HomeScreen
 import com.example.deliveryapp.screens.Restaurant
@@ -17,13 +18,16 @@ fun DeliveryApp() {
 
         NavHost(navController, startDestination = Home) {
             composable<Home> {
-                HomeScreen(onNavigateToRestaurant = {
+                HomeScreen(onNavigateToRestaurant = { rest ->
                     navController.navigate(
-                        route = Restaurant
+                        route = Restaurant(rest.name)
                     )
                 })
             }
-            composable<Restaurant> { RestaurantScreen(onBack = { navController.popBackStack() }) }
+            composable<Restaurant> { backStackEntry ->
+                val restaurant: Restaurant = backStackEntry.toRoute()
+                RestaurantScreen(title = restaurant.title, onBack = { navController.popBackStack() })
+            }
         }
     }
 }

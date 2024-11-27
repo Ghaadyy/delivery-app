@@ -34,7 +34,7 @@ object Home
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(onNavigateToRestaurant: () -> Unit) {
+fun HomeScreen(onNavigateToRestaurant: (Restaurant) -> Unit) {
     val restaurants: List<Restaurant> = listOf(
         Restaurant("Burger Lovers", "Mansourieh"),
         Restaurant("Cheese on top", "Jal El Dib"),
@@ -90,7 +90,7 @@ fun HomeScreen(onNavigateToRestaurant: () -> Unit) {
                 Spacer(modifier = Modifier)
             }
             items(restaurants) { rest ->
-                RestaurantItem(rest, onClick = onNavigateToRestaurant)
+                RestaurantItem(rest, onClick = { onNavigateToRestaurant(rest) })
             }
             item {
                 Spacer(modifier = Modifier)
