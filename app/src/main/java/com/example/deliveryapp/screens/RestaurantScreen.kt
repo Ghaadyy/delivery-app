@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.ModifierInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -67,9 +68,10 @@ fun RestaurantScreen(onBack: () -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
                     .padding(paddingValues)
-                    .padding(20.dp)
+                    .padding(horizontal = 20.dp)
                     .verticalScroll(rememberScrollState())
             ) {
+                Spacer(modifier = Modifier)
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth(),
@@ -98,6 +100,7 @@ fun RestaurantScreen(onBack: () -> Unit) {
                 )
 
                 Menu()
+                Spacer(modifier = Modifier)
             }
         },
         bottomBar = {

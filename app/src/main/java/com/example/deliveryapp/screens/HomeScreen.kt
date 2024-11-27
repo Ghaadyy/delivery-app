@@ -3,6 +3,7 @@ package com.example.deliveryapp.screens
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -81,13 +82,20 @@ fun HomeScreen(onNavigateToRestaurant: () -> Unit) {
             modifier = Modifier
                 .padding(padding)
                 .fillMaxWidth()
-                .padding(20.dp),
+                .padding(horizontal = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
+            item {
+                Spacer(modifier = Modifier)
+            }
             items(restaurants) { rest ->
                 RestaurantItem(rest, onClick = onNavigateToRestaurant)
             }
+            item {
+                Spacer(modifier = Modifier)
+            }
         }
+        Spacer(modifier = Modifier)
     }
 }

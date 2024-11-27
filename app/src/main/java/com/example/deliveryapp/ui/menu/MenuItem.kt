@@ -35,9 +35,9 @@ fun MenuItem() {
                 fontSize = 14.sp,
                 color = Color.Gray
             )
-            Row(horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                 Text("LBP 1,170,000", fontWeight = FontWeight.Bold)
-                Text("$13.00")
+                Text("$13.00", fontSize = 12.sp, color = Color.Gray)
             }
         }
 
