@@ -28,7 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.deliveryapp.R
-import com.example.deliveryapp.models.Restaurant
+import com.example.deliveryapp.model.Restaurant
 
 @Composable
 fun RestaurantItem(restaurant: Restaurant, onClick: () -> Unit = {}) {

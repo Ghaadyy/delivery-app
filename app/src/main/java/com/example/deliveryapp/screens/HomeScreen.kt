@@ -25,7 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.deliveryapp.models.Restaurant
+import com.example.deliveryapp.model.Restaurant
 import com.example.deliveryapp.ui.RestaurantItem
 import kotlinx.serialization.Serializable
 
