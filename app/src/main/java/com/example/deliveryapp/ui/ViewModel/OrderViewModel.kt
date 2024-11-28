@@ -6,10 +6,12 @@ import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderDetail
 
 class OrderViewModel : ViewModel() {
-    val orders = MutableLiveData<List<Order>>()
+    val _orders = MutableLiveData<List<Order>>()
+    val _currentOrder = MutableLiveData<Order>()
+    val _currentOrderDetails = MutableLiveData<List<OrderDetail>>()
 
     init {
-        orders.value = getOrders()
+        _orders.value = getOrders()
     }
 
     //TODO("Load orders from db")
@@ -76,13 +78,11 @@ class OrderViewModel : ViewModel() {
         return sampleOrders
     }
 
-    //TODO("Load orders details from db")
-    fun getOrderDetails(orderId: Int): List<OrderDetail> {
-        val sampleOrderDetail = listOf(
+    //TODO("Load clicked order details from db")
+    fun getSelectedOrderDetails(orderId: Int) {
+        _currentOrderDetails.value = listOf(
             OrderDetail(1, orderId, "Melt Your Brie Burger", 9.5, 1),
             OrderDetail(2, orderId, "Oh My Cheddar Burger", 20.0, 2)
         )
-
-        return sampleOrderDetail
     }
 }
