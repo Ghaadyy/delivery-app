@@ -1,6 +1,5 @@
 package com.example.deliveryapp.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.deliveryapp.R
 import com.example.deliveryapp.data.model.OrderDetail
 
-class OrderSummaryAdapter(private var _orderDetails: List<OrderDetail>) : RecyclerView.Adapter<OrderSummaryAdapter.ViewHolder>(){
+class OrderTrackAdapter(private var _orderDetails: List<OrderDetail>) : RecyclerView.Adapter<OrderTrackAdapter.ViewHolder>(){
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val quantity: TextView = view.findViewById(R.id.itemQuantity)
@@ -17,7 +16,7 @@ class OrderSummaryAdapter(private var _orderDetails: List<OrderDetail>) : Recycl
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.track_order_summary_layout, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.order_track_summary_layout, parent, false)
         return ViewHolder(view)
     }
 
@@ -27,7 +26,6 @@ class OrderSummaryAdapter(private var _orderDetails: List<OrderDetail>) : Recycl
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val orderDetail = _orderDetails[position]
-        Log.d("OrderSummaryAdapter", "Binding item at position $position: quantity = ${orderDetail.quantity}, itemId = ${orderDetail.itemId}")
         holder.quantity.text = orderDetail.quantity.toString()
         holder.itemName.text = orderDetail.itemId
     }

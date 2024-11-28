@@ -1,19 +1,20 @@
 package com.example.deliveryapp.ui.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.deliveryapp.OrderDetailActivity
+import com.example.deliveryapp.OrderDetailFragment
 import com.example.deliveryapp.R
 import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderStatus
+import com.example.deliveryapp.ui.ViewModel.OrderViewModel
 
-class OrderAdapter(private val _context: Context, private var _orders: List<Order>) : RecyclerView.Adapter<OrderAdapter.ViewHolder>(){
+class OrderListAdapter(private val _context: Context, private var _orders: List<Order>, private val _orderViewModel: OrderViewModel) : RecyclerView.Adapter<OrderListAdapter.ViewHolder>(){
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val restaurantId: TextView = view.findViewById(R.id.restaurantId)
@@ -28,7 +29,7 @@ class OrderAdapter(private val _context: Context, private var _orders: List<Orde
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.order_layout, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.order_list_layout, parent, false)
         return ViewHolder(view)
     }
 
@@ -50,9 +51,15 @@ class OrderAdapter(private val _context: Context, private var _orders: List<Orde
         holder.orderTotalPrice.text = totalPrice
 
         holder.arrow.setOnClickListener {
-            val intent = Intent(_context, OrderDetailActivity::class.java)
-            intent.putExtra("order", order)
-            _context.startActivity(intent)
+            _orderViewModel._currentOrder.value = order
+            _orderViewModel.getSelectedOrderDetails(order.id)
+
+            val orderDetailFragment = OrderDetailFragment()
+            val transaction = (_context as AppCompatActivity).supportFragmentManager.beginTransaction()
+            transaction
+                .replace(R.id.fragment_container, orderDetailFragment)
+                .addToBackStack(null)
+                .commit()
         }
     }
 }

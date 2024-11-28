@@ -1,62 +1,57 @@
 package com.example.deliveryapp
 
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderDetail
 import com.example.deliveryapp.data.model.OrderStatus
-import com.example.deliveryapp.databinding.ActivityOrderDetailBinding
-import com.example.deliveryapp.ui.ViewModel.OrderViewModel
-import com.example.deliveryapp.ui.adapter.OrderAdapter
+import com.example.deliveryapp.databinding.FragmentOrderDetailBinding
 import com.example.deliveryapp.ui.adapter.OrderDetailAdapter
+import com.example.deliveryapp.ui.ViewModel.OrderViewModel
 
-class OrderDetailActivity : AppCompatActivity() {
-    private lateinit var orderDetailRecyclerView: RecyclerView
+class OrderDetailFragment : Fragment() {
+
+    private var _binding: FragmentOrderDetailBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var orderDetailAdapter: OrderDetailAdapter
     private lateinit var orderViewModel: OrderViewModel
-    private lateinit var binding: ActivityOrderDetailBinding
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityOrderDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentOrderDetailBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        enableEdgeToEdge()
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        orderDetailRecyclerView = findViewById(R.id.orderDetailRecyclerView)
-        orderDetailRecyclerView.layoutManager = LinearLayoutManager(this)
+        orderViewModel = ViewModelProvider(requireActivity())[OrderViewModel::class.java]
 
-        orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
+        orderDetailAdapter = OrderDetailAdapter(emptyList())
+        binding.orderDetailRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.orderDetailRecyclerView.adapter = orderDetailAdapter
 
-        val order = intent.getSerializableExtra("order", Order::class.java)
-        order?.let {
-            val orderDetails = orderViewModel.getOrderDetails(order.id)
+        orderViewModel._currentOrder.observe(viewLifecycleOwner) { order ->
             bindFirstCard(order)
-            bindSecondCard(orderDetails)
+            orderViewModel._currentOrderDetails.value?.let { bindSecondCard(it) }
             bindThirdCard(order)
         }
 
         binding.trackOrderButton.setOnClickListener {
-            val intent = Intent(this, TrackOrderActivity::class.java)
-            intent.putExtra("order", order)
-            startActivity(intent)
-            finish()
+            val orderTrackFragment = OrderTrackFragment()
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction
+                .replace(R.id.fragment_container, orderTrackFragment)
+                .addToBackStack(null)
+                .commit()
         }
     }
 
@@ -103,7 +98,7 @@ class OrderDetailActivity : AppCompatActivity() {
 
     private fun bindSecondCard(orderDetails: List<OrderDetail>){
         orderDetailAdapter = OrderDetailAdapter(orderDetails)
-        orderDetailRecyclerView.adapter = orderDetailAdapter
+        binding.orderDetailRecyclerView.adapter = orderDetailAdapter
     }
 
     private fun bindThirdCard(order: Order){
@@ -122,5 +117,10 @@ class OrderDetailActivity : AppCompatActivity() {
      * */
     private fun hideViews(vararg views: View) {
         views.forEach { it.visibility = View.GONE }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
