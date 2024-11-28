@@ -12,7 +12,7 @@ import com.example.deliveryapp.OrderDetailFragment
 import com.example.deliveryapp.R
 import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderStatus
-import com.example.deliveryapp.ui.ViewModel.OrderViewModel
+import com.example.deliveryapp.ui.viewModel.OrderViewModel
 
 class OrderListAdapter(private val _context: Context, private var _orders: List<Order>, private val _orderViewModel: OrderViewModel) : RecyclerView.Adapter<OrderListAdapter.ViewHolder>(){
 

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.deliveryapp.ui.ViewModel.OrderViewModel
+import com.example.deliveryapp.ui.viewModel.OrderViewModel
 import com.example.deliveryapp.ui.adapter.OrderListAdapter
 
 class OrderListFragment : Fragment() {

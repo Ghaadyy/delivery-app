@@ -12,7 +12,7 @@ import com.example.deliveryapp.data.model.OrderDetail
 import com.example.deliveryapp.data.model.OrderStatus
 import com.example.deliveryapp.databinding.FragmentOrderDetailBinding
 import com.example.deliveryapp.ui.adapter.OrderDetailAdapter
-import com.example.deliveryapp.ui.ViewModel.OrderViewModel
+import com.example.deliveryapp.ui.viewModel.OrderViewModel
 
 class OrderDetailFragment : Fragment() {
 

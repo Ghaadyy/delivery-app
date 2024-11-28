@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
-import com.example.deliveryapp.ui.ViewModel.OrderViewModel
+import com.example.deliveryapp.ui.viewModel.OrderViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var orderViewModel: OrderViewModel

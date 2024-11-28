@@ -13,7 +13,7 @@ import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderDetail
 import com.example.deliveryapp.data.model.OrderStatus
 import com.example.deliveryapp.databinding.FragmentOrderTrackBinding
-import com.example.deliveryapp.ui.ViewModel.OrderViewModel
+import com.example.deliveryapp.ui.viewModel.OrderViewModel
 import com.example.deliveryapp.ui.adapter.OrderTrackAdapter
 
 class OrderTrackFragment : Fragment(R.layout.fragment_order_track) {
