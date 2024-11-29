@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.deliveryapp.data.model.Order
-import com.example.deliveryapp.data.model.OrderStatus
 import com.example.deliveryapp.databinding.FragmentOrderDetailOrderCardBinding
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 
@@ -45,9 +44,9 @@ class OrderDetailOrderCardFragment : Fragment() {
 
     private fun bind(order: Order) {
         val restaurant = order.restaurantId
-        val status = OrderStatus.fromId(order.status)
+        val status = order.orderStatus
         val driver = order.driverId
-        val message = if (status?.id == 6) {
+        val message = if (status.id == 6) {
             "${status.label} on ${order.deliveredDate}"
         } else {
             "Placed at ${order.orderDate}"
@@ -56,7 +55,7 @@ class OrderDetailOrderCardFragment : Fragment() {
         binding.restaurantId.text = restaurant
         binding.status.text = message
         binding.driverName.text = driver
-        if (status?.id == 1 || status?.id == 2) {
+        if (status.id == 1 || status.id == 2) {
             binding.trackOrderButton.visibility = View.VISIBLE
             hideViews(
                 binding.driverLogo,
@@ -70,7 +69,7 @@ class OrderDetailOrderCardFragment : Fragment() {
                 binding.driverRatingText,
                 binding.driverRatingLogo
             )
-        } else if (status?.id != 6) {
+        } else if (status.id != 6) {
             binding.trackOrderButton.visibility = View.VISIBLE
             hideViews(
                 binding.reorderButton,

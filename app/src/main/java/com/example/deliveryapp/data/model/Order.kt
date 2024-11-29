@@ -7,7 +7,7 @@ data class Order(
     val customerId: Int,
     val restaurantId: String,
     val driverId: String = "-1",
-    val status: Int,
+    val orderStatus: OrderStatus,
     val orderDate: String,
     val deliveredDate: String,
     val orderLocation: String,
