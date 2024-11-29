@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderDetail
-import com.example.deliveryapp.data.model.OrderStatus
 import com.example.deliveryapp.databinding.FragmentOrderTrackBinding
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 import com.example.deliveryapp.ui.adapter.OrderTrackAdapter
@@ -46,13 +45,13 @@ class OrderTrackFragment : Fragment(R.layout.fragment_order_track) {
 
     private fun bindCard(order: Order) {
         val restaurant = order.restaurantId
-        val status = OrderStatus.fromId(order.status)
-        val message = if (status?.id == 6) {
+        val status = order.orderStatus
+        val message = if (status.id == 6) {
             "${status.label} on ${order.deliveredDate}"
         } else {
             "Placed at ${order.orderDate}"
         }
-        val trackOrderTopMessage = status?.label
+        val trackOrderTopMessage = status.label
         val totalPrice = "USD ${order.subtotal + order.deliveryCharge - order.discountedPrice}"
 
         binding.restaurantId.text = restaurant

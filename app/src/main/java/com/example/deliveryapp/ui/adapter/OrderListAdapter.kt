@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.deliveryapp.OrderDetailFragment
 import com.example.deliveryapp.R
 import com.example.deliveryapp.data.model.Order
-import com.example.deliveryapp.data.model.OrderStatus
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 
 class OrderListAdapter(private val _context: Context, private var _orders: List<Order>, private val _orderViewModel: OrderViewModel) : RecyclerView.Adapter<OrderListAdapter.ViewHolder>(){
@@ -40,11 +39,11 @@ class OrderListAdapter(private val _context: Context, private var _orders: List<
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val order = _orders[position]
         holder.restaurantId.text = order.restaurantId
-        val status = OrderStatus.fromId(order.status)
-        val message = if(status?.id == 6){
+        val status = order.orderStatus
+        val message = if(status.id == 6){
             "${status.label} on ${order.deliveredDate}"
         }else{
-            status?.label
+            status.label
         }
         holder.status.text = message
         val totalPrice = "Total Price: ${order.subtotal + order.deliveryCharge - order.discountedPrice}";
