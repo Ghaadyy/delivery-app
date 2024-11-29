@@ -15,6 +15,6 @@ data class Order(
     val discountedPrice: Double,
     val deliveryCharge: Double,
     val paymentMethod: String,
-    val orderRating: Int = -1,
-    val driverRating: Int = -1
+    val orderRating: OrderRating = OrderRating.NOT_APPLICABLE,
+    val driverRating: DriverRating = DriverRating.NOT_APPLICABLE
 ) : Serializable

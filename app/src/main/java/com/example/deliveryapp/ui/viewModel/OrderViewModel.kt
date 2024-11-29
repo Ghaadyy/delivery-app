@@ -2,8 +2,10 @@ package com.example.deliveryapp.ui.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.deliveryapp.data.model.DriverRating
 import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderDetail
+import com.example.deliveryapp.data.model.OrderRating
 import com.example.deliveryapp.data.model.OrderStatus
 
 class OrderViewModel : ViewModel() {
@@ -31,8 +33,8 @@ class OrderViewModel : ViewModel() {
                 discountedPrice = 5.0,
                 deliveryCharge = 2.0,
                 paymentMethod = "Credit Card",
-                orderRating = 4,
-                driverRating = 1
+                orderRating = OrderRating.EXCELLENT,
+                driverRating = DriverRating.LIKE
             ),
             Order(
                 id = 2,
