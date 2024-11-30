@@ -1,13 +1,12 @@
 package com.example.deliveryapp
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.ViewModelProvider
+import com.example.deliveryapp.data.model.DriverRating
 import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderRating
 import com.example.deliveryapp.data.model.OrderStatus
@@ -41,6 +40,11 @@ class OrderDetailOrderCardDeliveredFragment : Fragment() {
             val bottomSheetFragment = BottomSheetOrderRatingFragment.newInstance()
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
         }
+
+        binding.driverRatingButton.setOnClickListener {
+            val bottomSheetFragment = BottomSheetDriverRatingFragment.newInstance()
+            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+        }
     }
 
     private fun bind(order: Order){
@@ -53,6 +57,7 @@ class OrderDetailOrderCardDeliveredFragment : Fragment() {
             "Placed at ${order.orderDate}"
         }
         val orderRating = order.orderRating
+        val driverRating = order.driverRating
 
         binding.restaurantId.text = restaurant
         binding.status.text = message
@@ -65,6 +70,19 @@ class OrderDetailOrderCardDeliveredFragment : Fragment() {
         }else{
             viewsToHide.add(binding.orderRatingText)
             viewsToHide.add(binding.orderRatingStars)
+        }
+
+        if(driverRating != DriverRating.PENDING){
+            viewsToHide.add(binding.driverRatingButton)
+            if(driverRating == DriverRating.LIKE){
+                viewsToHide.add(binding.dislikeButton)
+            }else if(driverRating == DriverRating.DISLIKE){
+                viewsToHide.add(binding.likeButton)
+            }
+        }else{
+            viewsToHide.add(binding.driverRatingText)
+            viewsToHide.add(binding.likeButton)
+            viewsToHide.add(binding.dislikeButton)
         }
 
         viewsToHide.forEach {it.visibility = View.INVISIBLE}
