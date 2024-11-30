@@ -7,7 +7,7 @@ data class Order(
     val customerId: Int,
     val restaurantId: String,
     val driverId: String = "-1",
-    val orderStatus: OrderStatus,
+    var orderStatus: OrderStatus,
     val orderDate: String,
     val deliveredDate: String,
     val orderLocation: String,
@@ -15,6 +15,6 @@ data class Order(
     val discountedPrice: Double,
     val deliveryCharge: Double,
     val paymentMethod: String,
-    val orderRating: OrderRating = OrderRating.NOT_APPLICABLE,
-    val driverRating: DriverRating = DriverRating.NOT_APPLICABLE
+    var orderRating: OrderRating = OrderRating.NOT_APPLICABLE,
+    var driverRating: DriverRating = DriverRating.NOT_APPLICABLE
 ) : Serializable

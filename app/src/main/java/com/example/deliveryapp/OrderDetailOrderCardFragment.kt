@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.deliveryapp.data.model.Order
+import com.example.deliveryapp.data.model.OrderStatus
 import com.example.deliveryapp.databinding.FragmentOrderDetailOrderCardBinding
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 
@@ -30,62 +31,32 @@ class OrderDetailOrderCardFragment : Fragment() {
 
         orderViewModel = ViewModelProvider(requireActivity())[OrderViewModel::class.java]
 
-        orderViewModel._currentOrder.value?.let { bind(it) }
-
-        binding.trackOrderButton.setOnClickListener {
-            val orderTrackFragment = OrderTrackFragment()
-            val transaction = requireActivity().supportFragmentManager.beginTransaction()
-            transaction
-                .replace(R.id.fragment_container, orderTrackFragment)
-                .addToBackStack(null)
-                .commit()
+        orderViewModel._currentOrder.observe(viewLifecycleOwner) {
+            bind(it)
         }
     }
 
     private fun bind(order: Order) {
-        val restaurant = order.restaurantId
         val status = order.orderStatus
-        val driver = order.driverId
-        val message = if (status.id == 6) {
-            "${status.label} on ${order.deliveredDate}"
-        } else {
-            "Placed at ${order.orderDate}"
+        when (status) {
+            OrderStatus.CONFIRMING, OrderStatus.PREPARING_FETCHING_DRIVER -> {
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.OrderDetailCardFragmentContainer, OrderDetailOrderCardAssigningFragment())
+                    .commit()
+            }
+            OrderStatus.PREPARING_DRIVER_GOING_TO_STORE,
+            OrderStatus.PREPARING_DRIVER_IN_STORE,
+            OrderStatus.ON_THE_WAY -> {
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.OrderDetailCardFragmentContainer, OrderDetailOrderCardDriverFragment())
+                    .commit()
+            }
+            OrderStatus.DELIVERED -> {
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.OrderDetailCardFragmentContainer, OrderDetailOrderCardDeliveredFragment())
+                    .commit()
+            }
         }
-
-        binding.restaurantId.text = restaurant
-        binding.status.text = message
-        binding.driverName.text = driver
-        if (status.id == 1 || status.id == 2) {
-            binding.trackOrderButton.visibility = View.VISIBLE
-            hideViews(
-                binding.driverLogo,
-                binding.driverName,
-                binding.dividerFirstCardSection2,
-                binding.reorderButton,
-                binding.dividerFirstCardSection3,
-                binding.orderRatingText,
-                binding.orderRatingStars,
-                binding.dividerFirstCardSection4,
-                binding.driverRatingText,
-                binding.driverRatingLogo
-            )
-        } else if (status.id != 6) {
-            binding.trackOrderButton.visibility = View.VISIBLE
-            hideViews(
-                binding.reorderButton,
-                binding.dividerFirstCardSection3,
-                binding.orderRatingText,
-                binding.orderRatingStars,
-                binding.dividerFirstCardSection4,
-                binding.driverRatingText,
-                binding.driverRatingLogo
-            )
-        }
-    }
-
-    // Utility function to hide multiple views
-    private fun hideViews(vararg views: View) {
-        views.forEach { it.visibility = View.GONE }
     }
 
     override fun onDestroyView() {
