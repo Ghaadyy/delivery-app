@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.deliveryapp.OrderDetailFragment
+import com.example.deliveryapp.ui.fragments.order.OrderDetailFragment
 import com.example.deliveryapp.R
 import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.ui.viewModel.OrderViewModel

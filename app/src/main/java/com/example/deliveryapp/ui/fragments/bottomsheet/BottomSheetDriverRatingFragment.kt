@@ -1,26 +1,28 @@
-package com.example.deliveryapp
+package com.example.deliveryapp.ui.fragments.bottomsheet
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.example.deliveryapp.data.model.OrderRating
-import com.example.deliveryapp.databinding.FragmentBottomSheetOrderRatingBinding
+import com.example.deliveryapp.data.model.DriverRating
+import com.example.deliveryapp.databinding.FragmentBottomSheetDriverRatingBinding
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class BottomSheetOrderRatingFragment : BottomSheetDialogFragment() {
-    private var _binding: FragmentBottomSheetOrderRatingBinding? = null
+
+class BottomSheetDriverRatingFragment : BottomSheetDialogFragment() {
+    private var _binding: FragmentBottomSheetDriverRatingBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var orderViewModel: OrderViewModel
+    private lateinit var selectedDriverRating: DriverRating
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentBottomSheetOrderRatingBinding.inflate(inflater, container, false)
+        _binding = FragmentBottomSheetDriverRatingBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -29,11 +31,22 @@ class BottomSheetOrderRatingFragment : BottomSheetDialogFragment() {
 
         orderViewModel = ViewModelProvider(requireActivity())[OrderViewModel::class.java]
 
+        binding.likeButton.setOnClickListener {
+            selectedDriverRating = DriverRating.LIKE
+        }
+
+        binding.dislikeButton.setOnClickListener {
+            selectedDriverRating = DriverRating.DISLIKE
+        }
+
         binding.submitRatingButton.setOnClickListener{
             val currentOrder = orderViewModel._currentOrder
-            if(currentOrder.value?.orderRating == OrderRating.PENDING){
+            if(currentOrder.value?.driverRating == DriverRating.PENDING &&
+                selectedDriverRating != DriverRating.PENDING &&
+                selectedDriverRating != DriverRating.NOT_APPLICABLE){
+
                 currentOrder.value?.let { order ->
-                    order.orderRating = OrderRating.entries.find { it.ratingValue == binding.ratingBar.rating.toInt() }!!
+                    order.driverRating = selectedDriverRating
                     orderViewModel._currentOrder.value = order
                 }
             }
@@ -50,8 +63,8 @@ class BottomSheetOrderRatingFragment : BottomSheetDialogFragment() {
     }
 
     companion object {
-        fun newInstance(): BottomSheetOrderRatingFragment {
-            return BottomSheetOrderRatingFragment()
+        fun newInstance(): BottomSheetDriverRatingFragment {
+            return BottomSheetDriverRatingFragment()
         }
     }
 }

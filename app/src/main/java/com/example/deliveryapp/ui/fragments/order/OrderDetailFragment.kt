@@ -1,4 +1,4 @@
-package com.example.deliveryapp
+package com.example.deliveryapp.ui.fragments.order
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.deliveryapp.ui.fragments.order.cards.OrderDetailOrderCardFragment
+import com.example.deliveryapp.R
 import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderDetail
 import com.example.deliveryapp.databinding.FragmentOrderDetailBinding
