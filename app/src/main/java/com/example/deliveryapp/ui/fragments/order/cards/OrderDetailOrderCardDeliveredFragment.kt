@@ -1,4 +1,4 @@
-package com.example.deliveryapp
+package com.example.deliveryapp.ui.fragments.order.cards
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,6 +11,8 @@ import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderRating
 import com.example.deliveryapp.data.model.OrderStatus
 import com.example.deliveryapp.databinding.FragmentOrderDetailOrderCardDeliveredBinding
+import com.example.deliveryapp.ui.fragments.bottomsheet.BottomSheetDriverRatingFragment
+import com.example.deliveryapp.ui.fragments.bottomsheet.BottomSheetOrderRatingFragment
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 
 class OrderDetailOrderCardDeliveredFragment : Fragment() {

@@ -1,4 +1,4 @@
-package com.example.deliveryapp
+package com.example.deliveryapp.ui.fragments.order.cards
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,14 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.example.deliveryapp.R
 import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderStatus
-import com.example.deliveryapp.databinding.FragmentOrderDetailOrderCardDriverBinding
+import com.example.deliveryapp.databinding.FragmentOrderDetailOrderCardAssigningBinding
+import com.example.deliveryapp.ui.fragments.order.OrderTrackFragment
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 
-class OrderDetailOrderCardDriverFragment : Fragment() {
-
-    private var _binding: FragmentOrderDetailOrderCardDriverBinding? = null
+class OrderDetailOrderCardAssigningFragment : Fragment() {
+    private var _binding: FragmentOrderDetailOrderCardAssigningBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var orderViewModel: OrderViewModel
@@ -22,7 +23,7 @@ class OrderDetailOrderCardDriverFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentOrderDetailOrderCardDriverBinding.inflate(inflater, container, false)
+        _binding = FragmentOrderDetailOrderCardAssigningBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -46,16 +47,13 @@ class OrderDetailOrderCardDriverFragment : Fragment() {
     private fun bind(order: Order) {
         val restaurant = order.restaurantId
         val status = order.orderStatus
-        val driver = order.driverId
         val message = if (status == OrderStatus.DELIVERED) {
             "${status.label} on ${order.deliveredDate}"
         } else {
             "Placed at ${order.orderDate}"
         }
-
         binding.restaurantId.text = restaurant
         binding.status.text = message
-        binding.driverName.text = driver
     }
 
     override fun onDestroyView() {

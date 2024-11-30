@@ -1,4 +1,4 @@
-package com.example.deliveryapp
+package com.example.deliveryapp.ui.fragments.order
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.deliveryapp.R
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 import com.example.deliveryapp.ui.adapter.OrderListAdapter
 
