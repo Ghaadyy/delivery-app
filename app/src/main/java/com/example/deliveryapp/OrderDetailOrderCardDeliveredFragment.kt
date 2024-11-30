@@ -87,4 +87,9 @@ class OrderDetailOrderCardDeliveredFragment : Fragment() {
 
         viewsToHide.forEach {it.visibility = View.INVISIBLE}
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
