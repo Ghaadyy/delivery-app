@@ -53,4 +53,9 @@ class OrderDetailOrderCardAssigningFragment : Fragment() {
         binding.restaurantId.text = restaurant
         binding.status.text = message
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

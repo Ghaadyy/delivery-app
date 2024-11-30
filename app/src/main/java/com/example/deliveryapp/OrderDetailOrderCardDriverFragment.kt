@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.example.deliveryapp.data.model.Order
-import com.example.deliveryapp.data.model.OrderRating
 import com.example.deliveryapp.data.model.OrderStatus
-import com.example.deliveryapp.databinding.FragmentOrderDetailOrderCardBinding
 import com.example.deliveryapp.databinding.FragmentOrderDetailOrderCardDriverBinding
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 
@@ -58,5 +56,10 @@ class OrderDetailOrderCardDriverFragment : Fragment() {
         binding.restaurantId.text = restaurant
         binding.status.text = message
         binding.driverName.text = driver
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
