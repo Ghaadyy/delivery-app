@@ -37,6 +37,22 @@ class OrderViewModel : ViewModel() {
                 driverRating = DriverRating.LIKE
             ),
             Order(
+                id = 0,
+                customerId = 1,
+                restaurantId = "Pizza Hut",
+                driverId = "Thor",
+                orderStatus = OrderStatus.DELIVERED,
+                orderDate = "2024-11-14",
+                deliveredDate = "2024-11-14",
+                orderLocation = "123 Street",
+                subtotal = 100.0,
+                discountedPrice = 10.0,
+                deliveryCharge = 1.0,
+                paymentMethod = "Credit Card",
+                orderRating = OrderRating.PENDING,
+                driverRating = DriverRating.PENDING
+            ),
+            Order(
                 id = 2,
                 customerId = 1,
                 restaurantId = "Boneless",
