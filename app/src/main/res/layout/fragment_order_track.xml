@@ -7,12 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.order.OrderTrackFragment">
 
-    <ImageView
-        android:id="@+id/mapBackground"
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_launcher_background"
-        android:scaleType="centerCrop"
         android:contentDescription="@string/maps" />
 
     <androidx.cardview.widget.CardView

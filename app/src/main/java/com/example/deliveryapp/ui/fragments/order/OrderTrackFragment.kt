@@ -1,8 +1,11 @@
 package com.example.deliveryapp.ui.fragments.order
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -15,12 +18,51 @@ import com.example.deliveryapp.data.model.OrderDetail
 import com.example.deliveryapp.databinding.FragmentOrderTrackBinding
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 import com.example.deliveryapp.ui.adapter.OrderTrackAdapter
+import org.osmdroid.api.IMapController
+import org.osmdroid.config.Configuration
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
 
 class OrderTrackFragment : Fragment(R.layout.fragment_order_track) {
     private lateinit var orderTrackAdapter: OrderTrackAdapter
     private lateinit var orderViewModel: OrderViewModel
     private var _binding: FragmentOrderTrackBinding? = null
     private val binding get() = _binding!!
+    private lateinit var mapView: MapView
+    private lateinit var marker: Marker
+    private lateinit var mapController: IMapController
+
+    private val title = "Beirut"
+    private val location = GeoPoint(33.8938, 35.5018)
+    private val zoom = 16.0
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_order_track, container, false)
+
+        Configuration.getInstance().load(context, context?.getSharedPreferences("osmdroid", Context.MODE_PRIVATE))
+
+        mapView = view.findViewById(R.id.mapView)
+
+        mapView.setTileSource(TileSourceFactory.MAPNIK)
+        mapView.setMultiTouchControls(true)
+
+        mapController = mapView.controller
+        mapController.setZoom(zoom)
+        mapController.setCenter(location)
+
+        marker = Marker(mapView)
+        marker.position = location
+        marker.title = title
+        mapView.overlays.add(marker)
+
+
+        return view
+    }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,6 +110,7 @@ class OrderTrackFragment : Fragment(R.layout.fragment_order_track) {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        mapView.onDetach()
         _binding = null
     }
 }
