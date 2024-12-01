@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.deliveryapp.model.Restaurant
 import com.example.deliveryapp.ui.RestaurantItem
-import com.example.deliveryapp.ui.components.shared.BottomAppBar
+import com.example.deliveryapp.ui.components.shared.AppNavigationBar
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -49,7 +49,7 @@ fun HomeScreen(
             )
         },
         bottomBar = {
-            BottomAppBar()
+            AppNavigationBar()
         },
     ) { padding ->
         if (restaurants == null)
