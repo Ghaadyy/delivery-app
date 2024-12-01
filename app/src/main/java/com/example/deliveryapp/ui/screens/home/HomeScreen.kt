@@ -11,27 +11,30 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.deliveryapp.model.Restaurant
 import com.example.deliveryapp.ui.RestaurantItem
 import com.example.deliveryapp.ui.components.menu.shared.BottomAppBar
 import kotlinx.serialization.Serializable
 
 @Serializable
-object Home
+object HomePage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(onNavigateToRestaurant: (Restaurant) -> Unit) {
-    val restaurants: List<Restaurant> = listOf(
-        Restaurant("Burger Lovers", "Mansourieh"),
-        Restaurant("Cheese on top", "Jal El Dib"),
-        Restaurant("McDonalds", "Mansourieh"),
-        Restaurant("Burger King", "Mansourieh"),
-        Restaurant("Malak El Tawouk", "Mansourieh"),
-        Restaurant("Sandwich W Noss", "Mansourieh"),
-    )
+fun HomeScreen(
+    homeViewModel: HomeViewModel = viewModel(), onNavigateToRestaurant: (Restaurant) -> Unit
+) {
+    val restaurants by homeViewModel.restaurants.observeAsState()
+
+    LaunchedEffect(Unit) {
+        homeViewModel.fetchRestaurants()
+    }
 
     Scaffold(
         topBar = {
@@ -49,13 +52,15 @@ fun HomeScreen(onNavigateToRestaurant: (Restaurant) -> Unit) {
             BottomAppBar()
         },
     ) { padding ->
-        LazyColumn(
+        if (restaurants == null)
+            Text("Loading...")
+        else LazyColumn(
             modifier = Modifier
                 .padding(padding)
                 .padding(horizontal = 20.dp, vertical = 10.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            items(restaurants, key = { rest -> rest.name }) { rest ->
+            items(restaurants as List<Restaurant>, key = { rest -> rest.name }) { rest ->
                 RestaurantItem(rest, onClick = { onNavigateToRestaurant(rest) })
             }
         }

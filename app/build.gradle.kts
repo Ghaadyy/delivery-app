@@ -52,6 +52,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.runtime.livedata)
 
     // navigation
     implementation(libs.androidx.navigation.compose)

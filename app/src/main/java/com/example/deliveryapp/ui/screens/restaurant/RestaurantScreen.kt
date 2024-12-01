@@ -24,6 +24,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,17 +34,25 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.deliveryapp.R
+import com.example.deliveryapp.model.Restaurant
 import com.example.deliveryapp.ui.components.menu.Menu
 import com.example.deliveryapp.ui.components.menu.shared.BottomAppBar
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Restaurant(val title: String)
+data class RestaurantPage(val id: String)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RestaurantScreen(title: String, onBack: () -> Unit) {
+fun RestaurantScreen(restaurantViewModel: RestaurantViewModel = viewModel(), restaurantId: String, onBack: () -> Unit) {
+    val restaurant by restaurantViewModel.restaurant.observeAsState()
+
+    LaunchedEffect(Unit) {
+        restaurantViewModel.fetchRestaurant(restaurantId)
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
@@ -71,7 +82,7 @@ fun RestaurantScreen(title: String, onBack: () -> Unit) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(title, fontWeight = FontWeight.Bold)
+                    Text(if (restaurant == null) "Loading..." else (restaurant as Restaurant).name, fontWeight = FontWeight.Bold)
                     AssistChip(onClick = {}, {
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
