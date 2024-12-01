@@ -1,12 +1,15 @@
 package com.example.deliveryapp.ui.viewModel
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.deliveryapp.data.model.Driver
 import com.example.deliveryapp.data.model.DriverRating
 import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderDetail
 import com.example.deliveryapp.data.model.OrderRating
 import com.example.deliveryapp.data.model.OrderStatus
+import java.time.LocalDateTime
 
 class OrderViewModel : ViewModel() {
     val _orders = MutableLiveData<List<Order>>()
@@ -18,13 +21,14 @@ class OrderViewModel : ViewModel() {
     }
 
     //TODO("Load orders from db")
+    @SuppressLint("NewApi")
     private fun getOrders(): List<Order> {
         val sampleOrders = listOf(
             Order(
                 id = 1,
                 customerId = 1,
                 restaurantId = "Cheese on Top",
-                driverId = "Antoine Karam",
+                driver = Driver("20", "Antoine Karam", "2019-11-20", 9920),
                 orderStatus = OrderStatus.DELIVERED,
                 orderDate = "2024-11-14",
                 deliveredDate = "2024-11-14",
@@ -40,7 +44,7 @@ class OrderViewModel : ViewModel() {
                 id = 0,
                 customerId = 1,
                 restaurantId = "Pizza Hut",
-                driverId = "Thor",
+                driver = Driver("10", "Thor", "2023-11-20", 129),
                 orderStatus = OrderStatus.DELIVERED,
                 orderDate = "2024-11-14",
                 deliveredDate = "2024-11-14",
@@ -82,7 +86,7 @@ class OrderViewModel : ViewModel() {
                 id = 4,
                 customerId = 1,
                 restaurantId = "Sandwich W Noss",
-                driverId = "Super Saiyan 4 Gogeta",
+                driver = Driver("4", "Super Saiyan 4 Gogeta", "2022-11-20", 1230),
                 orderStatus = OrderStatus.PREPARING_DRIVER_IN_STORE,
                 orderDate = "2024-11-20",
                 deliveredDate = "2024-11-21",

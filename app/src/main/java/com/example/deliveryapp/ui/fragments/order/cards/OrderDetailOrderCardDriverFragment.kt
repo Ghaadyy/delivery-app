@@ -48,7 +48,7 @@ class OrderDetailOrderCardDriverFragment : Fragment() {
     private fun bind(order: Order) {
         val restaurant = order.restaurantId
         val status = order.orderStatus
-        val driver = order.driverId
+        val driver = order.driver?.name
         val message = if (status == OrderStatus.DELIVERED) {
             "${status.label} on ${order.deliveredDate}"
         } else {
