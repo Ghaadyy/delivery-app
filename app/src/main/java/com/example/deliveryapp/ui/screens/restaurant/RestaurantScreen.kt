@@ -14,8 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -37,6 +35,7 @@ import com.example.deliveryapp.R
 import com.example.deliveryapp.model.Restaurant
 import com.example.deliveryapp.ui.components.menu.Menu
 import com.example.deliveryapp.ui.components.shared.AppNavigationBar
+import com.example.deliveryapp.ui.components.shared.RatingChip
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -44,7 +43,9 @@ data class RestaurantPage(val id: String)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RestaurantScreen(restaurantViewModel: RestaurantViewModel = viewModel(), restaurantId: String, onBack: () -> Unit) {
+fun RestaurantScreen(
+    restaurantViewModel: RestaurantViewModel = viewModel(), restaurantId: String, onBack: () -> Unit
+) {
     val restaurant by restaurantViewModel.restaurant.observeAsState()
 
     LaunchedEffect(Unit) {
@@ -75,16 +76,11 @@ fun RestaurantScreen(restaurantViewModel: RestaurantViewModel = viewModel(), res
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(if (restaurant == null) "Loading..." else (restaurant as Restaurant).name, fontWeight = FontWeight.Bold)
-                    AssistChip(onClick = {}, {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(Icons.Filled.Star, "Rating")
-                            Text("3.5")
-                        }
-                    })
+                    Text(
+                        if (restaurant == null) "Loading..." else (restaurant as Restaurant).name,
+                        fontWeight = FontWeight.Bold
+                    )
+                    RatingChip("3.5")
                 }
 
                 Image(

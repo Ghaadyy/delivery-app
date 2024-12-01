@@ -55,7 +55,7 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             items(restaurants as List<Restaurant>, key = { rest -> rest.name }) { rest ->
-                RestaurantItem(rest, onClick = { onNavigateToRestaurant(rest) })
+                RestaurantItem(rest, isFavorite = false, onToggleFavorite = {}, onClick = { onNavigateToRestaurant(rest) })
             }
         }
     }

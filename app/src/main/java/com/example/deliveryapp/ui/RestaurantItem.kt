@@ -10,11 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.AssistChip
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,9 +29,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.deliveryapp.R
 import com.example.deliveryapp.model.Restaurant
+import com.example.deliveryapp.ui.components.shared.RatingChip
 
 @Composable
-fun RestaurantItem(restaurant: Restaurant, onClick: () -> Unit = {}) {
+fun RestaurantItem(
+    restaurant: Restaurant,
+    isFavorite: Boolean,
+    onToggleFavorite: (Boolean) -> Unit,
+    onClick: () -> Unit = {}
+) {
     Card(
         onClick = onClick, colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -54,18 +60,14 @@ fun RestaurantItem(restaurant: Restaurant, onClick: () -> Unit = {}) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Icon(
-                        Icons.Filled.Favorite, "Add to favorite", tint = Color.Red
-                    )
-                    AssistChip(onClick = {}, {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(Icons.Filled.Star, "Rating")
-                            Text("3.5")
-                        }
-                    })
+                    IconButton(onClick = {
+                        if (isFavorite) onToggleFavorite(false) else onToggleFavorite(true)
+                    }) {
+                        if (isFavorite) Icon(
+                            Icons.Filled.Favorite, "Remove favorite", tint = Color.Red
+                        ) else Icon(Icons.Outlined.FavoriteBorder, "Add favorite", tint = Color.Red)
+                    }
+                    RatingChip("3.5")
                 }
                 Text(
                     restaurant.name,
