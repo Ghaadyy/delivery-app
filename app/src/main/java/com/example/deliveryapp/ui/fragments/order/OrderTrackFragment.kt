@@ -13,11 +13,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.deliveryapp.R
+import com.example.deliveryapp.data.model.Driver
 import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderDetail
 import com.example.deliveryapp.databinding.FragmentOrderTrackBinding
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 import com.example.deliveryapp.ui.adapter.OrderTrackAdapter
+import com.example.deliveryapp.ui.fragments.bottomsheet.BottomSheetDriverInfoFragment
+import com.example.deliveryapp.ui.fragments.bottomsheet.BottomSheetOrderRatingFragment
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -81,12 +84,26 @@ class OrderTrackFragment : Fragment(R.layout.fragment_order_track) {
         orderViewModel = ViewModelProvider(requireActivity())[OrderViewModel::class.java]
 
         orderViewModel._currentOrder.observe(viewLifecycleOwner) { order ->
-            bindCard(order)
+            bindDriverInfoCard(order.driver)
+            bindOrderDetailsCard(order)
             orderViewModel._currentOrderDetails.value?.let { bindOrderSummary(it) }
+        }
+
+        binding.driverInfo.setOnClickListener {
+            val bottomSheetFragment = BottomSheetDriverInfoFragment.newInstance()
+            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
         }
     }
 
-    private fun bindCard(order: Order) {
+    private fun bindDriverInfoCard(driver: Driver?){
+        if(driver == null){
+            binding.driverInfo.visibility = View.GONE
+        }else{
+            binding.driverName.text = driver.name
+        }
+    }
+
+    private fun bindOrderDetailsCard(order: Order) {
         val restaurant = order.restaurantId
         val status = order.orderStatus
         val message = if (status.id == 6) {
