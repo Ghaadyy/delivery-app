@@ -38,7 +38,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.deliveryapp.R
 import com.example.deliveryapp.model.Restaurant
 import com.example.deliveryapp.ui.components.menu.Menu
-import com.example.deliveryapp.ui.components.menu.shared.BottomAppBar
+import com.example.deliveryapp.ui.components.shared.BottomAppBar
 import kotlinx.serialization.Serializable
 
 @Serializable

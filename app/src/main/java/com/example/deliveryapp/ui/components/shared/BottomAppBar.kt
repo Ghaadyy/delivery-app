@@ -1,4 +1,4 @@
-package com.example.deliveryapp.ui.components.menu.shared
+package com.example.deliveryapp.ui.components.shared
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
