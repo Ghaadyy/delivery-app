@@ -9,18 +9,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.twotone.Home
-import androidx.compose.material.icons.twotone.Search
-import androidx.compose.material.icons.twotone.Settings
 import androidx.compose.material3.AssistChip
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -38,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.deliveryapp.R
 import com.example.deliveryapp.ui.components.menu.Menu
+import com.example.deliveryapp.ui.components.menu.shared.BottomAppBar
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -102,21 +98,7 @@ fun RestaurantScreen(title: String, onBack: () -> Unit) {
             }
         },
         bottomBar = {
-            BottomAppBar {
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        Icons.TwoTone.Home, "Home", modifier = Modifier.size(36.dp)
-                    )
-                    Icon(Icons.TwoTone.Search, "Browse", modifier = Modifier.size(36.dp))
-                    Icon(Icons.TwoTone.Settings, "Settings", modifier = Modifier.size(36.dp))
-                }
-            }
+            BottomAppBar()
         },
     )
 }
