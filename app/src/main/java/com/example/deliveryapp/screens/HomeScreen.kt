@@ -1,28 +1,23 @@
 package com.example.deliveryapp.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.Home
-import androidx.compose.material.icons.twotone.Search
-import androidx.compose.material.icons.twotone.Settings
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.deliveryapp.model.Restaurant
@@ -57,45 +52,37 @@ fun HomeScreen(onNavigateToRestaurant: (Restaurant) -> Unit) {
             )
         },
         bottomBar = {
-            BottomAppBar {
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+            BottomAppBar(actions = {
+                IconButton(onClick = {}, enabled = true) {
                     Icon(
-                        Icons.TwoTone.Home,
+                        Icons.Filled.Home,
                         "Home",
-                        modifier = Modifier
-                            .size(36.dp)
-                            .clickable {}
                     )
-                    Icon(Icons.TwoTone.Search, "Browse", modifier = Modifier.size(36.dp))
-                    Icon(Icons.TwoTone.Settings, "Settings", modifier = Modifier.size(36.dp))
                 }
-            }
+                IconButton(onClick = {}) {
+                    Icon(
+                        Icons.Filled.Search,
+                        "Browse",
+                    )
+                }
+                IconButton(onClick = {}) {
+                    Icon(
+                        Icons.Filled.Settings,
+                        "Settings",
+                    )
+                }
+            })
         },
     ) { padding ->
         LazyColumn(
             modifier = Modifier
                 .padding(padding)
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .padding(horizontal = 20.dp, vertical = 10.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            item {
-                Spacer(modifier = Modifier)
-            }
-            items(restaurants) { rest ->
+            items(restaurants, key = { rest -> rest.name }) { rest ->
                 RestaurantItem(rest, onClick = { onNavigateToRestaurant(rest) })
             }
-            item {
-                Spacer(modifier = Modifier)
-            }
         }
-        Spacer(modifier = Modifier)
     }
 }
