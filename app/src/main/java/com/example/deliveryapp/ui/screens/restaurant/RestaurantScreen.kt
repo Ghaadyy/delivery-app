@@ -1,4 +1,4 @@
-package com.example.deliveryapp.screens
+package com.example.deliveryapp.ui.screens.restaurant
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -37,7 +37,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.deliveryapp.R
-import com.example.deliveryapp.ui.menu.Menu
+import com.example.deliveryapp.ui.components.menu.Menu
 import kotlinx.serialization.Serializable
 
 @Serializable

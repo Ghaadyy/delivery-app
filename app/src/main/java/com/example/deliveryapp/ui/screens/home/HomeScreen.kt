@@ -1,4 +1,4 @@
-package com.example.deliveryapp.screens
+package com.example.deliveryapp.ui.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding

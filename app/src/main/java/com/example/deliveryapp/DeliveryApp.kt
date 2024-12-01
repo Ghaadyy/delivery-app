@@ -6,10 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.example.deliveryapp.screens.Home
-import com.example.deliveryapp.screens.HomeScreen
-import com.example.deliveryapp.screens.Restaurant
-import com.example.deliveryapp.screens.RestaurantScreen
+import com.example.deliveryapp.ui.screens.home.Home
+import com.example.deliveryapp.ui.screens.home.HomeScreen
+import com.example.deliveryapp.ui.screens.restaurant.Restaurant
+import com.example.deliveryapp.ui.screens.restaurant.RestaurantScreen
 
 @Composable
 fun DeliveryApp() {
