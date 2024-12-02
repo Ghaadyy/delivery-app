@@ -10,7 +10,7 @@ data class Order(
     var orderStatus: OrderStatus,
     val orderDate: String,
     val deliveredDate: String,
-    val orderLocation: String,
+    val orderLocation: Pair<Double, Double>,
     val subtotal: Double,
     val discountedPrice: Double,
     val deliveryCharge: Double,
