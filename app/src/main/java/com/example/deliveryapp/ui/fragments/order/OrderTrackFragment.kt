@@ -20,7 +20,6 @@ import com.example.deliveryapp.databinding.FragmentOrderTrackBinding
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 import com.example.deliveryapp.ui.adapter.OrderTrackAdapter
 import com.example.deliveryapp.ui.fragments.bottomsheet.BottomSheetDriverInfoFragment
-import com.example.deliveryapp.ui.fragments.bottomsheet.BottomSheetOrderRatingFragment
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -47,6 +46,8 @@ class OrderTrackFragment : Fragment(R.layout.fragment_order_track) {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_order_track, container, false)
 
+        orderViewModel = ViewModelProvider(requireActivity())[OrderViewModel::class.java]
+
         Configuration.getInstance().load(context, context?.getSharedPreferences("osmdroid", Context.MODE_PRIVATE))
 
         mapView = view.findViewById(R.id.mapView)
@@ -58,9 +59,19 @@ class OrderTrackFragment : Fragment(R.layout.fragment_order_track) {
         mapController.setZoom(zoom)
         mapController.setCenter(location)
 
+        //Add store location
         marker = Marker(mapView)
         marker.position = location
         marker.title = title
+        mapView.overlays.add(marker)
+
+        //Add user location
+        val userLocation = orderViewModel._currentOrder.value?.orderLocation
+        marker = Marker(mapView)
+        if (userLocation != null) {
+            marker.position = GeoPoint(userLocation.first, userLocation.second)
+        }
+        marker.title = "User Location"
         mapView.overlays.add(marker)
 
 
@@ -80,8 +91,6 @@ class OrderTrackFragment : Fragment(R.layout.fragment_order_track) {
         }
 
         binding.orderSummaryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        orderViewModel = ViewModelProvider(requireActivity())[OrderViewModel::class.java]
 
         orderViewModel._currentOrder.observe(viewLifecycleOwner) { order ->
             bindDriverInfoCard(order.driver)
