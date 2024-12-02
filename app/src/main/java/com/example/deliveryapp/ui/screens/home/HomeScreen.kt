@@ -1,6 +1,7 @@
 package com.example.deliveryapp.ui.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -51,11 +52,17 @@ fun HomeScreen(
         else LazyColumn(
             modifier = Modifier
                 .padding(padding)
-                .padding(horizontal = 20.dp, vertical = 10.dp),
+                .padding(horizontal = 20.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
+            item {
+                Spacer(modifier = Modifier)
+            }
             items(restaurants as List<Restaurant>, key = { rest -> rest.name }) { rest ->
                 RestaurantItem(rest, onClick = { onNavigateToRestaurant(rest) })
+            }
+            item {
+                Spacer(modifier = Modifier)
             }
         }
     }
