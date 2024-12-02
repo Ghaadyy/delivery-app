@@ -40,34 +40,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.deliveryapp.R
-
-@Composable
-fun Option(name: String) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Checkbox(checked = true, onCheckedChange = {})
-        Text("$name ${"+ LBP 360,000 (USD 4.0)"}")
-    }
-}
-
-@Composable
-fun OptionSection() {
-    Column(
-        Modifier.fillMaxWidth()
-    ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier
-                .background(Color.White)
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Text("Upgrade to Combo", fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Option("Fries & Pepsi")
-            Option("Fries & Diet Pepsi")
-            Option("Fries & 7 Up")
-        }
-    }
-}
+import com.example.deliveryapp.ui.components.menu.option.OptionSection
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
