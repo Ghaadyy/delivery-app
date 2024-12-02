@@ -13,12 +13,12 @@ class HomeViewModel : ViewModel() {
 
     fun fetchRestaurants() {
         val restaurants: List<Restaurant> = listOf(
-            Restaurant("Burger Lovers", "Mansourieh"),
-            Restaurant("Cheese on top", "Jal El Dib"),
-            Restaurant("McDonalds", "Mansourieh"),
-            Restaurant("Burger King", "Mansourieh"),
-            Restaurant("Malak El Tawouk", "Mansourieh"),
-            Restaurant("Sandwich W Noss", "Mansourieh"),
+            Restaurant("1","Burger Lovers", "Mansourieh"),
+            Restaurant("2","Cheese on top", "Jal El Dib"),
+            Restaurant("3","McDonalds", "Mansourieh"),
+            Restaurant("4","Burger King", "Mansourieh"),
+            Restaurant("5","Malak El Tawouk", "Mansourieh"),
+            Restaurant("6","Sandwich W Noss", "Mansourieh"),
         )
 
         viewModelScope.launch {

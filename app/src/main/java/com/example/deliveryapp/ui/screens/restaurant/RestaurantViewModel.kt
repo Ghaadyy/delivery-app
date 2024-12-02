@@ -13,7 +13,7 @@ class RestaurantViewModel : ViewModel() {
 
     fun fetchRestaurant(restaurantId: String) {
         viewModelScope.launch {
-            _restaurant.postValue(Restaurant("Burger Lovers", "Mansourieh"))
+            _restaurant.postValue(Restaurant("1","Burger Lovers", "Mansourieh"))
         }
     }
 }
