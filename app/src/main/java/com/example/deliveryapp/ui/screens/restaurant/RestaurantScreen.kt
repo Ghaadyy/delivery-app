@@ -1,16 +1,11 @@
 package com.example.deliveryapp.ui.screens.restaurant
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -23,19 +18,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.deliveryapp.R
 import com.example.deliveryapp.model.Restaurant
 import com.example.deliveryapp.ui.components.menu.Menu
+import com.example.deliveryapp.ui.components.restaurant.RestaurantHeader
 import com.example.deliveryapp.ui.components.shared.AppNavigationBar
-import com.example.deliveryapp.ui.components.shared.RatingChip
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -71,27 +60,7 @@ fun RestaurantScreen(
                     .verticalScroll(rememberScrollState())
             ) {
                 Spacer(modifier = Modifier)
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        if (restaurant == null) "Loading..." else (restaurant as Restaurant).name,
-                        fontWeight = FontWeight.Bold
-                    )
-                    RatingChip("3.5")
-                }
-
-                Image(
-                    painter = painterResource(id = R.drawable.dummy_image),
-                    "description",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(16 / 9f)
-                        .clip(RoundedCornerShape(16.dp)),
-                    contentScale = ContentScale.FillWidth,
-                )
+                if (restaurant != null) RestaurantHeader(restaurant as Restaurant)
 
                 Menu()
                 Spacer(modifier = Modifier)
