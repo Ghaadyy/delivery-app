@@ -1,4 +1,4 @@
-package com.example.deliveryapp.ui
+package com.example.deliveryapp.ui.components.restaurant
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
