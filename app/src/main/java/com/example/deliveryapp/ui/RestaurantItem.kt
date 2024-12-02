@@ -18,6 +18,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,10 +38,10 @@ import com.example.deliveryapp.ui.components.shared.RatingChip
 @Composable
 fun RestaurantItem(
     restaurant: Restaurant,
-    isFavorite: Boolean,
-    onToggleFavorite: (Boolean) -> Unit,
     onClick: () -> Unit = {}
 ) {
+    var isFavorite by rememberSaveable { mutableStateOf(false) }
+
     Card(
         onClick = onClick, colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -61,7 +65,7 @@ fun RestaurantItem(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     IconButton(onClick = {
-                        if (isFavorite) onToggleFavorite(false) else onToggleFavorite(true)
+                        isFavorite = !isFavorite
                     }) {
                         if (isFavorite) Icon(
                             Icons.Filled.Favorite, "Remove favorite", tint = Color.Red
