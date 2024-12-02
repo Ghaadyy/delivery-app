@@ -11,17 +11,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.deliveryapp.data.model.menu.Meal
 
 @Composable
-fun MenuSection(title: String) {
+fun MenuSection(title: String, meals: List<Meal>) {
     Text(title, fontWeight = FontWeight.Bold, fontSize = 20.sp)
     HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
     Column(
         verticalArrangement = Arrangement.spacedBy(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        for (i in 1..3) {
-            MenuItem()
+        meals.forEach { meal ->
+            MenuItem(meal)
         }
     }
 }

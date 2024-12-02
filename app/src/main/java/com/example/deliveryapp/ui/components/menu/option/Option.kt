@@ -9,13 +9,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import com.example.deliveryapp.data.model.menu.MealOption
 
 @Composable
-fun Option(name: String) {
+fun Option(option: MealOption) {
     var checked by remember { mutableStateOf(false) }
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(checked = checked, onCheckedChange = { isChecked -> checked = isChecked })
-        Text("$name ${"+ LBP 360,000 (USD 4.0)"}")
+        Text("${option.name} ${"+ LBP ${option.price * 89500} ($ ${option.price})"}")
     }
 }

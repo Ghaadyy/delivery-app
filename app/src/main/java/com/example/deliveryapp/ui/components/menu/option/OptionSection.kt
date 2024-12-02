@@ -12,9 +12,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.deliveryapp.data.model.menu.MealUpgrade
 
 @Composable
-fun OptionSection() {
+fun OptionSection(upgrade: MealUpgrade) {
     Column(
         Modifier.fillMaxWidth()
     ) {
@@ -25,10 +26,10 @@ fun OptionSection() {
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            Text("Upgrade to Combo", fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Option("Fries & Pepsi")
-            Option("Fries & Diet Pepsi")
-            Option("Fries & 7 Up")
+            Text(upgrade.name, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            upgrade.options.forEach { opt ->
+                Option(opt)
+            }
         }
     }
 }

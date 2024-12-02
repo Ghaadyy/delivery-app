@@ -4,5 +4,5 @@ data class Meal(
     val name: String,
     val ingredients: String,
     val price: Double, // price in USD
-    val options: List<MealOption>
+    val upgrades: List<MealUpgrade>
 )

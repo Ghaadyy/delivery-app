@@ -20,7 +20,7 @@ fun DeliveryApp() {
             composable<HomePage> {
                 HomeScreen(onNavigateToRestaurant = { rest ->
                     navController.navigate(
-                        route = RestaurantPage(rest.name)
+                        route = RestaurantPage(rest.id)
                     )
                 })
             }

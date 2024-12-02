@@ -25,14 +25,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.deliveryapp.R
+import com.example.deliveryapp.data.model.menu.Meal
 import com.example.deliveryapp.ui.components.menu.option.OptionsBottomSheet
 
 @Composable
-fun MenuItem() {
+fun MenuItem(meal: Meal) {
     var isSheetVisible by remember { mutableStateOf(false) }
 
     if (isSheetVisible) {
-        OptionsBottomSheet { isSheetVisible = false }
+        OptionsBottomSheet (meal) { isSheetVisible = false }
     }
 
     Surface(onClick = { isSheetVisible = true }) {
@@ -41,9 +42,9 @@ fun MenuItem() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(2f)) {
-                Text("Triple Smash Burger", fontSize = 18.sp)
+                Text(meal.name, fontSize = 18.sp)
                 Text(
-                    "Three smashed beef patties (100g), lettuce, cheddar cheese slices (4pcs) and fantastic sauce",
+                    meal.ingredients,
                     fontSize = 14.sp,
                     color = Color.Gray
                 )
@@ -51,8 +52,8 @@ fun MenuItem() {
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("LBP 1,170,000", fontWeight = FontWeight.Bold)
-                    Text("$13.00", fontSize = 12.sp, color = Color.Gray)
+                    Text("LBP ${meal.price * 89500}", fontWeight = FontWeight.Bold)
+                    Text("$${meal.price}", fontSize = 12.sp, color = Color.Gray)
                 }
             }
 

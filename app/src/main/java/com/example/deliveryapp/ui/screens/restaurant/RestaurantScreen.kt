@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.deliveryapp.data.model.Restaurant
+import com.example.deliveryapp.data.model.menu.Menu
 import com.example.deliveryapp.ui.components.menu.Menu
 import com.example.deliveryapp.ui.components.restaurant.RestaurantHeader
 import com.example.deliveryapp.ui.components.shared.AppNavigationBar
@@ -36,9 +37,11 @@ fun RestaurantScreen(
     restaurantViewModel: RestaurantViewModel = viewModel(), restaurantId: String, onBack: () -> Unit
 ) {
     val restaurant by restaurantViewModel.restaurant.observeAsState()
+    val menu by restaurantViewModel.menu.observeAsState()
 
     LaunchedEffect(Unit) {
         restaurantViewModel.fetchRestaurant(restaurantId)
+        restaurantViewModel.fetchMenu(restaurantId)
     }
 
     Scaffold(
@@ -62,7 +65,7 @@ fun RestaurantScreen(
                 Spacer(modifier = Modifier)
                 if (restaurant != null) RestaurantHeader(restaurant as Restaurant)
 
-                Menu()
+                if(menu != null) Menu(menu = (menu as Menu))
                 Spacer(modifier = Modifier)
             }
         },

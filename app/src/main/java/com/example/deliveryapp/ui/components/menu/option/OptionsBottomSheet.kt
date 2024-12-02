@@ -25,10 +25,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.deliveryapp.R
+import com.example.deliveryapp.data.model.menu.Meal
+import com.example.deliveryapp.data.model.menu.MealOption
+import com.example.deliveryapp.data.model.menu.MealUpgrade
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OptionsBottomSheet(onDismissRequest: () -> Unit) {
+fun OptionsBottomSheet(meal: Meal, onDismissRequest: () -> Unit) {
     ModalBottomSheet(
         onDismissRequest = onDismissRequest
     ) {
@@ -46,9 +49,9 @@ fun OptionsBottomSheet(onDismissRequest: () -> Unit) {
                     .background(Color.White)
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
-                Text("Triple Smash Burger", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                Text(meal.name, fontSize = 24.sp, fontWeight = FontWeight.Bold)
                 Text(
-                    "Three smashed beef patties (100g), lettuce, cheddar cheese slices (4pcs) and fantastic sauce",
+                    meal.ingredients,
                     fontSize = 14.sp,
                     color = Color.Gray
                 )
@@ -56,15 +59,15 @@ fun OptionsBottomSheet(onDismissRequest: () -> Unit) {
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("LBP 1,170,000", fontWeight = FontWeight.SemiBold)
-                    Text("$13.00", fontSize = 12.sp, color = Color.Gray)
+                    Text("LBP ${meal.price * 89500}", fontWeight = FontWeight.SemiBold)
+                    Text("$${meal.price}", fontSize = 12.sp, color = Color.Gray)
                 }
             }
             Spacer(Modifier.height(16.dp))
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                OptionSection()
-                OptionSection()
-                OptionSection()
+                meal.upgrades.forEach { upgrade ->
+                    OptionSection(upgrade)
+                }
             }
         }
     }
