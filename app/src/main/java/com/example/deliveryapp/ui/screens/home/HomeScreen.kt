@@ -78,7 +78,7 @@ fun HomeScreen(
             item {
                 Spacer(modifier = Modifier)
             }
-            items(restaurants as List<Restaurant>, key = { rest -> rest.name }) { rest ->
+            items(restaurants as List<Restaurant>, key = { rest -> rest.id }) { rest ->
                 RestaurantItem(rest, onClick = { onNavigateToRestaurant(rest) })
             }
             item {
