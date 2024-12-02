@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.deliveryapp.model.Restaurant
+import com.example.deliveryapp.data.model.Restaurant
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {

@@ -17,7 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.deliveryapp.R
-import com.example.deliveryapp.model.Restaurant
+import com.example.deliveryapp.data.model.Restaurant
 import com.example.deliveryapp.ui.components.shared.RatingChip
 
 @Composable
