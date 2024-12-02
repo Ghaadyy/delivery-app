@@ -6,12 +6,12 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface RestaurantService {
-    @GET("restaurant")
+    @GET("restaurants")
     suspend fun getRestaurants(): List<Restaurant>
 
-    @GET("restaurant/{restaurantId}")
+    @GET("restaurants/{restaurantId}")
     suspend fun getRestaurant(@Path("restaurantId") restaurantId: String): Restaurant
 
-    @GET("restaurant/{restaurantId}/menu")
+    @GET("restaurants/{restaurantId}/menu")
     suspend fun getMenu(@Path("restaurantId") restaurantId: String): Menu
 }
