@@ -21,7 +21,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.deliveryapp.data.model.Restaurant
+import com.example.deliveryapp.data.model.restaurant.Restaurant
 import com.example.deliveryapp.data.model.menu.Menu
 import com.example.deliveryapp.ui.components.menu.Menu
 import com.example.deliveryapp.ui.components.restaurant.RestaurantHeader

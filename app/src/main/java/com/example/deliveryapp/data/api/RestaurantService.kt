@@ -1,6 +1,6 @@
 package com.example.deliveryapp.data.api
 
-import com.example.deliveryapp.data.model.Restaurant
+import com.example.deliveryapp.data.model.restaurant.Restaurant
 import com.example.deliveryapp.data.model.menu.Menu
 import retrofit2.http.GET
 import retrofit2.http.Path

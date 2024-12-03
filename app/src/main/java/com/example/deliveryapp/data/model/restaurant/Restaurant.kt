@@ -1,4 +1,4 @@
-package com.example.deliveryapp.data.model
+package com.example.deliveryapp.data.model.restaurant
 
 data class Restaurant(
     val id: String,

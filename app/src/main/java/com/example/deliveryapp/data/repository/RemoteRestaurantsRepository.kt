@@ -1,7 +1,7 @@
 package com.example.deliveryapp.data.repository
 
 import com.example.deliveryapp.data.api.RestaurantService
-import com.example.deliveryapp.data.model.Restaurant
+import com.example.deliveryapp.data.model.restaurant.Restaurant
 import com.example.deliveryapp.data.model.menu.Menu
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

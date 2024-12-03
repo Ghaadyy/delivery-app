@@ -32,7 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.deliveryapp.R
-import com.example.deliveryapp.data.model.Restaurant
+import com.example.deliveryapp.data.model.restaurant.Restaurant
 import com.example.deliveryapp.ui.components.shared.RatingChip
 
 @Composable
