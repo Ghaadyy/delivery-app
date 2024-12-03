@@ -29,7 +29,8 @@ class BottomSheetDriverInfoFragment : BottomSheetDialogFragment() {
 
         orderViewModel = ViewModelProvider(requireActivity())[OrderViewModel::class.java]
 
-        bind(orderViewModel._currentOrder.value?.driver!!)
+        val currentOrder = orderViewModel.currentOrder.value
+        if(currentOrder?.driver != null) bind(currentOrder.driver)
     }
 
     private fun bind(driver: Driver){

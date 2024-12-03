@@ -30,11 +30,11 @@ class BottomSheetOrderRatingFragment : BottomSheetDialogFragment() {
         orderViewModel = ViewModelProvider(requireActivity())[OrderViewModel::class.java]
 
         binding.submitRatingButton.setOnClickListener{
-            val currentOrder = orderViewModel._currentOrder
-            if(currentOrder.value?.orderRating == OrderRating.PENDING){
-                currentOrder.value?.let { order ->
+            val currentOrder = orderViewModel.currentOrder.value
+            if(currentOrder?.orderRating == OrderRating.PENDING){
+                currentOrder.let { order ->
                     order.orderRatingId = binding.ratingBar.rating.toInt()
-                    orderViewModel._currentOrder.value = order
+                    orderViewModel.setCurrentOrder(order)
                 }
             }
             parentFragmentManager.beginTransaction()

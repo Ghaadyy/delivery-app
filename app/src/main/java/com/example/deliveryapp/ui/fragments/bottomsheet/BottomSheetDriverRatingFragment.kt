@@ -40,14 +40,14 @@ class BottomSheetDriverRatingFragment : BottomSheetDialogFragment() {
         }
 
         binding.submitRatingButton.setOnClickListener{
-            val currentOrder = orderViewModel._currentOrder
-            if(currentOrder.value?.driverRating == DriverRating.PENDING &&
+            val currentOrder = orderViewModel.currentOrder.value
+            if(currentOrder?.driverRating == DriverRating.PENDING &&
                 selectedDriverRating != DriverRating.PENDING &&
                 selectedDriverRating != DriverRating.NOT_APPLICABLE){
 
-                currentOrder.value?.let { order ->
+                currentOrder.let { order ->
                     order.driverRatingId = selectedDriverRating.ratingValue
-                    orderViewModel._currentOrder.value = order
+                    orderViewModel.setCurrentOrder(order)
                 }
             }
             parentFragmentManager.beginTransaction()

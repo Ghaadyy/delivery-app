@@ -41,7 +41,7 @@ class OrderDetailOrderCardAssigningFragment : Fragment() {
                 .commit()
         }
 
-        orderViewModel._currentOrder.value?.let { bind(it) }
+        orderViewModel.currentOrder.value?.let { bind(it) }
     }
 
     private fun bind(order: Order) {

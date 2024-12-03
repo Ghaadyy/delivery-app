@@ -51,7 +51,7 @@ class OrderListAdapter(private val _context: Context, private var _orders: List<
         holder.orderTotalPrice.text = totalPrice
 
         holder.arrow.setOnClickListener {
-            _orderViewModel._currentOrder.value = order
+            _orderViewModel.setCurrentOrder(order)
             Log.d("OrderListAdapter", order.toString())
             _orderViewModel.getSelectedOrderDetails(order.id)
 
