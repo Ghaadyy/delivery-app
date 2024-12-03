@@ -34,7 +34,7 @@ class OrderDetailOrderCardDeliveredFragment : Fragment() {
 
         orderViewModel = ViewModelProvider(requireActivity())[OrderViewModel::class.java]
 
-        orderViewModel._currentOrder.observe(viewLifecycleOwner) {
+        orderViewModel.currentOrder.observe(viewLifecycleOwner) {
             bind(it)
         }
 

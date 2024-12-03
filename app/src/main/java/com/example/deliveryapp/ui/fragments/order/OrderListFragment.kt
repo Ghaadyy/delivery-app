@@ -33,7 +33,7 @@ class OrderListFragment : Fragment() {
         orderAdapter = OrderListAdapter(requireContext(), listOf(), orderViewModel)
         orderRecyclerView.adapter = orderAdapter
 
-        orderViewModel._orders.observe(viewLifecycleOwner) { newOrders ->
+        orderViewModel.orders.observe(viewLifecycleOwner) { newOrders ->
             orderAdapter.updateOrders(newOrders)
         }
     }

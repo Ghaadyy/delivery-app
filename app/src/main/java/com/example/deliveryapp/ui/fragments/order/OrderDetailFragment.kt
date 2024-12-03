@@ -40,12 +40,12 @@ class OrderDetailFragment : Fragment() {
         binding.orderDetailRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.orderDetailRecyclerView.adapter = orderDetailAdapter
 
-        orderViewModel._currentOrder.observe(viewLifecycleOwner) { order ->
+        orderViewModel.currentOrder.observe(viewLifecycleOwner) { order ->
             bindFirstCard()
             bindThirdCard(order)
         }
 
-        orderViewModel._currentOrderDetails.observe(viewLifecycleOwner) {
+        orderViewModel.currentOrderDetails.observe(viewLifecycleOwner) {
             bindSecondCard(it)
         }
     }

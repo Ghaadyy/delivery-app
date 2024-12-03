@@ -66,7 +66,7 @@ class OrderTrackFragment : Fragment(R.layout.fragment_order_track) {
         mapView.overlays.add(marker)
 
         //Add user location
-        val userLocation = orderViewModel._currentOrder.value?.orderLocation
+        val userLocation = orderViewModel.currentOrder.value?.orderLocation
         marker = Marker(mapView)
         if (userLocation != null) {
             marker.position = GeoPoint(userLocation.latitude, userLocation.longitude)
@@ -92,12 +92,12 @@ class OrderTrackFragment : Fragment(R.layout.fragment_order_track) {
 
         binding.orderSummaryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        orderViewModel._currentOrder.observe(viewLifecycleOwner) { order ->
+        orderViewModel.currentOrder.observe(viewLifecycleOwner) { order ->
             bindDriverInfoCard(order.driver)
             bindOrderDetailsCard(order)
         }
 
-        orderViewModel._currentOrderDetails.observe(viewLifecycleOwner) {
+        orderViewModel.currentOrderDetails.observe(viewLifecycleOwner) {
             bindOrderSummary(it)
         }
 
