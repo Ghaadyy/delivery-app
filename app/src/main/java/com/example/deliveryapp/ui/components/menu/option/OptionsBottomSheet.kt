@@ -47,6 +47,7 @@ fun OptionsBottomSheet(meal: Meal, onDismissRequest: () -> Unit) {
             Column(
                 modifier = Modifier
                     .background(Color.White)
+                    .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
                 Text(meal.name, fontSize = 24.sp, fontWeight = FontWeight.Bold)
