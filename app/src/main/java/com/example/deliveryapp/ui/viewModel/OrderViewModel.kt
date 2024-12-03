@@ -1,17 +1,18 @@
 package com.example.deliveryapp.ui.viewModel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderDetail
 import com.example.deliveryapp.data.repository.OrderRepository
-import com.example.deliveryapp.data.repository.RemoteOrderRepository
+import com.example.deliveryapp.data.repository.RemoteFirstOrderRepository
 import kotlinx.coroutines.launch
 
-class OrderViewModel : ViewModel() {
-    private val orderRepository: OrderRepository = RemoteOrderRepository()
+class OrderViewModel(application: Application) : AndroidViewModel(application) {
+    private val orderRepository: OrderRepository = RemoteFirstOrderRepository(application)
     private val _orders = MutableLiveData<List<Order>>()
     private val _currentOrder = MutableLiveData<Order>()
     private val _currentOrderDetails = MutableLiveData<List<OrderDetail>>()
