@@ -7,4 +7,10 @@ import com.example.deliveryapp.data.model.restaurant.Favorite
 interface FavoriteDao {
     @Query("SELECT * FROM favorites")
     fun getFavoriteRestaurants(): List<Favorite>
+
+    @Insert
+    fun likeRestaurant(favorite: Favorite)
+
+    @Delete
+    fun dislikeRestaurant(favorite: Favorite)
 }

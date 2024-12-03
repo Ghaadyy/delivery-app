@@ -38,9 +38,11 @@ import com.example.deliveryapp.ui.components.shared.RatingChip
 @Composable
 fun RestaurantItem(
     restaurant: Restaurant,
+    favorite: Boolean,
+    onToggleFavorite: (Boolean) -> Unit,
     onClick: () -> Unit = {}
 ) {
-    var isFavorite by rememberSaveable { mutableStateOf(false) }
+    var isFavorite by rememberSaveable { mutableStateOf(favorite) }
 
     Card(
         onClick = onClick, colors = CardDefaults.cardColors(
@@ -66,6 +68,7 @@ fun RestaurantItem(
                 ) {
                     IconButton(onClick = {
                         isFavorite = !isFavorite
+                        onToggleFavorite(isFavorite)
                     }) {
                         if (isFavorite) Icon(
                             Icons.Filled.Favorite, "Remove favorite", tint = Color.Red

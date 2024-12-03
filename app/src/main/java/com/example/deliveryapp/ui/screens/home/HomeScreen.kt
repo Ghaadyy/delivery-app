@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.deliveryapp.data.model.restaurant.Favorite
 import com.example.deliveryapp.data.model.restaurant.Restaurant
 import com.example.deliveryapp.ui.components.location.LocationPickerBottomSheet
 import com.example.deliveryapp.ui.components.restaurant.RestaurantItem
@@ -43,19 +44,30 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = viewModel(), onNavigateToRestaurant: (Restaurant) -> Unit
 ) {
     val restaurants by homeViewModel.restaurants.observeAsState()
+    val favorites by homeViewModel.favorites.observeAsState()
     var isSheetVisible by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         homeViewModel.fetchRestaurants()
+        homeViewModel.fetchFavorites()
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Surface(onClick = { isSheetVisible = true }, modifier = Modifier.fillMaxSize()) {
-                        Row (verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            Icon(Icons.Filled.LocationOn, "Location", tint = MaterialTheme.colorScheme.primary)
+                    Surface(
+                        onClick = { isSheetVisible = true }, modifier = Modifier.fillMaxSize()
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Icon(
+                                Icons.Filled.LocationOn,
+                                "Location",
+                                tint = MaterialTheme.colorScheme.primary
+                            )
                             Text("Location", fontWeight = FontWeight.SemiBold)
                         }
                     }
@@ -79,7 +91,16 @@ fun HomeScreen(
                 Spacer(modifier = Modifier)
             }
             items(restaurants as List<Restaurant>, key = { rest -> rest.id }) { rest ->
-                RestaurantItem(rest, onClick = { onNavigateToRestaurant(rest) })
+                RestaurantItem(rest,
+                    if (favorites == null) false else (favorites as List<Favorite>).contains(Favorite(rest.id)),
+                    onToggleFavorite = { isFavorite ->
+                        if(isFavorite) {
+                            homeViewModel.likeRestaurant(rest.id)
+                        } else {
+                            homeViewModel.dislikeRestaurant(rest.id)
+                        }
+                    },
+                    onClick = { onNavigateToRestaurant(rest) })
             }
             item {
                 Spacer(modifier = Modifier)
