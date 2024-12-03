@@ -12,6 +12,6 @@ interface RestaurantService {
     @GET("restaurants/{restaurantId}")
     suspend fun getRestaurant(@Path("restaurantId") restaurantId: String): Restaurant
 
-    @GET("restaurants/{restaurantId}/menu")
+    @GET("menu/{restaurantId}")
     suspend fun getMenu(@Path("restaurantId") restaurantId: String): Menu
 }
