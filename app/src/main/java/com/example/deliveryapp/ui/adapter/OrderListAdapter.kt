@@ -1,6 +1,7 @@
 package com.example.deliveryapp.ui.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,10 +41,10 @@ class OrderListAdapter(private val _context: Context, private var _orders: List<
         val order = _orders[position]
         holder.restaurantId.text = order.restaurantId
         val status = order.orderStatus
-        val message = if(status.id == 6){
+        val message = if(status?.id == 6){
             "${status.label} on ${order.deliveredDate}"
         }else{
-            status.label
+            status?.label
         }
         holder.status.text = message
         val totalPrice = "Total Price: ${order.subtotal + order.deliveryCharge - order.discountedPrice}";
@@ -51,6 +52,7 @@ class OrderListAdapter(private val _context: Context, private var _orders: List<
 
         holder.arrow.setOnClickListener {
             _orderViewModel._currentOrder.value = order
+            Log.d("OrderListAdapter", order.toString())
             _orderViewModel.getSelectedOrderDetails(order.id)
 
             val orderDetailFragment = OrderDetailFragment()

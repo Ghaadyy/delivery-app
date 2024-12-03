@@ -7,4 +7,10 @@ enum class OrderStatus(val id: Int, val label: String) {
     PREPARING_DRIVER_IN_STORE(4, "Driver waiting for your order"),
     ON_THE_WAY(5, "Driver is on the way to you"),
     DELIVERED(6, "Delivered");
+
+    companion object {
+        fun fromId(id: Int): OrderStatus? {
+            return entries.find { it.id == id }
+        }
+    }
 }

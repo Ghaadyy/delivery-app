@@ -39,23 +39,25 @@ class OrderDetailOrderCardFragment : Fragment() {
 
     private fun bind(order: Order) {
         val status = order.orderStatus
-        when (status) {
-            OrderStatus.CONFIRMING, OrderStatus.PREPARING_FETCHING_DRIVER -> {
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.OrderDetailCardFragmentContainer, OrderDetailOrderCardAssigningFragment())
-                    .commit()
-            }
-            OrderStatus.PREPARING_DRIVER_GOING_TO_STORE,
-            OrderStatus.PREPARING_DRIVER_IN_STORE,
-            OrderStatus.ON_THE_WAY -> {
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.OrderDetailCardFragmentContainer, OrderDetailOrderCardDriverFragment())
-                    .commit()
-            }
-            OrderStatus.DELIVERED -> {
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.OrderDetailCardFragmentContainer, OrderDetailOrderCardDeliveredFragment())
-                    .commit()
+        if(status != null){
+            when (status) {
+                OrderStatus.CONFIRMING, OrderStatus.PREPARING_FETCHING_DRIVER -> {
+                    childFragmentManager.beginTransaction()
+                        .replace(R.id.OrderDetailCardFragmentContainer, OrderDetailOrderCardAssigningFragment())
+                        .commit()
+                }
+                OrderStatus.PREPARING_DRIVER_GOING_TO_STORE,
+                OrderStatus.PREPARING_DRIVER_IN_STORE,
+                OrderStatus.ON_THE_WAY -> {
+                    childFragmentManager.beginTransaction()
+                        .replace(R.id.OrderDetailCardFragmentContainer, OrderDetailOrderCardDriverFragment())
+                        .commit()
+                }
+                OrderStatus.DELIVERED -> {
+                    childFragmentManager.beginTransaction()
+                        .replace(R.id.OrderDetailCardFragmentContainer, OrderDetailOrderCardDeliveredFragment())
+                        .commit()
+                }
             }
         }
     }

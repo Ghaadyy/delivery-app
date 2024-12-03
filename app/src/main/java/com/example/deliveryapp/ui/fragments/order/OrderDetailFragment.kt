@@ -42,8 +42,11 @@ class OrderDetailFragment : Fragment() {
 
         orderViewModel._currentOrder.observe(viewLifecycleOwner) { order ->
             bindFirstCard()
-            orderViewModel._currentOrderDetails.value?.let { bindSecondCard(it) }
             bindThirdCard(order)
+        }
+
+        orderViewModel._currentOrderDetails.observe(viewLifecycleOwner) {
+            bindSecondCard(it)
         }
     }
 
