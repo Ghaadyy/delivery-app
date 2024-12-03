@@ -69,7 +69,7 @@ class OrderTrackFragment : Fragment(R.layout.fragment_order_track) {
         val userLocation = orderViewModel._currentOrder.value?.orderLocation
         marker = Marker(mapView)
         if (userLocation != null) {
-            marker.position = GeoPoint(userLocation.first, userLocation.second)
+            marker.position = GeoPoint(userLocation.latitude, userLocation.longitude)
         }
         marker.title = "User Location"
         mapView.overlays.add(marker)
@@ -95,7 +95,10 @@ class OrderTrackFragment : Fragment(R.layout.fragment_order_track) {
         orderViewModel._currentOrder.observe(viewLifecycleOwner) { order ->
             bindDriverInfoCard(order.driver)
             bindOrderDetailsCard(order)
-            orderViewModel._currentOrderDetails.value?.let { bindOrderSummary(it) }
+        }
+
+        orderViewModel._currentOrderDetails.observe(viewLifecycleOwner) {
+            bindOrderSummary(it)
         }
 
         binding.driverInfo.setOnClickListener {
@@ -115,12 +118,12 @@ class OrderTrackFragment : Fragment(R.layout.fragment_order_track) {
     private fun bindOrderDetailsCard(order: Order) {
         val restaurant = order.restaurantId
         val status = order.orderStatus
-        val message = if (status.id == 6) {
+        val message = if (status?.id == 6) {
             "${status.label} on ${order.deliveredDate}"
         } else {
             "Placed at ${order.orderDate}"
         }
-        val trackOrderTopMessage = status.label
+        val trackOrderTopMessage = status?.label
         val totalPrice = "USD ${order.subtotal + order.deliveryCharge - order.discountedPrice}"
 
         binding.restaurantId.text = restaurant

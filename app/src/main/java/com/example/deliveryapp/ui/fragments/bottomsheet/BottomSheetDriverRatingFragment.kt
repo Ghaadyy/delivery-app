@@ -46,7 +46,7 @@ class BottomSheetDriverRatingFragment : BottomSheetDialogFragment() {
                 selectedDriverRating != DriverRating.NOT_APPLICABLE){
 
                 currentOrder.value?.let { order ->
-                    order.driverRating = selectedDriverRating
+                    order.driverRatingId = selectedDriverRating.ratingValue
                     orderViewModel._currentOrder.value = order
                 }
             }

@@ -33,7 +33,7 @@ class BottomSheetOrderRatingFragment : BottomSheetDialogFragment() {
             val currentOrder = orderViewModel._currentOrder
             if(currentOrder.value?.orderRating == OrderRating.PENDING){
                 currentOrder.value?.let { order ->
-                    order.orderRating = OrderRating.entries.find { it.ratingValue == binding.ratingBar.rating.toInt() }!!
+                    order.orderRatingId = binding.ratingBar.rating.toInt()
                     orderViewModel._currentOrder.value = order
                 }
             }

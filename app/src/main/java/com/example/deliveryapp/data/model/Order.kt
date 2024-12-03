@@ -1,20 +1,27 @@
 package com.example.deliveryapp.data.model
 
-import java.io.Serializable
-
 data class Order(
     val id: Int,
     val customerId: Int,
     val restaurantId: String,
     val driver: Driver? = null,
-    var orderStatus: OrderStatus,
+    var orderStatusId: Int,
     val orderDate: String,
     val deliveredDate: String,
-    val orderLocation: Pair<Double, Double>,
+    val orderLocation: Location,
     val subtotal: Double,
     val discountedPrice: Double,
     val deliveryCharge: Double,
     val paymentMethod: String,
-    var orderRating: OrderRating = OrderRating.NOT_APPLICABLE,
-    var driverRating: DriverRating = DriverRating.NOT_APPLICABLE,
-) : Serializable
+    var orderRatingId: Int,
+    var driverRatingId: Int,
+){
+    val orderStatus: OrderStatus?
+        get() = OrderStatus.fromId(orderStatusId)
+
+    val orderRating: OrderRating?
+        get() = OrderRating.fromId(orderRatingId)
+
+    val driverRating: DriverRating?
+        get() = DriverRating.fromId(driverRatingId)
+}

@@ -68,7 +68,7 @@ class OrderDetailOrderCardDeliveredFragment : Fragment() {
         binding.restaurantId.text = restaurant
         binding.status.text = message
         binding.driverName.text = driver
-        binding.orderRatingStars.rating = orderRating.ratingValue.toFloat()
+        binding.orderRatingStars.rating = orderRating?.ratingValue?.toFloat()!!
 
         val viewsToHide: MutableList<View> = mutableListOf()
         if(orderRating != OrderRating.PENDING){
