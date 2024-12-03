@@ -14,35 +14,27 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.deliveryapp.ui.navigation.Screen
 
 @Composable
-fun AppNavigationBar() {
+fun AppNavigationBar(navController: NavController, screens: List<Screen>) {
     NavigationBar {
+        val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-            NavigationBarItem(selected = true, onClick = {}, icon = {
-                Icon(
-                    Icons.Filled.Home,
-                    "Home",
+            screens.forEach { screen ->
+                NavigationBarItem(
+                    icon = { Icon(screen.icon, contentDescription = screen.title) },
+                    label = { Text(screen.title) },
+                    selected = currentRoute == screen.route,
+                    onClick = {
+                        if (currentRoute != screen.route)
+                            navController.navigate(screen.route)
+                    }
                 )
-            }, label = { Text("Home") })
-            NavigationBarItem(selected = false, onClick = {}, icon = {
-                Icon(
-                    Icons.Filled.Search,
-                    "Browse",
-                )
-            }, label = { Text("Browse") })
-            NavigationBarItem(selected = false, onClick = {}, icon = {
-                Icon(
-                    Icons.Filled.ShoppingCart,
-                    "Orders",
-                )
-            }, label = { Text("Orders") })
-            NavigationBarItem(selected = false, onClick = {}, icon = {
-                Icon(
-                    Icons.Filled.Settings,
-                    "Settings",
-                )
-            }, label = { Text("Settings") })
+            }
         }
     }
 }

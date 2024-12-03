@@ -21,11 +21,13 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
 import com.example.deliveryapp.data.model.restaurant.Restaurant
 import com.example.deliveryapp.data.model.menu.Menu
 import com.example.deliveryapp.ui.components.menu.Menu
 import com.example.deliveryapp.ui.components.restaurant.RestaurantHeader
 import com.example.deliveryapp.ui.components.shared.AppNavigationBar
+import com.example.deliveryapp.ui.navigation.Screen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -36,6 +38,9 @@ data class RestaurantPage(val id: String)
 fun RestaurantScreen(
     restaurantViewModel: RestaurantViewModel = viewModel(), restaurantId: String, onBack: () -> Unit
 ) {
+    val navController = rememberNavController()
+    val screens = listOf(Screen.Home, Screen.Favorite)
+
     val restaurant by restaurantViewModel.restaurant.observeAsState()
     val menu by restaurantViewModel.menu.observeAsState()
 
@@ -70,7 +75,7 @@ fun RestaurantScreen(
             }
         },
         bottomBar = {
-            AppNavigationBar()
+            AppNavigationBar(navController, screens)
         },
     )
 }

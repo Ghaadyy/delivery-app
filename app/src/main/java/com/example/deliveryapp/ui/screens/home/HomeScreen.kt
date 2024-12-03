@@ -28,21 +28,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.deliveryapp.LocalNavController
 import com.example.deliveryapp.data.model.restaurant.Favorite
 import com.example.deliveryapp.data.model.restaurant.Restaurant
 import com.example.deliveryapp.ui.components.location.LocationPickerBottomSheet
 import com.example.deliveryapp.ui.components.restaurant.RestaurantItem
 import com.example.deliveryapp.ui.components.shared.AppNavigationBar
-import kotlinx.serialization.Serializable
-
-@Serializable
-object HomePage
+import com.example.deliveryapp.ui.navigation.Screen
+import com.example.deliveryapp.ui.screens.restaurant.RestaurantPage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
-    homeViewModel: HomeViewModel = viewModel(), onNavigateToRestaurant: (Restaurant) -> Unit
-) {
+fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
+    val screens = listOf(Screen.Home, Screen.Favorite)
+    val navController = LocalNavController.current
+
     val restaurants by homeViewModel.restaurants.observeAsState()
     val favorites by homeViewModel.favorites.observeAsState()
     var isSheetVisible by remember { mutableStateOf(false) }
@@ -75,7 +75,7 @@ fun HomeScreen(
             )
         },
         bottomBar = {
-            AppNavigationBar()
+            AppNavigationBar(LocalNavController.current, screens)
         },
     ) { padding ->
         if (isSheetVisible) LocationPickerBottomSheet { isSheetVisible = false }
@@ -92,15 +92,17 @@ fun HomeScreen(
             }
             items(restaurants as List<Restaurant>, key = { rest -> rest.id }) { rest ->
                 RestaurantItem(rest,
-                    if (favorites == null) false else (favorites as List<Favorite>).contains(Favorite(rest.id)),
+                    if (favorites == null) false else (favorites as List<Favorite>).contains(
+                        Favorite(rest.id)
+                    ),
                     onToggleFavorite = { isFavorite ->
-                        if(isFavorite) {
+                        if (isFavorite) {
                             homeViewModel.likeRestaurant(rest.id)
                         } else {
                             homeViewModel.dislikeRestaurant(rest.id)
                         }
                     },
-                    onClick = { onNavigateToRestaurant(rest) })
+                    onClick = { navController.navigate(RestaurantPage(rest.id)) })
             }
             item {
                 Spacer(modifier = Modifier)
