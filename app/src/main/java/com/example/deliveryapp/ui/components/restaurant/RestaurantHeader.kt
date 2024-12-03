@@ -42,7 +42,7 @@ fun RestaurantHeader(restaurant: Restaurant) {
                 restaurant.name,
                 fontWeight = FontWeight.Bold
             )
-            RatingChip("3.5")
+            RatingChip(restaurant.rating)
         }
     }
 }

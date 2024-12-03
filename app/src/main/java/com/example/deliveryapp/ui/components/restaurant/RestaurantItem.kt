@@ -71,7 +71,7 @@ fun RestaurantItem(
                             Icons.Filled.Favorite, "Remove favorite", tint = Color.Red
                         ) else Icon(Icons.Outlined.FavoriteBorder, "Add favorite", tint = Color.Red)
                     }
-                    RatingChip("3.5")
+                    RatingChip(restaurant.rating)
                 }
                 Text(
                     restaurant.name,

@@ -10,10 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun RatingChip(rating: String) {
+fun RatingChip(rating: Double) {
     AssistChip(
         onClick = {},
-        label = { Text(rating) },
+        label = { Text("$rating") },
         enabled = false,
         colors = AssistChipDefaults.assistChipColors(
             containerColor = Color.Transparent,
