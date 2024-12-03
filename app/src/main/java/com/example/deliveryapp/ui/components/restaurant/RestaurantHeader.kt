@@ -21,7 +21,7 @@ import com.example.deliveryapp.data.model.restaurant.Restaurant
 import com.example.deliveryapp.ui.components.shared.RatingChip
 
 @Composable
-fun RestaurantHeader(restaurant: Restaurant) {
+fun RestaurantHeader(restaurant: Restaurant, onRatingClick: () -> Unit) {
     Column (verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Image(
             painter = painterResource(id = R.drawable.dummy_image),
@@ -42,7 +42,7 @@ fun RestaurantHeader(restaurant: Restaurant) {
                 restaurant.name,
                 fontWeight = FontWeight.Bold
             )
-            RatingChip(restaurant.rating)
+            RatingChip(restaurant.rating, onClick = onRatingClick)
         }
     }
 }

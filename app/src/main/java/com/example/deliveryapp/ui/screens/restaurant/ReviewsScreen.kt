@@ -9,7 +9,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -19,62 +18,44 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.deliveryapp.LocalNavController
-import com.example.deliveryapp.data.model.menu.Menu
 import com.example.deliveryapp.data.model.restaurant.Restaurant
-import com.example.deliveryapp.ui.components.menu.Menu
-import com.example.deliveryapp.ui.components.restaurant.RestaurantHeader
-import com.example.deliveryapp.ui.components.restaurant.ReviewBottomSheet
+import com.example.deliveryapp.data.model.restaurant.Review
+import com.example.deliveryapp.ui.components.restaurant.review.ReviewCard
 import com.example.deliveryapp.ui.components.shared.AppNavigationBar
 import com.example.deliveryapp.ui.navigation.Screen
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RestaurantPage(val id: String)
+data class ReviewsPage(val restaurantId: String)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RestaurantScreen(
-    restaurantViewModel: RestaurantViewModel = viewModel(), restaurantId: String, onBack: () -> Unit
-) {
+fun ReviewsScreen(restaurantId: String, restaurantViewModel: RestaurantViewModel = viewModel()) {
     val navController = LocalNavController.current
     val screens = listOf(Screen.Home, Screen.Favorite)
 
     val restaurant by restaurantViewModel.restaurant.observeAsState()
-    val menu by restaurantViewModel.menu.observeAsState()
-    var isSheetVisible by remember { mutableStateOf(false) }
+    val reviews by restaurantViewModel.reviews.observeAsState()
 
     LaunchedEffect(Unit) {
         restaurantViewModel.fetchRestaurant(restaurantId)
-        restaurantViewModel.fetchMenu(restaurantId)
-    }
-
-    if (isSheetVisible) {
-        ReviewBottomSheet(restaurantId, onSubmit = { review ->
-            CoroutineScope(Dispatchers.IO).launch {
-                restaurantViewModel.addReview(review)
-            }
-        }) { isSheetVisible = false }
+        restaurantViewModel.getRestaurantReviews(restaurantId)
     }
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Delivery App") }, navigationIcon = {
-                Icon(
-                    Icons.AutoMirrored.Filled.ArrowBack,
-                    "Back",
-                    modifier = Modifier.clickable(onClick = onBack)
-                )
-            })
+            TopAppBar(title = { Text(if (restaurant != null) (restaurant as Restaurant).name else "Loading...") },
+                navigationIcon = {
+                    Icon(
+                        Icons.AutoMirrored.Filled.ArrowBack,
+                        "Back",
+                        modifier = Modifier.clickable(onClick = { navController.popBackStack() })
+                    )
+                })
         },
         content = { paddingValues ->
             Column(
@@ -85,15 +66,10 @@ fun RestaurantScreen(
                     .verticalScroll(rememberScrollState())
             ) {
                 Spacer(modifier = Modifier)
-                if (restaurant != null) RestaurantHeader(restaurant as Restaurant) {
-                    navController.navigate(ReviewsPage(restaurantId))
-                }
 
-                Button({ isSheetVisible = true }) {
-                    Text("Review")
-                }
+                if (reviews != null)
+                        (reviews as List<Review>).forEach { review -> ReviewCard(review) }
 
-                if (menu != null) Menu(menu = (menu as Menu))
                 Spacer(modifier = Modifier)
             }
         },

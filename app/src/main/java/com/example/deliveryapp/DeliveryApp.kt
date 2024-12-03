@@ -16,6 +16,8 @@ import com.example.deliveryapp.ui.screens.favorite.FavoritesScreen
 import com.example.deliveryapp.ui.screens.home.HomeScreen
 import com.example.deliveryapp.ui.screens.restaurant.RestaurantPage
 import com.example.deliveryapp.ui.screens.restaurant.RestaurantScreen
+import com.example.deliveryapp.ui.screens.restaurant.ReviewsPage
+import com.example.deliveryapp.ui.screens.restaurant.ReviewsScreen
 
 val LocalNavController = compositionLocalOf<NavController> { error("No NavController found!")  }
 
@@ -33,6 +35,10 @@ fun DeliveryApp() {
                 }
                 composable(Screen.Favorite.route) {
                     FavoritesScreen()
+                }
+                composable<ReviewsPage> { backStackEntry ->
+                    val review: ReviewsPage = backStackEntry.toRoute()
+                    ReviewsScreen(review.restaurantId)
                 }
             }
         }
