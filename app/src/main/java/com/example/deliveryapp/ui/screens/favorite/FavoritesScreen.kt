@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.deliveryapp.LocalNavController
@@ -43,7 +44,7 @@ fun FavoritesScreen(homeViewModel: HomeViewModel = viewModel()) {
         topBar = {
             TopAppBar(
                 title = {
-                    Text("Favorites")
+                    Text("Favorites", fontWeight = FontWeight.SemiBold)
                 },
             )
         },
