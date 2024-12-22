@@ -2,8 +2,8 @@ package com.example.deliveryapp.data.repository
 
 import android.content.Context
 import android.util.Log
+import com.example.deliveryapp.data.local.AppDatabase
 import com.example.deliveryapp.data.local.OrderDao
-import com.example.deliveryapp.data.local.OrdersDatabase
 import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderDetail
 import com.example.deliveryapp.data.service.OrderService
@@ -13,7 +13,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RemoteFirstOrderRepository(context: Context) : OrderRepository{
-    private val orderDao: OrderDao = OrdersDatabase.getInstance(context).orderDao()
+    private val orderDao: OrderDao = AppDatabase.getInstance(context).orderDao()
 
     override suspend fun fetchOrders(): List<Order> {
         return try {
