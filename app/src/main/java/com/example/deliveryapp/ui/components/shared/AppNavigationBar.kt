@@ -4,9 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -35,6 +32,16 @@ fun AppNavigationBar(navController: NavController, screens: List<Screen>) {
                     }
                 )
             }
+
+            NavigationBarItem(
+                icon = { Icon(Icons.Filled.ShoppingCart, contentDescription = "Orders") },
+                label = { Text("Order") },
+                selected = currentRoute == "orders",
+                onClick = {
+                    if (currentRoute != "orders")
+                        navController.navigate("orders")
+                }
+            )
         }
     }
 }
