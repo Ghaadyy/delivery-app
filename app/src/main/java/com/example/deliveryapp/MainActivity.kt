@@ -4,17 +4,20 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
-import com.example.deliveryapp.ui.fragments.order.OrderListFragment
-import com.example.deliveryapp.ui.viewModel.OrderViewModel
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.ViewModelProvider
+import com.example.deliveryapp.ui.viewModel.OrderViewModel
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var orderViewModel: OrderViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        
+        orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
+        orderViewModel.getOrders()
+
         WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = true
         setContent { DeliveryApp(supportFragmentManager) }
     }
