@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.bottomsheet.BottomSheetDriverInfoFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".BottomSheetDriverInfoFragment"
+        android:padding="10dp">
+
+        <!-- Driver's Profile Picture -->
+        <ImageView
+            android:id="@+id/driverProfile"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_launcher_background"
+            android:contentDescription="@string/driver_logo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Driver Name -->
+        <TextView
+            android:id="@+id/driverName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/driverProfile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="25dp"/>
+
+        <!-- Number of Orders -->
+        <TextView
+            android:id="@+id/driverOrdersText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Orders: "
+            app:layout_constraintTop_toBottomOf="@id/driverName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/driverOrders"
+            android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/driverOrders"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/driverName"
+            app:layout_constraintStart_toEndOf="@id/driverOrdersText"
+            app:layout_constraintEnd_toStartOf="@id/driverStartDateText"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Driver's Start Date -->
+        <TextView
+            android:id="@+id/driverStartDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Start date: "
+            app:layout_constraintTop_toBottomOf="@id/driverName"
+            app:layout_constraintStart_toEndOf="@id/driverOrders"
+            app:layout_constraintEnd_toEndOf="@id/driverStartDate"
+            android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/driverStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/driverName"
+            app:layout_constraintStart_toEndOf="@id/driverStartDateText"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>

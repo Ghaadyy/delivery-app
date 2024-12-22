@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
     alias(libs.plugins.compose.compiler)
     kotlin("plugin.serialization") version "2.0.21"
     id("com.google.devtools.ksp")
@@ -37,12 +38,32 @@ android {
         jvmTarget = "1.8"
     }
 
+    viewBinding {
+        enable = true
+     }
     buildFeatures {
         compose = true
     }
 }
 
 dependencies {
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // OkHttp
+    implementation(libs.logging.interceptor)
+
+    implementation(libs.osmdroid.android)
+
+    //roomDB
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler.v260)
+
+    implementation(libs.androidx.room.ktx)
+    
     val composeBom = platform("androidx.compose:compose-bom:2024.10.01")
     implementation(composeBom)
     androidTestImplementation(composeBom)

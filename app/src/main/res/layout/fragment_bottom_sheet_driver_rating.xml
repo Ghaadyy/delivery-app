@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.bottomsheet.BottomSheetDriverRatingFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/rateTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rate Driver"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Like Button -->
+        <Button
+            android:id="@+id/likeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Like"
+            android:backgroundTint="@android:color/holo_green_light"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/dislikeButton"
+            app:layout_constraintTop_toBottomOf="@id/rateTitle"
+            android:layout_margin="10dp"/>
+
+        <!-- Dislike Button -->
+        <Button
+            android:id="@+id/dislikeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Dislike"
+            android:backgroundTint="@android:color/holo_red_light"
+            app:layout_constraintStart_toEndOf="@id/likeButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rateTitle"
+            android:layout_margin="10dp"/>
+
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/submitRatingButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit Rating"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@id/likeButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
