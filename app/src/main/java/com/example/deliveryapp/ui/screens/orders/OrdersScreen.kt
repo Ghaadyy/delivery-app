@@ -2,6 +2,7 @@ package com.example.deliveryapp.ui.screens.orders
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -16,10 +17,8 @@ import com.example.deliveryapp.ui.components.shared.AppNavigationBar
 import com.example.deliveryapp.ui.fragments.order.OrderListFragment
 import com.example.deliveryapp.ui.navigation.Screen
 
-
 @Composable
 fun OrdersScreen(
-    modifier: Modifier = Modifier,
     fragmentManager: FragmentManager
 ) {
     val screens = listOf(Screen.Home, Screen.Favorite)
@@ -33,7 +32,7 @@ fun OrdersScreen(
                     .padding(horizontal = 20.dp)
             ) {
                 AndroidView(
-                    modifier = Modifier,
+                    modifier = Modifier.fillMaxWidth(),
                     factory = {
                         context ->
                         val frgId = FragmentContainerView(context).apply {
