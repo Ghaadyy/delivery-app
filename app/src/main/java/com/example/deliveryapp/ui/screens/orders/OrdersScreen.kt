@@ -22,7 +22,7 @@ import com.example.deliveryapp.ui.navigation.Screen
 fun OrdersScreen(
     fragmentManager: FragmentManager
 ) {
-    val screens = listOf(Screen.Home, Screen.Favorite)
+    val screens = listOf(Screen.Home, Screen.Favorite, Screen.Orders, Screen.Account)
 
     Scaffold(
         content = { paddingValues ->
@@ -30,7 +30,6 @@ fun OrdersScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
                     .padding(paddingValues)
-                    .padding(horizontal = 20.dp)
             ) {
                 AndroidView(
                     modifier = Modifier.fillMaxSize(),

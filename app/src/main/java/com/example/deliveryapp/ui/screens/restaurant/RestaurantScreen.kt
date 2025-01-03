@@ -47,7 +47,7 @@ fun RestaurantScreen(
     restaurantViewModel: RestaurantViewModel = viewModel(), restaurantId: Int, onBack: () -> Unit
 ) {
     val navController = LocalNavController.current
-    val screens = listOf(Screen.Home, Screen.Favorite)
+    val screens = listOf(Screen.Home, Screen.Favorite, Screen.Orders, Screen.Account)
 
     val restaurant by restaurantViewModel.restaurant.observeAsState()
     val menu by restaurantViewModel.menu.observeAsState()

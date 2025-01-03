@@ -36,7 +36,7 @@ data class ReviewsPage(val restaurantId: Int)
 @Composable
 fun ReviewsScreen(restaurantId: Int, restaurantViewModel: RestaurantViewModel = viewModel()) {
     val navController = LocalNavController.current
-    val screens = listOf(Screen.Home, Screen.Favorite)
+    val screens = listOf(Screen.Home, Screen.Favorite, Screen.Orders, Screen.Account)
 
     val restaurant by restaurantViewModel.restaurant.observeAsState()
     val reviews by restaurantViewModel.reviews.observeAsState()
