@@ -8,15 +8,70 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RemoteRestaurantsRepository : RestaurantsRepository {
-    override suspend fun fetchRestaurants(): List<Restaurant> = service.getRestaurants()
+    override suspend fun fetchRestaurants(): Result<List<Restaurant>> {
+        return try {
+            val res = service.getRestaurants()
 
-    override suspend fun fetchRestaurant(id: Int): Restaurant = service.getRestaurant(id)
+            if(res.isSuccessful)
+                Result.success(res.body()!!)
+            else
+                Result.failure(Exception(res.message()))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 
-    override suspend fun fetchMenu(restaurantId: Int): Menu = service.getMenu(restaurantId)
+    override suspend fun fetchRestaurant(id: Int): Result<Restaurant> {
+        return try {
+            val res = service.getRestaurant(id)
 
-    override suspend fun fetchReviews(restaurantId: Int): List<Review> = service.getReviews(restaurantId)
+            if(res.isSuccessful)
+                Result.success(res.body()!!)
+            else
+                Result.failure(Exception(res.message()))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 
-    override suspend fun addReview(review: Review) = service.addReview(review.restaurantId, review)
+    override suspend fun fetchMenu(restaurantId: Int): Result<Menu> {
+        return try {
+            val res = service.getMenu(restaurantId)
+
+            if(res.isSuccessful)
+                Result.success(res.body()!!)
+            else
+                Result.failure(Exception(res.message()))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun fetchReviews(restaurantId: Int): Result<List<Review>> {
+        return try {
+            val res = service.getReviews(restaurantId)
+
+            if(res.isSuccessful)
+                Result.success(res.body()!!)
+            else
+                Result.failure(Exception(res.message()))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun addReview(review: Review): Result<Unit> {
+        try {
+            val res = service.addReview(review.restaurantId, review)
+
+            return if(!res.isSuccessful)
+                Result.failure(Exception(res.message()))
+            else
+                Result.success(Unit)
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
 
     companion object {
         private val retrofit: Retrofit = Retrofit.Builder()

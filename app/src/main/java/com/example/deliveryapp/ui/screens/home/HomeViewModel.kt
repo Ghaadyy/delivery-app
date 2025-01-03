@@ -22,10 +22,20 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val favoritesRepository = FavoritesRepository(application)
     val restaurants: LiveData<List<Restaurant>> = _restaurants
     val favorites: LiveData<List<Favorite>> = _favorites
+    private val _errorMessage = MutableLiveData<String?>()
+    val errorMessage: LiveData<String?> = _errorMessage
+
+    fun clearErrors() {
+        _errorMessage.postValue(null)
+    }
 
     fun fetchRestaurants() {
         viewModelScope.launch {
-            _restaurants.postValue(restaurantsRepository.fetchRestaurants())
+            val res = restaurantsRepository.fetchRestaurants()
+            if(res.isSuccess)
+                _restaurants.postValue(res.getOrNull()!!)
+            else
+                _errorMessage.postValue("Failed to fetch restaurants: ${res.exceptionOrNull()?.message}")
         }
     }
 

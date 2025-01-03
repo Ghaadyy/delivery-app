@@ -5,10 +5,10 @@ import com.example.deliveryapp.data.model.restaurant.Restaurant
 import com.example.deliveryapp.data.model.restaurant.Review
 
 interface RestaurantsRepository {
-    suspend fun fetchRestaurants(): List<Restaurant>
-    suspend fun fetchRestaurant(id: Int): Restaurant
-    suspend fun fetchMenu(restaurantId: Int): Menu
+    suspend fun fetchRestaurants(): Result<List<Restaurant>>
+    suspend fun fetchRestaurant(id: Int): Result<Restaurant>
+    suspend fun fetchMenu(restaurantId: Int): Result<Menu>
 
-    suspend fun fetchReviews(restaurantId: Int): List<Review>
-    suspend fun addReview(review: Review)
+    suspend fun fetchReviews(restaurantId: Int): Result<List<Review>>
+    suspend fun addReview(review: Review): Result<Unit>
 }

@@ -21,31 +21,51 @@ class RestaurantViewModel(application: Application) : AndroidViewModel(applicati
     private val _reviews = MutableLiveData<List<Review>>()
     private val restaurantsRepository = RemoteRestaurantsRepository()
     private val reviewsRestaurant = ReviewsRepository(application)
+    private val _errorMessage = MutableLiveData<String?>()
     val restaurant: LiveData<Restaurant> = _restaurant
     val menu: LiveData<Menu> = _menu
     val reviews: LiveData<List<Review>> = _reviews
+    val errorMessage: LiveData<String?> = _errorMessage
+
+    fun clearErrors() {
+        _errorMessage.postValue(null)
+    }
 
     fun fetchRestaurant(restaurantId: Int) {
         viewModelScope.launch {
-            _restaurant.postValue(restaurantsRepository.fetchRestaurant(restaurantId))
+            val res = restaurantsRepository.fetchRestaurant(restaurantId)
+            if(res.isSuccess)
+                _restaurant.postValue(res.getOrNull()!!)
+            else
+                _errorMessage.postValue("Failed to fetch restaurant: ${res.exceptionOrNull()?.message}")
         }
     }
 
     fun fetchMenu(restaurantId: Int) {
         viewModelScope.launch {
-            _menu.postValue(restaurantsRepository.fetchMenu(restaurantId))
+            val res = restaurantsRepository.fetchMenu(restaurantId)
+            if(res.isSuccess)
+                _menu.postValue(res.getOrNull()!!)
+            else
+                _errorMessage.postValue("Failed to fetch menu: ${res.exceptionOrNull()?.message}")
         }
     }
 
     fun getRestaurantReviews(restaurantId: Int) {
         viewModelScope.launch {
-            _reviews.postValue(restaurantsRepository.fetchReviews(restaurantId))
+            val res = restaurantsRepository.fetchReviews(restaurantId)
+            if(res.isSuccess)
+                _reviews.postValue(res.getOrNull()!!)
+            else
+                _errorMessage.postValue("Failed to fetch reviews: ${res.exceptionOrNull()?.message}")
         }
     }
 
     suspend fun addReview(review: Review) {
         viewModelScope.launch {
-            restaurantsRepository.addReview(review)
+            val res = restaurantsRepository.addReview(review)
+            if(!res.isSuccess)
+                _errorMessage.postValue("Failed to fetch restaurant: ${res.exceptionOrNull()?.message}")
         }
     }
 }
