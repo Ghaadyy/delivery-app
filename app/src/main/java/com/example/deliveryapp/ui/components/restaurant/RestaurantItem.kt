@@ -46,7 +46,7 @@ fun RestaurantItem(
 
     Card(
         onClick = onClick, colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
         ), modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))

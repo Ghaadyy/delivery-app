@@ -8,7 +8,7 @@ import com.example.deliveryapp.data.model.restaurant.Review
 @Dao
 interface ReviewDao {
     @Query("SELECT * FROM reviews WHERE restaurantId = :restaurantId")
-    fun getRestaurantReviews(restaurantId: String): List<Review>
+    fun getRestaurantReviews(restaurantId: Int): List<Review>
 
     @Insert
     fun addReview(review: Review)

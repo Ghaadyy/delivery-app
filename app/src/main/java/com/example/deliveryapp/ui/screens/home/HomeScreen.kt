@@ -40,7 +40,7 @@ import com.example.deliveryapp.ui.screens.restaurant.RestaurantPage
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
-    val screens = listOf(Screen.Home, Screen.Favorite)
+    val screens = listOf(Screen.Home, Screen.Favorite, Screen.Orders, Screen.Account)
     val navController = LocalNavController.current
 
     val restaurants by homeViewModel.restaurants.observeAsState()

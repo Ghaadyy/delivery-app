@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class ReviewsRepository(private val context: Context) {
-    suspend fun getRestaurantReviews(restaurantId: String): List<Review> = withContext(Dispatchers.IO) {
+    suspend fun getRestaurantReviews(restaurantId: Int): List<Review> = withContext(Dispatchers.IO) {
         val instance = AppDatabase.getInstance(context)
         val reviewDao = instance.reviewDao()
         val reviews = reviewDao.getRestaurantReviews(restaurantId)

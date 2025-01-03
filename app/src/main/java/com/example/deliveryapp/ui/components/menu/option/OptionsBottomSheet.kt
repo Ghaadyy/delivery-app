@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,7 +47,7 @@ fun OptionsBottomSheet(meal: Meal, onDismissRequest: () -> Unit) {
             )
             Column(
                 modifier = Modifier
-                    .background(Color.White)
+                    .background(MaterialTheme.colorScheme.background)
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
@@ -54,7 +55,6 @@ fun OptionsBottomSheet(meal: Meal, onDismissRequest: () -> Unit) {
                 Text(
                     meal.ingredients,
                     fontSize = 14.sp,
-                    color = Color.Gray
                 )
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
