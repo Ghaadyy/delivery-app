@@ -2,6 +2,7 @@ package com.example.deliveryapp.data.repository
 
 import com.example.deliveryapp.data.model.menu.Menu
 import com.example.deliveryapp.data.model.restaurant.Restaurant
+import com.example.deliveryapp.data.model.restaurant.Review
 
 interface RestaurantsRepository {
     suspend fun fetchRestaurants(): List<Restaurant>

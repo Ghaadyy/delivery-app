@@ -37,12 +37,15 @@ class RestaurantViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    suspend fun getRestaurantReviews(restaurantId: String) = withContext(Dispatchers.IO) {
-        _reviews.postValue(reviewsRestaurant.getRestaurantReviews(restaurantId))
     fun getRestaurantReviews(restaurantId: Int) {
+        viewModelScope.launch {
+            _reviews.postValue(restaurantsRepository.fetchReviews(restaurantId))
+        }
     }
 
-    suspend fun addReview(review: Review) = withContext(Dispatchers.IO) {
-        reviewsRestaurant.addReview(review)
+    suspend fun addReview(review: Review) {
+        viewModelScope.launch {
+            restaurantsRepository.addReview(review)
+        }
     }
 }
