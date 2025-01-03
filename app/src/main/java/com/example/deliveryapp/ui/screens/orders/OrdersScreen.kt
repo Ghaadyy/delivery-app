@@ -2,6 +2,7 @@ package com.example.deliveryapp.ui.screens.orders
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -32,7 +33,7 @@ fun OrdersScreen(
                     .padding(horizontal = 20.dp)
             ) {
                 AndroidView(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxSize(),
                     factory = {
                         context ->
                         val frgId = FragmentContainerView(context).apply {
