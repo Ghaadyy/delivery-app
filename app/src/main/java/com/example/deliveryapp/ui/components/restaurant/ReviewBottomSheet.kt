@@ -26,7 +26,7 @@ import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReviewBottomSheet(restaurantId: String, onSubmit: (Review) -> Unit, onDismissRequest: () -> Unit) {
+fun ReviewBottomSheet(restaurantId: Int, onSubmit: (Review) -> Unit, onDismissRequest: () -> Unit) {
     var name by remember { mutableStateOf("") }
     var rating by remember { mutableFloatStateOf(0f) }
     var comments by remember { mutableStateOf("") }

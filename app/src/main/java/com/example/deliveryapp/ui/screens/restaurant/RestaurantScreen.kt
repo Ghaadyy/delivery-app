@@ -39,12 +39,12 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RestaurantPage(val id: String)
+data class RestaurantPage(val id: Int)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RestaurantScreen(
-    restaurantViewModel: RestaurantViewModel = viewModel(), restaurantId: String, onBack: () -> Unit
+    restaurantViewModel: RestaurantViewModel = viewModel(), restaurantId: Int, onBack: () -> Unit
 ) {
     val navController = LocalNavController.current
     val screens = listOf(Screen.Home, Screen.Favorite)

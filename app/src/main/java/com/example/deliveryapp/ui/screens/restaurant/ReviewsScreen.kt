@@ -30,11 +30,11 @@ import com.example.deliveryapp.ui.navigation.Screen
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ReviewsPage(val restaurantId: String)
+data class ReviewsPage(val restaurantId: Int)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReviewsScreen(restaurantId: String, restaurantViewModel: RestaurantViewModel = viewModel()) {
+fun ReviewsScreen(restaurantId: Int, restaurantViewModel: RestaurantViewModel = viewModel()) {
     val navController = LocalNavController.current
     val screens = listOf(Screen.Home, Screen.Favorite)
 

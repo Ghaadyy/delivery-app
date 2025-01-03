@@ -25,13 +25,13 @@ class RestaurantViewModel(application: Application) : AndroidViewModel(applicati
     val menu: LiveData<Menu> = _menu
     val reviews: LiveData<List<Review>> = _reviews
 
-    fun fetchRestaurant(restaurantId: String) {
+    fun fetchRestaurant(restaurantId: Int) {
         viewModelScope.launch {
             _restaurant.postValue(restaurantsRepository.fetchRestaurant(restaurantId))
         }
     }
 
-    fun fetchMenu(restaurantId: String) {
+    fun fetchMenu(restaurantId: Int) {
         viewModelScope.launch {
             _menu.postValue(restaurantsRepository.fetchMenu(restaurantId))
         }
@@ -39,6 +39,7 @@ class RestaurantViewModel(application: Application) : AndroidViewModel(applicati
 
     suspend fun getRestaurantReviews(restaurantId: String) = withContext(Dispatchers.IO) {
         _reviews.postValue(reviewsRestaurant.getRestaurantReviews(restaurantId))
+    fun getRestaurantReviews(restaurantId: Int) {
     }
 
     suspend fun addReview(review: Review) = withContext(Dispatchers.IO) {

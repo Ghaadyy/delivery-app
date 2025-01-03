@@ -8,7 +8,7 @@ data class Review(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val reviewerName: String,
-    val restaurantId: String,
+    val restaurantId: Int,
     val rating: Float,
     val comments: String
 )

@@ -35,13 +35,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun likeRestaurant(restaurantId: String) {
+    fun likeRestaurant(restaurantId: Int) {
         viewModelScope.launch {
             favoritesRepository.likeRestaurant(Favorite(restaurantId))
         }
     }
 
-    fun dislikeRestaurant(restaurantId: String) {
+    fun dislikeRestaurant(restaurantId: Int) {
         viewModelScope.launch {
             favoritesRepository.dislikeRestaurant(Favorite(restaurantId))
         }
