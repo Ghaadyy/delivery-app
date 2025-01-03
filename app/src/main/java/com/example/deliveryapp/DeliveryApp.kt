@@ -2,10 +2,6 @@ package com.example.deliveryapp
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -24,6 +20,7 @@ import com.example.deliveryapp.ui.screens.restaurant.RestaurantPage
 import com.example.deliveryapp.ui.screens.restaurant.RestaurantScreen
 import com.example.deliveryapp.ui.screens.restaurant.ReviewsPage
 import com.example.deliveryapp.ui.screens.restaurant.ReviewsScreen
+import com.example.deliveryapp.ui.theme.AppTheme
 
 val LocalNavController = compositionLocalOf<NavController> { error("No NavController found!") }
 
@@ -33,9 +30,7 @@ fun DeliveryApp(fragmentManager: FragmentManager) {
     val navController = rememberNavController()
 
     CompositionLocalProvider(LocalNavController provides navController) {
-        MaterialTheme (
-            colorScheme = if (isSystemInDarkTheme()) darkColorScheme() else lightColorScheme()
-        ) {
+        AppTheme {
             NavHost(navController, startDestination = Screen.Home.route) {
                 composable(Screen.Home.route) { HomeScreen() }
                 composable<RestaurantPage> { backStackEntry ->
