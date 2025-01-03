@@ -13,6 +13,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -21,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -51,11 +54,23 @@ fun RestaurantScreen(
 
     val restaurant by restaurantViewModel.restaurant.observeAsState()
     val menu by restaurantViewModel.menu.observeAsState()
+    val errorMessage by restaurantViewModel.errorMessage.observeAsState()
     var isSheetVisible by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
         restaurantViewModel.fetchRestaurant(restaurantId)
         restaurantViewModel.fetchMenu(restaurantId)
+    }
+
+    LaunchedEffect(errorMessage) {
+        errorMessage?.let {
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(it, withDismissAction = true)
+                restaurantViewModel.clearErrors()
+            }
+        }
     }
 
     if (isSheetVisible) {
@@ -67,6 +82,7 @@ fun RestaurantScreen(
     }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(title = { Text("Delivery App") }, navigationIcon = {
                 Icon(
