@@ -20,7 +20,8 @@ class RemoteRestaurantsRepository : RestaurantsRepository {
 
     companion object {
         private val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("https://674deb94635bad45618d37ef.mockapi.io/api/")
+//            .baseUrl("https://674deb94635bad45618d37ef.mockapi.io/api/")
+            .baseUrl("http://10.0.2.2:5299/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
