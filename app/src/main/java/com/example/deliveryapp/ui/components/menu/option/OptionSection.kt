@@ -28,7 +28,7 @@ fun OptionSection(upgrade: MealUpgrade) {
         ) {
             Text(upgrade.name, fontWeight = FontWeight.Bold, fontSize = 18.sp)
             upgrade.options.forEach { opt ->
-                Option(opt)
+                Option(opt, upgrade.multiple)
             }
         }
     }
