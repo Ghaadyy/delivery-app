@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
         orderViewModel.getOrders()
 
-        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = true
         setContent { DeliveryApp(supportFragmentManager) }
     }
 }

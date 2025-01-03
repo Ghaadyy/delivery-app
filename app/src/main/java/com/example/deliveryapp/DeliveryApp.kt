@@ -26,7 +26,9 @@ fun DeliveryApp(fragmentManager: FragmentManager) {
     val navController = rememberNavController()
 
     CompositionLocalProvider(LocalNavController provides navController) {
-        MaterialTheme {
+        MaterialTheme (
+            colorScheme = if (isSystemInDarkTheme()) darkColorScheme() else lightColorScheme()
+        ) {
             NavHost(navController, startDestination = Screen.Home.route) {
                 composable(Screen.Home.route) { HomeScreen() }
                 composable<RestaurantPage> { backStackEntry ->
