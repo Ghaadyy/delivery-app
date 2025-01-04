@@ -27,7 +27,7 @@ class OrderDetailAdapter(private var _orderDetails: List<OrderDetail>) : Recycle
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val orderDetail = _orderDetails[position]
-        holder.itemName.text = orderDetail.itemId
+        holder.itemName.text = orderDetail.meal.name
         val totalPriceUSD = "USD ${orderDetail.totalPrice}";
         holder.totalPrice.text = totalPriceUSD
         holder.quantity.text = orderDetail.quantity.toString()

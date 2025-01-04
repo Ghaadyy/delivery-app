@@ -27,6 +27,6 @@ class OrderTrackAdapter(private var _orderDetails: List<OrderDetail>) : Recycler
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val orderDetail = _orderDetails[position]
         holder.quantity.text = orderDetail.quantity.toString()
-        holder.itemName.text = orderDetail.itemId
+        holder.itemName.text = orderDetail.meal.name
     }
 }

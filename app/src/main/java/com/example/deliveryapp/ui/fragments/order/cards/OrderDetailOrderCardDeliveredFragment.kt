@@ -1,10 +1,10 @@
 package com.example.deliveryapp.ui.fragments.order.cards
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.deliveryapp.data.model.DriverRating
 import com.example.deliveryapp.data.model.Order
@@ -55,15 +55,15 @@ class OrderDetailOrderCardDeliveredFragment : Fragment() {
 
     private fun bind(order: Order){
         val restaurant = order.restaurantId
-        val status = order.orderStatus
+        val status = OrderStatus.fromId(order.orderStatus)
         val driver = order.driver?.name
         val message = if (status == OrderStatus.DELIVERED) {
             "${status.label} on ${order.deliveredDate}"
         } else {
             "Placed at ${order.orderDate}"
         }
-        val orderRating = order.orderRating
-        val driverRating = order.driverRating
+        val orderRating = OrderRating.fromId(order.orderRating)
+        val driverRating = DriverRating.fromId(order.driverRating)
 
         binding.restaurantId.text = restaurant
         binding.status.text = message

@@ -46,7 +46,7 @@ class OrderDetailOrderCardAssigningFragment : Fragment() {
 
     private fun bind(order: Order) {
         val restaurant = order.restaurantId
-        val status = order.orderStatus
+        val status = OrderStatus.fromId(order.orderStatus)
         val message = if (status == OrderStatus.DELIVERED) {
             "${status.label} on ${order.deliveredDate}"
         } else {
