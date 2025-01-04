@@ -6,6 +6,7 @@ import com.example.deliveryapp.data.local.AppDatabase
 import com.example.deliveryapp.data.local.OrderDao
 import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderDetail
+import com.example.deliveryapp.data.model.OrderRequest
 import com.example.deliveryapp.data.service.OrderService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -32,6 +33,8 @@ class RemoteFirstOrderRepository(context: Context) : OrderRepository{
     }
 
     override suspend fun fetchOrderDetails(orderId: Int): List<OrderDetail> = service.getOrderDetails(orderId)
+
+    override suspend fun addOrder(order: OrderRequest) = service.addOrder(order)
 
     companion object {
         private val retrofit: Retrofit = Retrofit.Builder()

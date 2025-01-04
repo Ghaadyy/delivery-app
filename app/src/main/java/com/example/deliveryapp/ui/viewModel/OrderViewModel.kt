@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderDetail
+import com.example.deliveryapp.data.model.OrderRequest
 import com.example.deliveryapp.data.repository.OrderRepository
 import com.example.deliveryapp.data.repository.RemoteFirstOrderRepository
 import kotlinx.coroutines.launch
@@ -28,6 +29,12 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
     fun getOrders() {
         viewModelScope.launch {
             _orders.value = orderRepository.fetchOrders()
+        }
+    }
+
+    fun addOrder(order: OrderRequest) {
+        viewModelScope.launch {
+            orderRepository.addOrder(order)
         }
     }
 
