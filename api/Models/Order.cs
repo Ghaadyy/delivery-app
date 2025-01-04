@@ -1,34 +1,46 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace api.Models;
 
-public record Location(double Latitude, double Longitude);
+public class OrderRequest
+{
+    public required int RestaurantId;
+    public required int MealId;
+    public required int Quantity;
+    public required List<int> OptionIds;
+    public required int AddressId;
+    public required string OrderDate;
+    public required string PaymentMethod;
+}
 
-public record Order(
-    int Id,
-    int CustomerId,
-    string RestaurantId,
-    OrderStatus OrderStatusId,
-    Driver? Driver,
-    string OrderDate,
-    string DeliveredDate,
-    Location OrderLocation,
-    double Subtotal,
-    double DiscountedPrice,
-    double DeliveryCharge,
-    string PaymentMethod,
-    OrderRating OrderRatingId,
-    DriverRating DriverRatingId
-);
+public class Order
+{
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; } = 0;
+    public required int Customer { get; set; }
 
-public record Driver(
-    string Id,
-    string Name,
-    string StartDate,
-    int Orders
-);
+    [ForeignKey("RestaurantId")]
+    public required int RestaurantId { get; set; }
+    public required OrderStatus OrderStatus { get; set; }
+    public required Driver? Driver { get; set; }
+    public required string OrderDate { get; set; }
+    public required string DeliveredDate { get; set; }
+
+    [ForeignKey("AddressId")]
+    public required Address OrderAddress { get; set; }
+    public required double Subtotal { get; set; }
+    public required double DiscountedPrice { get; set; }
+    public required double DeliveryCharge { get; set; }
+    public required string PaymentMethod { get; set; }
+    public required OrderRating OrderRating { get; set; }
+    public required DriverRating DriverRating { get; set; }
+}
 
 public enum OrderStatus
 {
-    CONFIRMING = 1 ,
+    CONFIRMING = 1,
     PREPARING_FETCHING_DRIVER = 2,
     PREPARING_DRIVER_GOING_TO_STORE = 3,
     PREPARING_DRIVER_IN_STORE = 4,
@@ -41,7 +53,7 @@ public enum DriverRating
     LIKE = 1,
     DISLIKE = -1,
     PENDING = 0,
-    NOT_APPLICABLE = -2 
+    NOT_APPLICABLE = -2
 };
 
 public enum OrderRating
@@ -55,10 +67,17 @@ public enum OrderRating
     NOT_APPLICABLE = -1
 };
 
-public record OrderDetail(
-    int Id,
-    int OrderId,
-    string ItemId,
-    double TotalPrice,
-    int Quantity
-);
+public class OrderDetail
+{
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
+
+    public required Order Order { get; set; }
+
+    public required Meal Meal { get; set; }
+
+    public required double TotalPrice { get; set; }
+
+    public required int Quantity { get; set; }
+}
