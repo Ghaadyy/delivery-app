@@ -16,6 +16,7 @@ import com.example.deliveryapp.R
 import com.example.deliveryapp.data.model.Driver
 import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderDetail
+import com.example.deliveryapp.data.model.OrderStatus
 import com.example.deliveryapp.databinding.FragmentOrderTrackBinding
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 import com.example.deliveryapp.ui.adapter.OrderTrackAdapter
@@ -66,7 +67,7 @@ class OrderTrackFragment : Fragment(R.layout.fragment_order_track) {
         mapView.overlays.add(marker)
 
         //Add user location
-        val userLocation = orderViewModel.currentOrder.value?.orderLocation
+        val userLocation = orderViewModel.currentOrder.value?.orderAddress
         marker = Marker(mapView)
         if (userLocation != null) {
             marker.position = GeoPoint(userLocation.latitude, userLocation.longitude)
@@ -117,8 +118,8 @@ class OrderTrackFragment : Fragment(R.layout.fragment_order_track) {
 
     private fun bindOrderDetailsCard(order: Order) {
         val restaurant = order.restaurantId
-        val status = order.orderStatus
-        val message = if (status?.id == 6) {
+        val status = OrderStatus.fromId(order.orderStatus)
+        val message = if (status == OrderStatus.DELIVERED) {
             "${status.label} on ${order.deliveredDate}"
         } else {
             "Placed at ${order.orderDate}"
