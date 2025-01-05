@@ -12,6 +12,7 @@ public class MainContext(DbContextOptions options) : DbContext(options)
     public DbSet<MealOption> MealOptions { get; set; }
     public DbSet<MealUpgrade> MealUpgrades { get; set; }
     public DbSet<Review> Reviews { get; set; }
+    public DbSet<User> Users { get; set; }
 
     /* Orders related */
     // public DbSet<Order> Orders { get; set; }
