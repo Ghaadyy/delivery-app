@@ -10,7 +10,7 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddNewtonsoftJson();
-builder.Services.AddDbContextPool<MainContext>(opt => 
+builder.Services.AddDbContextPool<MainContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DeliveryAppDB")));
 
 // Registering custom services
@@ -40,6 +40,7 @@ builder.Services
     {
         options.RequireHttpsMetadata = false;
         options.SaveToken = false;
+        options.UseSecurityTokenValidators = true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,

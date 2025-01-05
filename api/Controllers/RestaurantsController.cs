@@ -2,24 +2,27 @@ using Microsoft.AspNetCore.Mvc;
 using api.Models;
 using api.Models.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class RestaurantsController(MainContext ctx) : Controller
 {
     [HttpGet]
     public IEnumerable<Restaurant> Get() => ctx.Restaurants;
 
     [HttpGet("{id}")]
-    public IActionResult Get(int id) 
+    public IActionResult Get(int id)
     {
         var rest = ctx.Restaurants.First(rest => rest.Id == id);
 
         var reviews = ctx.Reviews.Where(r => r.RestaurantId == id);
 
-        return Ok(new {
+        return Ok(new
+        {
             rest.Id,
             rest.Location,
             rest.Name,
@@ -34,7 +37,8 @@ public class RestaurantsController(MainContext ctx) : Controller
         .ThenInclude(ms => ms.Meals)
         .ThenInclude(m => m.Upgrades)
         .ThenInclude(up => up.Options)
-        .FirstOrDefault(m => m.RestaurantId == id) ?? new Menu {
+        .FirstOrDefault(m => m.RestaurantId == id) ?? new Menu
+        {
             Sections = [],
             RestaurantId = id,
         };
@@ -45,8 +49,10 @@ public class RestaurantsController(MainContext ctx) : Controller
 
 
     [HttpPost("{id}/reviews")]
-    public async Task<IActionResult> AddReview(int id, [FromBody] Review review) {
-        var newReview = new Review {
+    public async Task<IActionResult> AddReview(int id, [FromBody] Review review)
+    {
+        var newReview = new Review
+        {
             ReviewerName = review.ReviewerName,
             RestaurantId = id,
             Comments = review.Comments,
