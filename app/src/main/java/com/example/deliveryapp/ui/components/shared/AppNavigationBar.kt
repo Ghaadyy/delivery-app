@@ -9,12 +9,15 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.deliveryapp.LocalNavController
 import com.example.deliveryapp.ui.navigation.Screen
 
 @Composable
-fun AppNavigationBar(navController: NavController, screens: List<Screen>) {
+fun AppNavigationBar() {
+    val navController = LocalNavController.current
+    val screens = listOf(Screen.Home, Screen.Favorite, Screen.Orders, Screen.Account)
+
     NavigationBar {
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 

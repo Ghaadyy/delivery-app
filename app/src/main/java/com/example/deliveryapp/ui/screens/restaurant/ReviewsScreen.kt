@@ -26,7 +26,6 @@ import com.example.deliveryapp.data.model.restaurant.Restaurant
 import com.example.deliveryapp.data.model.restaurant.Review
 import com.example.deliveryapp.ui.components.restaurant.review.ReviewCard
 import com.example.deliveryapp.ui.components.shared.AppNavigationBar
-import com.example.deliveryapp.ui.navigation.Screen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -36,7 +35,6 @@ data class ReviewsPage(val restaurantId: Int)
 @Composable
 fun ReviewsScreen(restaurantId: Int, restaurantViewModel: RestaurantViewModel = viewModel()) {
     val navController = LocalNavController.current
-    val screens = listOf(Screen.Home, Screen.Favorite, Screen.Orders, Screen.Account)
 
     val restaurant by restaurantViewModel.restaurant.observeAsState()
     val reviews by restaurantViewModel.reviews.observeAsState()
@@ -73,8 +71,6 @@ fun ReviewsScreen(restaurantId: Int, restaurantViewModel: RestaurantViewModel = 
                 Spacer(modifier = Modifier)
             }
         },
-        bottomBar = {
-            AppNavigationBar(navController, screens)
-        },
+        bottomBar = { AppNavigationBar() },
     )
 }
