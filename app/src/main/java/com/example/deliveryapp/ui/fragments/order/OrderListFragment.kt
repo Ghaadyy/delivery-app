@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.deliveryapp.R
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 import com.example.deliveryapp.ui.adapter.OrderListAdapter
+import com.example.deliveryapp.ui.viewModel.UserViewModel
 
 class OrderListFragment : Fragment() {
     private lateinit var orderRecyclerView: RecyclerView
     private lateinit var orderAdapter: OrderListAdapter
     private lateinit var orderViewModel: OrderViewModel
+    private lateinit var userViewModel: UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +32,11 @@ class OrderListFragment : Fragment() {
         orderRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         orderViewModel = ViewModelProvider(requireActivity())[OrderViewModel::class.java]
-        orderAdapter = OrderListAdapter(requireContext(), listOf(), orderViewModel)
+        userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
+
+        orderViewModel.getOrders(userViewModel.token.value!!.token)
+
+        orderAdapter = OrderListAdapter(requireContext(), listOf(), orderViewModel, userViewModel.token.value!!.token)
         orderRecyclerView.adapter = orderAdapter
 
         orderViewModel.orders.observe(viewLifecycleOwner) { newOrders ->

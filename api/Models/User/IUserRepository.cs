@@ -8,4 +8,6 @@ public interface IUserRepository
     User? GetByEmail(string email);
     User? AuthenticateUser(string email, string password);
     Task AddUser(User user);
-    bool IsValidEmail(string email);}
+    bool IsValidEmail(string email);
+    Task UpdateUser(User user, JsonPatchDocument<User> patchDoc);
+}

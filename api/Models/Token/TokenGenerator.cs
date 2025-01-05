@@ -3,7 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace api.Models;
+namespace api.Models.Token;
 
 public class TokenGenerator(IConfiguration configuration)
 {

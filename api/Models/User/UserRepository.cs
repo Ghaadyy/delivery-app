@@ -47,4 +47,10 @@ public class UserRepository(MainContext context) : IUserRepository
                 where u.Email == email
                 select u).FirstOrDefault() is null;
     }
+
+    public async Task UpdateUser(User user, JsonPatchDocument<User> patchDoc)
+    {
+        patchDoc.ApplyTo(user);
+        await context.SaveChangesAsync();
+    }
 }

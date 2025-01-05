@@ -6,7 +6,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import com.example.deliveryapp.ui.fragments.user.LoginFragment
 import com.example.deliveryapp.ui.fragments.user.SignupFragment
 import com.example.deliveryapp.ui.viewModel.UserViewModel

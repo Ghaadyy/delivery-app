@@ -19,8 +19,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.deliveryapp.HomeActivity
 import com.example.deliveryapp.LocalNavController
 import com.example.deliveryapp.data.model.restaurant.Restaurant
 import com.example.deliveryapp.data.model.restaurant.Review
@@ -38,10 +40,12 @@ fun ReviewsScreen(restaurantId: Int, restaurantViewModel: RestaurantViewModel = 
 
     val restaurant by restaurantViewModel.restaurant.observeAsState()
     val reviews by restaurantViewModel.reviews.observeAsState()
+    val token by (LocalContext.current as HomeActivity).userViewModel.token.observeAsState()
+
 
     LaunchedEffect(Unit) {
-        restaurantViewModel.fetchRestaurant(restaurantId)
-        restaurantViewModel.getRestaurantReviews(restaurantId)
+        restaurantViewModel.fetchRestaurant(token!!.token, restaurantId)
+        restaurantViewModel.getRestaurantReviews(token!!.token, restaurantId)
     }
 
     Scaffold(

@@ -1,5 +1,6 @@
 package com.example.deliveryapp.data.repository
 
+import com.example.deliveryapp.data.model.JsonPatch
 import com.example.deliveryapp.data.model.TokenResponse
 import com.example.deliveryapp.data.model.User
 import com.example.deliveryapp.data.service.UserService
@@ -20,8 +21,8 @@ class RemoteUserRepository : UserRepository {
             )
     }
 
-    override suspend fun fetchUserInfo(): Result<User> {
-        return callUserService { service.getUserInfo() }
+    override suspend fun fetchUserInfo(token: String): Result<User> {
+        return callUserService { service.getUserInfo(token) }
     }
 
     override suspend fun login(user: User): Result<TokenResponse> {
@@ -32,8 +33,8 @@ class RemoteUserRepository : UserRepository {
         return callUserService { service.signup(user) }
     }
 
-    override suspend fun update(user: User): Result<User> {
-        return callUserService { service.update(user) }
+    override suspend fun update(token: String, user: List<JsonPatch>): Result<User> {
+        return callUserService { service.update(token, user) }
     }
 
     companion object {
