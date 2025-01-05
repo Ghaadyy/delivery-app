@@ -52,7 +52,7 @@ fun AccountScreen() {
     val screens = listOf(Screen.Home, Screen.Favorite, Screen.Orders, Screen.Account)
     val navController = LocalNavController.current
     val user = User(
-        "Ghady", "Youssef", LocalDate.parse("2004-12-21"), "ghady@usj.edu.lb", "+961 81 385 080"
+        "Ghady", "Youssef","ghady@usj.edu.lb", LocalDate.parse("2004-12-21"), "+961 81 385 080", "password"
     )
     val scrollState = rememberScrollState()
 

@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 
-class MainActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
     private lateinit var orderViewModel: OrderViewModel
 
     @RequiresApi(Build.VERSION_CODES.O)
