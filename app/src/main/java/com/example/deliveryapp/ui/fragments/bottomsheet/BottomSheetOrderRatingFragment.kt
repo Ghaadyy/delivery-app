@@ -31,9 +31,9 @@ class BottomSheetOrderRatingFragment : BottomSheetDialogFragment() {
 
         binding.submitRatingButton.setOnClickListener{
             val currentOrder = orderViewModel.currentOrder.value
-            if(currentOrder?.orderRating == OrderRating.PENDING){
+            if(currentOrder?.orderRating == OrderRating.PENDING.ordinal){
                 currentOrder.let { order ->
-                    order.orderRatingId = binding.ratingBar.rating.toInt()
+                    order.orderRating = binding.ratingBar.rating.toInt()
                     orderViewModel.setCurrentOrder(order)
                 }
             }

@@ -38,7 +38,7 @@ class OrderDetailOrderCardFragment : Fragment() {
     }
 
     private fun bind(order: Order) {
-        val status = order.orderStatus
+        val status = OrderStatus.fromId(order.orderStatus)
         if(status != null){
             when (status) {
                 OrderStatus.CONFIRMING, OrderStatus.PREPARING_FETCHING_DRIVER -> {
