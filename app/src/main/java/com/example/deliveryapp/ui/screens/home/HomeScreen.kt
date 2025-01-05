@@ -1,5 +1,6 @@
 package com.example.deliveryapp.ui.screens.home
 
+import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,9 +29,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.deliveryapp.HomeActivity
 import com.example.deliveryapp.LocalNavController
 import com.example.deliveryapp.data.model.restaurant.Favorite
 import com.example.deliveryapp.data.model.restaurant.Restaurant
@@ -38,6 +41,7 @@ import com.example.deliveryapp.ui.components.location.LocationPickerBottomSheet
 import com.example.deliveryapp.ui.components.restaurant.RestaurantItem
 import com.example.deliveryapp.ui.components.shared.AppNavigationBar
 import com.example.deliveryapp.ui.screens.restaurant.RestaurantPage
+import com.example.deliveryapp.ui.viewModel.UserViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,14 +52,18 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
     val restaurants by homeViewModel.restaurants.observeAsState()
     val errorMessage by homeViewModel.errorMessage.observeAsState()
     val favorites by homeViewModel.favorites.observeAsState()
+    val token by (LocalContext.current as HomeActivity).userViewModel.token.observeAsState()
     var isSheetVisible by remember { mutableStateOf(false) }
 
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(Unit) {
-        homeViewModel.fetchRestaurants()
-        homeViewModel.fetchFavorites()
+    LaunchedEffect(token) {
+        if(token != null)
+        {
+            homeViewModel.fetchRestaurants(token!!.token)
+            homeViewModel.fetchFavorites()
+        }
     }
 
     LaunchedEffect(errorMessage) {

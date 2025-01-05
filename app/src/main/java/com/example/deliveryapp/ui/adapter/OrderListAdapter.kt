@@ -15,7 +15,7 @@ import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderStatus
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 
-class OrderListAdapter(private val _context: Context, private var _orders: List<Order>, private val _orderViewModel: OrderViewModel) : RecyclerView.Adapter<OrderListAdapter.ViewHolder>(){
+class OrderListAdapter(private val _context: Context, private var _orders: List<Order>, private val _orderViewModel: OrderViewModel, private val token: String) : RecyclerView.Adapter<OrderListAdapter.ViewHolder>(){
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val restaurantId: TextView = view.findViewById(R.id.restaurantId)
@@ -54,7 +54,7 @@ class OrderListAdapter(private val _context: Context, private var _orders: List<
         holder.arrow.setOnClickListener {
             _orderViewModel.setCurrentOrder(order)
             Log.d("OrderListAdapter", order.toString())
-            _orderViewModel.getSelectedOrderDetails(order.id)
+            _orderViewModel.getSelectedOrderDetails(token, order.id)
 
             val orderDetailFragment = OrderDetailFragment()
             val transaction = (_context as AppCompatActivity).supportFragmentManager.beginTransaction()

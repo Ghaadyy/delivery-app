@@ -31,9 +31,9 @@ class RestaurantViewModel(application: Application) : AndroidViewModel(applicati
         _errorMessage.postValue(null)
     }
 
-    fun fetchRestaurant(restaurantId: Int) {
+    fun fetchRestaurant(token: String, restaurantId: Int) {
         viewModelScope.launch {
-            val res = restaurantsRepository.fetchRestaurant(restaurantId)
+            val res = restaurantsRepository.fetchRestaurant("Bearer $token", restaurantId)
             if(res.isSuccess)
                 _restaurant.postValue(res.getOrNull()!!)
             else
@@ -41,9 +41,9 @@ class RestaurantViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    fun fetchMenu(restaurantId: Int) {
+    fun fetchMenu(token: String, restaurantId: Int) {
         viewModelScope.launch {
-            val res = restaurantsRepository.fetchMenu(restaurantId)
+            val res = restaurantsRepository.fetchMenu("Bearer $token", restaurantId)
             if(res.isSuccess)
                 _menu.postValue(res.getOrNull()!!)
             else
@@ -51,9 +51,9 @@ class RestaurantViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    fun getRestaurantReviews(restaurantId: Int) {
+    fun getRestaurantReviews(token: String, restaurantId: Int) {
         viewModelScope.launch {
-            val res = restaurantsRepository.fetchReviews(restaurantId)
+            val res = restaurantsRepository.fetchReviews("Bearer $token", restaurantId)
             if(res.isSuccess)
                 _reviews.postValue(res.getOrNull()!!)
             else
@@ -61,9 +61,9 @@ class RestaurantViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    suspend fun addReview(review: Review) {
+    suspend fun addReview(token: String, review: Review) {
         viewModelScope.launch {
-            val res = restaurantsRepository.addReview(review)
+            val res = restaurantsRepository.addReview("Bearer $token", review)
             if(!res.isSuccess)
                 _errorMessage.postValue("Failed to fetch restaurant: ${res.exceptionOrNull()?.message}")
         }

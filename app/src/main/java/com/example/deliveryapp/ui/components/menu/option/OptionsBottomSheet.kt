@@ -25,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,11 +34,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.deliveryapp.HomeActivity
 import com.example.deliveryapp.R
 import com.example.deliveryapp.data.model.OrderRequest
 import com.example.deliveryapp.data.model.menu.Meal
@@ -50,6 +53,7 @@ fun OptionsBottomSheet(meal: Meal, orderViewModel: OrderViewModel = viewModel(),
     val bottomSheetState = rememberModalBottomSheetState()
     var options by remember { mutableStateOf<List<MealOption>>(listOf()) }
     var quantity by remember { mutableIntStateOf(1) }
+    val token by (LocalContext.current as HomeActivity).userViewModel.token.observeAsState()
 
     fun addOrder() {
         if(quantity <= 0) return
@@ -62,7 +66,7 @@ fun OptionsBottomSheet(meal: Meal, orderViewModel: OrderViewModel = viewModel(),
             "2025-01-04",
             "Cash"
         )
-        orderViewModel.addOrder(request)
+        orderViewModel.addOrder(token!!.token, request)
     }
 
     ModalBottomSheet(

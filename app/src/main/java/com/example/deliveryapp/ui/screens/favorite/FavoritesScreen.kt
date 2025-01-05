@@ -14,9 +14,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.deliveryapp.HomeActivity
 import com.example.deliveryapp.LocalNavController
 import com.example.deliveryapp.data.model.restaurant.Favorite
 import com.example.deliveryapp.data.model.restaurant.Restaurant
@@ -32,9 +34,10 @@ fun FavoritesScreen(homeViewModel: HomeViewModel = viewModel()) {
 
     val restaurants by homeViewModel.restaurants.observeAsState()
     val favorites by homeViewModel.favorites.observeAsState()
+    val token by (LocalContext.current as HomeActivity).userViewModel.token.observeAsState()
 
     LaunchedEffect(Unit) {
-        homeViewModel.fetchRestaurants()
+        homeViewModel.fetchRestaurants(token!!.token)
         homeViewModel.fetchFavorites()
     }
 

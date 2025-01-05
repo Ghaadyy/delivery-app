@@ -10,6 +10,8 @@ import com.example.deliveryapp.data.model.OrderDetail
 import com.example.deliveryapp.data.model.OrderRequest
 import com.example.deliveryapp.data.repository.OrderRepository
 import com.example.deliveryapp.data.repository.RemoteFirstOrderRepository
+import com.example.deliveryapp.data.repository.RemoteRestaurantsRepository
+import com.example.deliveryapp.data.repository.RestaurantsRepository
 import kotlinx.coroutines.launch
 
 class OrderViewModel(application: Application) : AndroidViewModel(application) {
@@ -26,21 +28,21 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
     fun setCurrentOrder(order: Order) { _currentOrder.value = order }
     fun setCurrentOrderDetails(orderDetails: List<OrderDetail>) { _currentOrderDetails.value = orderDetails }
 
-    fun getOrders() {
+    fun getOrders(token: String) {
         viewModelScope.launch {
-            _orders.value = orderRepository.fetchOrders()
+            _orders.value = orderRepository.fetchOrders("Bearer $token")
         }
     }
 
-    fun addOrder(order: OrderRequest) {
+    fun addOrder(token: String, order: OrderRequest) {
         viewModelScope.launch {
-            orderRepository.addOrder(order)
+            orderRepository.addOrder("Bearer $token", order)
         }
     }
 
-    fun getSelectedOrderDetails(orderId: Int) {
+    fun getSelectedOrderDetails(token: String, orderId: Int) {
         viewModelScope.launch {
-            _currentOrderDetails.value = orderRepository.fetchOrderDetails(orderId)
+            _currentOrderDetails.value = orderRepository.fetchOrderDetails("Bearer $token", orderId)
         }
     }
 }

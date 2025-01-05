@@ -6,11 +6,12 @@ import com.example.deliveryapp.data.model.menu.Menu
 import com.example.deliveryapp.data.model.restaurant.Review
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Header
 
 class RemoteRestaurantsRepository : RestaurantsRepository {
-    override suspend fun fetchRestaurants(): Result<List<Restaurant>> {
+    override suspend fun fetchRestaurants(token: String): Result<List<Restaurant>> {
         return try {
-            val res = service.getRestaurants()
+            val res = service.getRestaurants(token)
 
             if(res.isSuccessful)
                 Result.success(res.body()!!)
@@ -21,9 +22,9 @@ class RemoteRestaurantsRepository : RestaurantsRepository {
         }
     }
 
-    override suspend fun fetchRestaurant(id: Int): Result<Restaurant> {
+    override suspend fun fetchRestaurant(token: String, id: Int): Result<Restaurant> {
         return try {
-            val res = service.getRestaurant(id)
+            val res = service.getRestaurant(token, id)
 
             if(res.isSuccessful)
                 Result.success(res.body()!!)
@@ -34,9 +35,9 @@ class RemoteRestaurantsRepository : RestaurantsRepository {
         }
     }
 
-    override suspend fun fetchMenu(restaurantId: Int): Result<Menu> {
+    override suspend fun fetchMenu(token: String, restaurantId: Int): Result<Menu> {
         return try {
-            val res = service.getMenu(restaurantId)
+            val res = service.getMenu(token, restaurantId)
 
             if(res.isSuccessful)
                 Result.success(res.body()!!)
@@ -47,9 +48,9 @@ class RemoteRestaurantsRepository : RestaurantsRepository {
         }
     }
 
-    override suspend fun fetchReviews(restaurantId: Int): Result<List<Review>> {
+    override suspend fun fetchReviews(token: String, restaurantId: Int): Result<List<Review>> {
         return try {
-            val res = service.getReviews(restaurantId)
+            val res = service.getReviews(token, restaurantId)
 
             if(res.isSuccessful)
                 Result.success(res.body()!!)
@@ -60,9 +61,9 @@ class RemoteRestaurantsRepository : RestaurantsRepository {
         }
     }
 
-    override suspend fun addReview(review: Review): Result<Unit> {
+    override suspend fun addReview(token: String, review: Review): Result<Unit> {
         try {
-            val res = service.addReview(review.restaurantId, review)
+            val res = service.addReview(token, review.restaurantId, review)
 
             return if(!res.isSuccessful)
                 Result.failure(Exception(res.message()))

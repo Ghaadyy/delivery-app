@@ -29,9 +29,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         _errorMessage.postValue(null)
     }
 
-    fun fetchRestaurants() {
+    fun fetchRestaurants(token: String) {
         viewModelScope.launch {
-            val res = restaurantsRepository.fetchRestaurants()
+            val res = restaurantsRepository.fetchRestaurants("Bearer $token")
             if(res.isSuccess)
                 _restaurants.postValue(res.getOrNull()!!)
             else

@@ -16,9 +16,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RemoteFirstOrderRepository(context: Context) : OrderRepository{
     private val orderDao: OrderDao = AppDatabase.getInstance(context).orderDao()
 
-    override suspend fun fetchOrders(): List<Order> {
+    override suspend fun fetchOrders(token: String): List<Order> {
         return try {
-            val ordersFromRemote = service.getOrders()
+            val ordersFromRemote = service.getOrders(token)
             withContext(Dispatchers.IO) {
                 orderDao.insertOrders(ordersFromRemote)
             }
@@ -32,9 +32,9 @@ class RemoteFirstOrderRepository(context: Context) : OrderRepository{
         }
     }
 
-    override suspend fun fetchOrderDetails(orderId: Int): List<OrderDetail> = service.getOrderDetails(orderId)
+    override suspend fun fetchOrderDetails(token: String, orderId: Int): List<OrderDetail> = service.getOrderDetails(token, orderId)
 
-    override suspend fun addOrder(order: OrderRequest) = service.addOrder(order)
+    override suspend fun addOrder(token: String, order: OrderRequest) = service.addOrder(token, order)
 
     companion object {
         private val retrofit: Retrofit = Retrofit.Builder()

@@ -58,7 +58,9 @@ class LoginFragment : Fragment() {
     }
 
     private fun navigateToHomeScreen() {
-        val intent = Intent(activity, HomeActivity::class.java)
+        val intent = Intent(activity, HomeActivity::class.java).apply {
+            putExtra("token", userViewModel.token.value!!.token)
+        }
         startActivity(intent)
         activity?.finish()
     }

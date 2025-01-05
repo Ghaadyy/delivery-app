@@ -26,8 +26,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.deliveryapp.HomeActivity
 import com.example.deliveryapp.LocalNavController
 import com.example.deliveryapp.data.model.menu.Menu
 import com.example.deliveryapp.data.model.restaurant.Restaurant
@@ -53,13 +55,14 @@ fun RestaurantScreen(
     val restaurant by restaurantViewModel.restaurant.observeAsState()
     val menu by restaurantViewModel.menu.observeAsState()
     val errorMessage by restaurantViewModel.errorMessage.observeAsState()
+    val token by (LocalContext.current as HomeActivity).userViewModel.token.observeAsState()
     var isSheetVisible by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
-        restaurantViewModel.fetchRestaurant(restaurantId)
-        restaurantViewModel.fetchMenu(restaurantId)
+        restaurantViewModel.fetchRestaurant(token!!.token, restaurantId)
+        restaurantViewModel.fetchMenu(token!!.token, restaurantId)
     }
 
     LaunchedEffect(errorMessage) {
@@ -74,7 +77,7 @@ fun RestaurantScreen(
     if (isSheetVisible) {
         ReviewBottomSheet(restaurantId, onSubmit = { review ->
             CoroutineScope(Dispatchers.IO).launch {
-                restaurantViewModel.addReview(review)
+                restaurantViewModel.addReview(token!!.token, review)
             }
         }) { isSheetVisible = false }
     }
