@@ -35,7 +35,6 @@ import com.example.deliveryapp.ui.components.menu.Menu
 import com.example.deliveryapp.ui.components.restaurant.RestaurantHeader
 import com.example.deliveryapp.ui.components.restaurant.ReviewBottomSheet
 import com.example.deliveryapp.ui.components.shared.AppNavigationBar
-import com.example.deliveryapp.ui.navigation.Screen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,7 +49,6 @@ fun RestaurantScreen(
     restaurantViewModel: RestaurantViewModel = viewModel(), restaurantId: Int, onBack: () -> Unit
 ) {
     val navController = LocalNavController.current
-    val screens = listOf(Screen.Home, Screen.Favorite, Screen.Orders, Screen.Account)
 
     val restaurant by restaurantViewModel.restaurant.observeAsState()
     val menu by restaurantViewModel.menu.observeAsState()
@@ -113,8 +111,6 @@ fun RestaurantScreen(
                 Spacer(modifier = Modifier)
             }
         },
-        bottomBar = {
-            AppNavigationBar(navController, screens)
-        },
+        bottomBar = { AppNavigationBar() },
     )
 }

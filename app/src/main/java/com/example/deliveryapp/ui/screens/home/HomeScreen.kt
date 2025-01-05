@@ -37,14 +37,12 @@ import com.example.deliveryapp.data.model.restaurant.Restaurant
 import com.example.deliveryapp.ui.components.location.LocationPickerBottomSheet
 import com.example.deliveryapp.ui.components.restaurant.RestaurantItem
 import com.example.deliveryapp.ui.components.shared.AppNavigationBar
-import com.example.deliveryapp.ui.navigation.Screen
 import com.example.deliveryapp.ui.screens.restaurant.RestaurantPage
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
-    val screens = listOf(Screen.Home, Screen.Favorite, Screen.Orders, Screen.Account)
     val navController = LocalNavController.current
 
     val restaurants by homeViewModel.restaurants.observeAsState()
@@ -92,9 +90,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
                 },
             )
         },
-        bottomBar = {
-            AppNavigationBar(LocalNavController.current, screens)
-        },
+        bottomBar = { AppNavigationBar() },
     ) { padding ->
         if (isSheetVisible) LocationPickerBottomSheet { isSheetVisible = false }
 

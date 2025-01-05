@@ -12,18 +12,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
-import com.example.deliveryapp.LocalNavController
 import com.example.deliveryapp.R
 import com.example.deliveryapp.ui.components.shared.AppNavigationBar
 import com.example.deliveryapp.ui.fragments.order.OrderListFragment
-import com.example.deliveryapp.ui.navigation.Screen
 
 @Composable
 fun OrdersScreen(
     fragmentManager: FragmentManager
 ) {
-    val screens = listOf(Screen.Home, Screen.Favorite, Screen.Orders, Screen.Account)
-
     Scaffold(
         content = { paddingValues ->
             Column(
@@ -48,8 +44,6 @@ fun OrdersScreen(
                 )
             }
         },
-        bottomBar = {
-            AppNavigationBar(LocalNavController.current, screens)
-        }
+        bottomBar = { AppNavigationBar() }
     )
 }

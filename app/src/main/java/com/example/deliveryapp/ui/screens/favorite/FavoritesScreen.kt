@@ -22,14 +22,12 @@ import com.example.deliveryapp.data.model.restaurant.Favorite
 import com.example.deliveryapp.data.model.restaurant.Restaurant
 import com.example.deliveryapp.ui.components.restaurant.RestaurantItem
 import com.example.deliveryapp.ui.components.shared.AppNavigationBar
-import com.example.deliveryapp.ui.navigation.Screen
 import com.example.deliveryapp.ui.screens.home.HomeViewModel
 import com.example.deliveryapp.ui.screens.restaurant.RestaurantPage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoritesScreen(homeViewModel: HomeViewModel = viewModel()) {
-    val screens = listOf(Screen.Home, Screen.Favorite, Screen.Orders, Screen.Account)
     val navController = LocalNavController.current
 
     val restaurants by homeViewModel.restaurants.observeAsState()
@@ -48,9 +46,7 @@ fun FavoritesScreen(homeViewModel: HomeViewModel = viewModel()) {
                 },
             )
         },
-        bottomBar = {
-            AppNavigationBar(LocalNavController.current, screens)
-        },
+        bottomBar = { AppNavigationBar() },
     ) { padding ->
         if (restaurants == null) Text("Loading...")
         else LazyColumn(

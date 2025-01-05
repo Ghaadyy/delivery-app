@@ -36,10 +36,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.deliveryapp.LocalNavController
 import com.example.deliveryapp.data.model.User
 import com.example.deliveryapp.ui.components.shared.AppNavigationBar
-import com.example.deliveryapp.ui.navigation.Screen
 import java.time.LocalDate
 
 data class AccountSetting(val name: String, val icon: ImageVector, val action: () -> Unit)
@@ -49,8 +47,6 @@ data class AccountSettingsSection(val name: String, val settings: List<AccountSe
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountScreen() {
-    val screens = listOf(Screen.Home, Screen.Favorite, Screen.Orders, Screen.Account)
-    val navController = LocalNavController.current
     val user = User(
         "Ghady", "Youssef", LocalDate.parse("2004-12-21"), "ghady@usj.edu.lb", "+961 81 385 080"
     )
@@ -64,9 +60,7 @@ fun AccountScreen() {
                 },
             )
         },
-        bottomBar = {
-            AppNavigationBar(navController, screens)
-        },
+        bottomBar = { AppNavigationBar() },
     ) { padding ->
         val settings = listOf(
             AccountSetting(
