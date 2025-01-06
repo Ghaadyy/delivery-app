@@ -1,0 +1,88 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\usepackage[
+    top=2.5cm,
+    bottom=2.5cm,
+    left=2.5cm,
+    right=2.5cm
+]{geometry}
+
+\begin{document}
+
+\input{title.tex}
+
+\section*{Repository Link}
+
+
+\section*{Application Overview}
+The application is designed to streamline food ordering and delivery, offering users a seamless experience to discover restaurants, order and track deliveries. Its primary features include:
+\begin{itemize}
+    \item Secure user authentication using JWT.
+    \item Browse restaurants, add food items to the cart, and place orders.
+    \item Mark your favorite restaurants for quick access in the future.
+    \item Submit and view restaurant reviews.
+    \item Track order history, including past and pending orders.
+    \item Access detailed order information, such as the current status of an order.
+    \item Order tracking based on your location and the restaurant's location.
+    \item Rate delivery drivers to provide feedback.
+    \item View and update personal details through the user profile.
+\end{itemize}
+
+\section*{Technical Details}
+The application leverages the following tools, libraries, and design principles:
+\begin{itemize}
+    \item \textbf{Pattern:} MVVM (Model-View-ViewModel).
+    \item Separation of concerns for scalability and testability.
+\end{itemize}
+\textbf{Technologies:}
+\begin{itemize}
+    \item \textbf{Programming Language:} Kotlin.
+    \item \textbf{Libraries:}
+          \begin{itemize}
+              \item Retrofit for API calls.
+              \item Room for local database.
+              \item Jetpack Compose for a declarative UI.
+              \item Google Play Services (GM) to access location data.
+              \item LiveData and ViewModel for UI-related data.
+              \item Osmdroid for the map rendering.
+              \item JWTDecode for token authentication.
+          \end{itemize}
+    \item \textbf{Design Patterns:}
+          \begin{itemize}
+              \item Singleton for shared resources.
+              \item Repository for data management.
+          \end{itemize}
+\end{itemize}
+
+
+\section*{Challenges and Solutions}
+During development, several challenges were encountered:
+\begin{itemize}
+    \item \textbf{Token persistence across app sessions}\\
+          \textbf{Solution:} The JWT token was stored securely in SharedPreferences and validated using the JWTDecode library.
+    \item \textbf{Efficient state management across activities}\\
+          \textbf{Solution:} Shared ViewModel instances were used to maintain consistency between activities.
+    \item \textbf{Integrating Compose with View-based UIs}\\
+          \textbf{Solution:} A clear project structure allowed us to easily collaborate and integrate both UI technologies into the project.
+\end{itemize}
+
+\section*{Setup Instructions}
+To set up and run the application, follow these steps:
+\begin{enumerate}
+    \item Clone the repository: \texttt{git clone \href{https://github.com/Ghaadyy/delivery-app}{https://github.com/Ghaadyy/delivery-app}}.
+    \item Open the API in Visual Studio Code (Make sure you have .NET 8 installed).
+    \item Install PostgreSQL.
+    \item Resolve all dependencies and set up the database.
+    \item Run the server.
+    \item Open the project in Android Studio.
+    \item Ensure that you have the required dependencies installed: \begin{itemize}
+              \item Android SDK 34 is a working verision.
+              \item Gradle 8.7 is a working version.
+          \end{itemize}
+    \item Build the project and resolve dependencies.
+    \item Run the app on an emulator or physical device.
+\end{enumerate}
+
+\end{document}
