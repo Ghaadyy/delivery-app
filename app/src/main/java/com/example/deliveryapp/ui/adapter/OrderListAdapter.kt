@@ -5,23 +5,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.platform.ComposeView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.deliveryapp.ui.fragments.order.OrderDetailFragment
 import com.example.deliveryapp.R
 import com.example.deliveryapp.data.model.Order
-import com.example.deliveryapp.data.model.OrderStatus
+import com.example.deliveryapp.ui.components.order.OrderItem
+import com.example.deliveryapp.ui.fragments.order.OrderDetailFragment
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 
 class OrderListAdapter(private val _context: Context, private var _orders: List<Order>, private val _orderViewModel: OrderViewModel, private val token: String) : RecyclerView.Adapter<OrderListAdapter.ViewHolder>(){
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
-        val restaurantId: TextView = view.findViewById(R.id.restaurantId)
-        val status: TextView = view.findViewById(R.id.status)
-        val orderTotalPrice: TextView = view.findViewById(R.id.orderTotalPrice)
-        var arrow: ImageView = view.findViewById(R.id.arrowIcon)
+        val composeView: ComposeView = view.findViewById(R.id.orderComposeView)
     }
 
     fun updateOrders(orders: List<Order>){
@@ -40,18 +36,8 @@ class OrderListAdapter(private val _context: Context, private var _orders: List<
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val order = _orders[position]
-        holder.restaurantId.text = order.restaurantId
-        val status = OrderStatus.fromId(order.orderStatus)
-        val message = if(status == OrderStatus.DELIVERED){
-            "${status.label} on ${order.deliveredDate}"
-        }else{
-            status?.label
-        }
-        holder.status.text = message
-        val totalPrice = "Total Price: ${order.subtotal + order.deliveryCharge - order.discountedPrice}";
-        holder.orderTotalPrice.text = totalPrice
-
-        holder.arrow.setOnClickListener {
+        holder.composeView.setContent {
+            OrderItem(order) {
             _orderViewModel.setCurrentOrder(order)
             Log.d("OrderListAdapter", order.toString())
             _orderViewModel.getSelectedOrderDetails(token, order.id)
@@ -62,6 +48,7 @@ class OrderListAdapter(private val _context: Context, private var _orders: List<
                 .replace(R.id.fragment_container, orderDetailFragment)
                 .addToBackStack(null)
                 .commit()
+            }
         }
     }
 }
