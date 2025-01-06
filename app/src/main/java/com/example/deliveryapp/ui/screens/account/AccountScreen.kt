@@ -3,11 +3,8 @@ package com.example.deliveryapp.ui.screens.account
 import android.content.Intent
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,34 +14,23 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.LocationOn
-import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.InputChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
@@ -55,27 +41,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.deliveryapp.AuthenticationActivity
 import com.example.deliveryapp.HomeActivity
 import com.example.deliveryapp.data.model.JsonPatch
-import com.example.deliveryapp.data.model.User
 import com.example.deliveryapp.token.TokenManager
 import com.example.deliveryapp.ui.components.shared.AppNavigationBar
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Date
 
-data class AccountSetting(val name: String, val icon: ImageVector, val action: () -> Unit)
-data class AccountSettingsSection(val name: String, val settings: List<AccountSetting>)
 
 //fun convertMillisToDate(millis: Long): String {
 //    val formatter = SimpleDateFormat("MM/dd/yyyy", LocalDate.())
@@ -151,8 +131,24 @@ fun AccountScreen() {
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize(),
+            contentAlignment = Alignment.Center
         ) {
-            Text("Loading...")
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ){
+                CircularProgressIndicator(
+                    modifier = Modifier.size(48.dp),
+                    color = MaterialTheme.colorScheme.primary,
+                    strokeWidth = 4.dp
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Fetching account details...",
+                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }
         }
     }
 
@@ -167,20 +163,6 @@ fun AccountScreen() {
         },
         bottomBar = { AppNavigationBar() },
     ) { padding ->
-        val settings = listOf(
-            AccountSetting(
-                "Notifications", Icons.Outlined.Notifications
-            ) { },
-            AccountSetting(
-                "Favorites", Icons.Outlined.FavoriteBorder
-            ) { },
-            AccountSetting("Addresses", Icons.Outlined.LocationOn) { },
-        )
-
-        val sections: List<AccountSettingsSection> = listOf(
-            AccountSettingsSection("Account Details", settings)
-        )
-
         LazyColumn(
             modifier = Modifier
                 .padding(padding)
@@ -222,19 +204,19 @@ fun AccountScreen() {
                         modifier = Modifier.fillMaxWidth()
                     )
 
-                    TextField(
-                        value = displayDate,
-                        onValueChange = {},
-                        label = { Text("Date of Birth") },
-                        readOnly = true,
-                        enabled = false,
-                        colors = TextFieldDefaults.colors(),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                showDialog = true
-                            }
-                    )
+//                    TextField(
+//                        value = displayDate,
+//                        onValueChange = {},
+//                        label = { Text("Date of Birth") },
+//                        readOnly = true,
+//                        enabled = false,
+//                        colors = TextFieldDefaults.colors(),
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .clickable {
+//                                showDialog = true
+//                            }
+//                    )
 
                     if (showDialog) {
                         DatePickerDialog(
@@ -254,7 +236,6 @@ fun AccountScreen() {
                             val userPatch = listOf(
                                 JsonPatch("replace", "/firstName", firstName),
                                 JsonPatch("replace", "/lastName", lastName),
-//                                JsonPatch("replace", "/dob", user!!.dob),
                                 JsonPatch("replace", "/phoneNUmber", phoneNumber),
                             )
 
@@ -273,50 +254,6 @@ fun AccountScreen() {
                     }
                 }
             }
-            items(sections) { section ->
-                SettingsSection(section)
-            }
         }
-    }
-}
-
-@Composable
-fun SettingsSection(section: AccountSettingsSection) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp), colors = CardColors(
-            MaterialTheme.colorScheme.primaryContainer,
-            MaterialTheme.colorScheme.primary,
-            Color.Gray,
-            Color.Black
-        )
-    ) {
-        Text(
-            section.name,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-        )
-        Column(modifier = Modifier.padding(16.dp)) {
-            section.settings.forEachIndexed { i, setting ->
-                SettingsItem(setting.name, setting.icon)
-                if (i < section.settings.size - 1) HorizontalDivider(
-                    modifier = Modifier.padding(
-                        vertical = 16.dp
-                    ), color = MaterialTheme.colorScheme.primary
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun SettingsItem(name: String, icon: ImageVector) {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .clickable { }) {
-        Icon(icon, name)
-        Spacer(Modifier.width(16.dp))
-        Text(name)
     }
 }
