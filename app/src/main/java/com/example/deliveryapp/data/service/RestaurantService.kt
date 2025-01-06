@@ -24,5 +24,5 @@ interface RestaurantService {
     suspend fun getReviews(@Path("restaurantId") restaurantId: Int): Response<List<Review>>
 
     @POST("restaurants/{restaurantId}/reviews")
-    suspend fun addReview(@Path("restaurantId") restaurantId: Int, @Body review: Review): Response<Nothing>
+    suspend fun addReview(@Path("restaurantId") restaurantId: Int, @Body review: Review): Response<Unit>
 }
