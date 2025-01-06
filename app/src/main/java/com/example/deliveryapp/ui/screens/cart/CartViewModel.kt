@@ -50,6 +50,9 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
     suspend fun clearCart() = withContext(Dispatchers.IO) {
         cartRepository.clearCart()
         cartRepository.getCart()
-        viewModelScope.launch {  _selectedRestaurantId.value = null }
+        viewModelScope.launch {
+            _cart.value = emptyList()
+            _selectedRestaurantId.value = null
+        }
     }
 }
