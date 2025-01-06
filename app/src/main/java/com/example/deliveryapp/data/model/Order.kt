@@ -23,6 +23,6 @@ data class Order(
     @ColumnInfo(name = "driver_rating_id") var driverRating: Int,
 ){
     constructor() : this(
-        0, -1, "", null, 0, "", "", Address(1, 0.0, 0.0), 0.0, 0.0, 0.0, "", 0, 0
+        0, -1, "", null, 0, "", "", Address(1,  1,0.0, 0.0), 0.0, 0.0, 0.0, "", 0, 0
     )
 }

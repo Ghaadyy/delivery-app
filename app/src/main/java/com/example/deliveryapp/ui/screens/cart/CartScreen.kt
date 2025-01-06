@@ -54,7 +54,9 @@ data object CartPage
 fun CartScreen(orderViewModel: OrderViewModel = viewModel()) {
     val navController = LocalNavController.current
     val cartViewModel = (LocalContext.current as HomeActivity).cartViewModel
+    val addressViewModel = (LocalContext.current as HomeActivity).addressViewModel
     val cart by cartViewModel.cart.observeAsState()
+    val selectedAddress by addressViewModel.selectedAddress.observeAsState()
     val coroutineScope = rememberCoroutineScope()
     var isShown by remember { mutableStateOf(false) }
     val selectedRestaurantId by cartViewModel.selectedRestaurantId.observeAsState()
@@ -85,7 +87,7 @@ fun CartScreen(orderViewModel: OrderViewModel = viewModel()) {
                                 Column {
                                     Text(item.meal.name, fontSize = 18.sp)
                                     Text(
-                                        "USD ${item.price}",
+                                        "USD ${item.price * item.quantity}",
                                         fontSize = 14.sp,
                                         fontWeight = FontWeight.Bold
                                     )
@@ -99,9 +101,9 @@ fun CartScreen(orderViewModel: OrderViewModel = viewModel()) {
 
             Button(
                 {
-                    if (cart != null && selectedRestaurantId != null) {
+                    if (cart != null && selectedRestaurantId != null && selectedAddress != null) {
                         val order = OrderRequest(
-                            selectedRestaurantId!!, cart!!, 1, "Cash"
+                            selectedRestaurantId!!, cart!!, selectedAddress!!.id, "Cash"
                         )
                         orderViewModel.addOrder(order)
                         coroutineScope.launch {

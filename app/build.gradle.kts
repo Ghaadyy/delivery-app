@@ -91,6 +91,9 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
 
+    //location
+    implementation(libs.play.services.location)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

@@ -16,6 +16,7 @@ material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
 osmdroidAndroid = "6.1.14"
+playServicesLocation = "21.3.0"
 roomCompilerVersion = "2.6.0"
 roomRuntimeVersion = "2.6.1"
 kotlinxSerializationJson = "1.7.3"
@@ -59,6 +60,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 
 [plugins]
