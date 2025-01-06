@@ -64,14 +64,31 @@ public class OrdersController(MainContext ctx, ITokenRepository tokenRepository)
     [HttpPost]
     public async Task<IActionResult> AddOrder([FromBody] OrderRequest req)
     {
-        var meal = ctx.Meals.First(m => m.Id == req.MealId);
-        var orderAddress = ctx.Addresses.First(a => a.Id == req.AddressId);
-        var options = ctx.MealOptions.Where(opt => req.OptionIds.Contains(opt.Id));
-        var optionsPrice = options.Select(o => o.Price).Sum();
-        var subtotal = meal.Price * req.Quantity + optionsPrice;
-
         int? id = tokenRepository.GetIdFromToken(User);
         if (id is null) return BadRequest("User ID is missing from token");
+
+        var orderAddress = ctx.Addresses.First(a => a.Id == req.AddressId);
+
+        var mealRequests = req.mealRequests;
+
+        double subtotal = 0;
+
+        foreach (var mealRequest in mealRequests)
+        {
+            var meal = mealRequest.Meal;
+
+            if (ctx.Meals.Any(m => m.Id == meal.Id))
+            {
+                ctx.Attach(meal);
+            }
+
+            foreach (var opt in mealRequest.Options)
+            {
+                subtotal += opt.Price * mealRequest.Quantity;
+            }
+
+            subtotal += meal.Price * mealRequest.Quantity;
+        }
 
         var order = new Order
         {
@@ -91,15 +108,22 @@ public class OrdersController(MainContext ctx, ITokenRepository tokenRepository)
             Subtotal = subtotal
         };
 
-        var details = new OrderDetail
-        {
-            Meal = meal,
-            Order = order,
-            Quantity = req.Quantity,
-            TotalPrice = subtotal
-        };
+        List<OrderDetail> details = [];
 
-        await ctx.OrderDetails.AddAsync(details);
+        foreach (var mr in mealRequests)
+        {
+            var detail = new OrderDetail
+            {
+                Meal = mr.Meal,
+                Order = order,
+                Quantity = mr.Quantity,
+                TotalPrice = (mr.Meal.Price + mr.Options.Sum(o => o.Price)) * mr.Quantity
+            };
+
+            details.Add(detail);
+        }
+
+        await ctx.OrderDetails.AddRangeAsync(details);
 
         await ctx.Orders.AddAsync(order);
 
