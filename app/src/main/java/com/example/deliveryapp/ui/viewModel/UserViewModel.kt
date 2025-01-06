@@ -11,28 +11,27 @@ import com.example.deliveryapp.data.model.TokenResponse
 import com.example.deliveryapp.data.model.User
 import com.example.deliveryapp.data.repository.RemoteUserRepository
 import com.example.deliveryapp.data.repository.UserRepository
+import com.example.deliveryapp.token.TokenManager
 import kotlinx.coroutines.launch
 
 class UserViewModel(application: Application): AndroidViewModel(application) {
-    private val userRepository: UserRepository = RemoteUserRepository()
+    private val userRepository: UserRepository = RemoteUserRepository(application)
     private val _user = MutableLiveData<User?>()
-    private val _token = MutableLiveData<TokenResponse?>()
     private val _error = MutableLiveData<String?>()
+    private val _loginSuccess = MutableLiveData(false)
 
     var user: LiveData<User?> = _user
-    val token: LiveData<TokenResponse?> = _token
     val error: LiveData<String?> = _error
-
-    fun setToken(token: String) {
-        _token.value = TokenResponse(token)
-    }
+    val loginSuccess: LiveData<Boolean> = _loginSuccess
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
             val result = userRepository.login(User(null.toString(),
                 null.toString(), email, null, null, password))
-            _token.value = result.getOrNull()
-            if (result.isFailure){
+            if (result.isSuccess){
+                TokenManager.saveToken(result.getOrNull()!!.token)
+                _loginSuccess.value = true
+            }else{
                 _error.value = result.getOrElse { e -> e.message }.toString()
             }
         }
@@ -42,8 +41,33 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         viewModelScope.launch {
             val result = userRepository.signup(User(firstName,
                 lastName, email, null, null, password))
-            _token.value = result.getOrNull()
-            if (result.isFailure){
+            if (result.isSuccess){
+                TokenManager.saveToken(result.getOrNull()!!.token)
+                _loginSuccess.value = true
+
+            }else{
+                _error.value = result.getOrElse { e -> e.message }.toString()
+            }
+        }
+    }
+
+    fun fetchUserInfo(){
+        viewModelScope.launch {
+            val result = userRepository.fetchUserInfo()
+            if(result.isSuccess){
+                _user.value = result.getOrNull()
+            }else {
+                _error.value = result.getOrElse { e -> e.message }.toString()
+            }
+        }
+    }
+
+    fun update(user: List<JsonPatch>){
+        viewModelScope.launch {
+            val result = userRepository.update(user)
+            if(result.isSuccess) {
+                _user.value = result.getOrNull()
+            } else {
                 _error.value = result.getOrElse { e -> e.message }.toString()
             }
         }
@@ -53,39 +77,4 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         _error.value = null
     }
 
-    fun fetchUserInfo(){
-        viewModelScope.launch {
-            val token = _token.value?.token
-            if(token.isNullOrEmpty()){
-                _error.value = "Token missing"
-                return@launch
-            }
-
-            val result = userRepository.fetchUserInfo("Bearer $token")
-            _user.value = result.getOrNull()
-            Log.d("fetchUserInfo", _user.value.toString())
-
-            if (result.isFailure){
-                _error.value = result.getOrElse { e -> e.message }.toString()
-                Log.d("fetchUserInfo", result.getOrElse { e -> e.message }.toString())
-            }
-        }
-    }
-
-    fun update(user: List<JsonPatch>){
-        viewModelScope.launch {
-            val token = _token.value?.token
-            if(token.isNullOrEmpty()){
-                _error.value = "Token missing"
-                return@launch
-            }
-
-            val result = userRepository.update("Bearer $token", user)
-            if(result.isSuccess) {
-                _user.value = result.getOrNull()
-            } else {
-                _error.value = result.getOrElse { e -> e.message }.toString()
-            }
-        }
-    }
 }

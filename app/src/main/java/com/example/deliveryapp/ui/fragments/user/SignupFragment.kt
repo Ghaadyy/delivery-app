@@ -2,7 +2,6 @@ package com.example.deliveryapp.ui.fragments.user
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.deliveryapp.HomeActivity
 import com.example.deliveryapp.R
 import com.example.deliveryapp.ui.viewModel.UserViewModel
+import com.example.deliveryapp.token.TokenManager
 
 class SignupFragment : Fragment() {
     private lateinit var userViewModel: UserViewModel
@@ -36,10 +36,8 @@ class SignupFragment : Fragment() {
         val passwordEditText = view.findViewById<EditText>(R.id.passwordEditText)
         val signUpButton = view.findViewById<Button>(R.id.signUpButton)
 
-        userViewModel.token.observe(viewLifecycleOwner) { token ->
-            if (token != null) {
-                navigateToHomeScreen()
-            }
+        userViewModel.loginSuccess.observe(viewLifecycleOwner) { success ->
+            if (success) navigateToHomeScreen()
         }
 
         userViewModel.error.observe(viewLifecycleOwner) { error ->
@@ -63,9 +61,7 @@ class SignupFragment : Fragment() {
     }
 
     private fun navigateToHomeScreen() {
-        val intent = Intent(activity, HomeActivity::class.java).apply {
-            putExtra("token", userViewModel.token.value!!.token)
-        }
+        val intent = Intent(activity, HomeActivity::class.java)
         startActivity(intent)
         activity?.finish()
     }

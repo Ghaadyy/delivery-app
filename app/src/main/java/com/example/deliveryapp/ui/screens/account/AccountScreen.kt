@@ -66,6 +66,7 @@ import com.example.deliveryapp.AuthenticationActivity
 import com.example.deliveryapp.HomeActivity
 import com.example.deliveryapp.data.model.JsonPatch
 import com.example.deliveryapp.data.model.User
+import com.example.deliveryapp.token.TokenManager
 import com.example.deliveryapp.ui.components.shared.AppNavigationBar
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -262,8 +263,8 @@ fun AccountScreen() {
                             Text("Save changes")
                         }
                         Button({
+                            TokenManager.clearToken()
                             val intent = Intent(activity, AuthenticationActivity::class.java)
-
                             activity.startActivity(intent)
                             activity.finish()
                         }, colors = ButtonColors(MaterialTheme.colorScheme.error, MaterialTheme.colorScheme.onError, Color.Black, Color.Black)) {

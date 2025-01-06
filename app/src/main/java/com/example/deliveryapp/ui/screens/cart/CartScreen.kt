@@ -57,8 +57,6 @@ fun CartScreen(orderViewModel: OrderViewModel = viewModel()) {
     val cart by cartViewModel.cart.observeAsState()
     val coroutineScope = rememberCoroutineScope()
     var isShown by remember { mutableStateOf(false) }
-    val userViewModel = (LocalContext.current as HomeActivity).userViewModel
-    val token by userViewModel.token.observeAsState()
     val selectedRestaurantId by cartViewModel.selectedRestaurantId.observeAsState()
 
     LaunchedEffect(Unit) {
@@ -105,7 +103,7 @@ fun CartScreen(orderViewModel: OrderViewModel = viewModel()) {
                         val order = OrderRequest(
                             selectedRestaurantId!!, cart!!, 1, "Cash"
                         )
-                        orderViewModel.addOrder(token!!.token, order)
+                        orderViewModel.addOrder(order)
                         coroutineScope.launch {
                             cartViewModel.clearCart()
                         }

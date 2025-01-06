@@ -14,7 +14,7 @@ import com.example.deliveryapp.ui.components.order.OrderItem
 import com.example.deliveryapp.ui.fragments.order.OrderDetailFragment
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 
-class OrderListAdapter(private val _context: Context, private var _orders: List<Order>, private val _orderViewModel: OrderViewModel, private val token: String) : RecyclerView.Adapter<OrderListAdapter.ViewHolder>(){
+class OrderListAdapter(private val _context: Context, private var _orders: List<Order>, private val _orderViewModel: OrderViewModel) : RecyclerView.Adapter<OrderListAdapter.ViewHolder>(){
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val composeView: ComposeView = view.findViewById(R.id.orderComposeView)
@@ -39,8 +39,7 @@ class OrderListAdapter(private val _context: Context, private var _orders: List<
         holder.composeView.setContent {
             OrderItem(order) {
             _orderViewModel.setCurrentOrder(order)
-            Log.d("OrderListAdapter", order.toString())
-            _orderViewModel.getSelectedOrderDetails(token, order.id)
+            _orderViewModel.getSelectedOrderDetails(order.id)
 
             val orderDetailFragment = OrderDetailFragment()
             val transaction = (_context as AppCompatActivity).supportFragmentManager.beginTransaction()

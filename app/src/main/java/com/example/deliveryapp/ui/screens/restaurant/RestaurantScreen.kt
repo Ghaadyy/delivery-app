@@ -55,14 +55,13 @@ fun RestaurantScreen(
     val restaurant by restaurantViewModel.restaurant.observeAsState()
     val menu by restaurantViewModel.menu.observeAsState()
     val errorMessage by restaurantViewModel.errorMessage.observeAsState()
-    val token by (LocalContext.current as HomeActivity).userViewModel.token.observeAsState()
     var isSheetVisible by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
-        restaurantViewModel.fetchRestaurant(token!!.token, restaurantId)
-        restaurantViewModel.fetchMenu(token!!.token, restaurantId)
+        restaurantViewModel.fetchRestaurant(restaurantId)
+        restaurantViewModel.fetchMenu(restaurantId)
     }
 
     LaunchedEffect(errorMessage) {
@@ -77,7 +76,7 @@ fun RestaurantScreen(
     if (isSheetVisible) {
         ReviewBottomSheet(restaurantId, onSubmit = { review ->
             CoroutineScope(Dispatchers.IO).launch {
-                restaurantViewModel.addReview(token!!.token, review)
+                restaurantViewModel.addReview(review)
             }
         }) { isSheetVisible = false }
     }

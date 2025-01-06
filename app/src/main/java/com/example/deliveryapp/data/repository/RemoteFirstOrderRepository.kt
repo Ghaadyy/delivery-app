@@ -8,8 +8,10 @@ import com.example.deliveryapp.data.model.Order
 import com.example.deliveryapp.data.model.OrderDetail
 import com.example.deliveryapp.data.model.OrderRequest
 import com.example.deliveryapp.data.service.OrderService
+import com.example.deliveryapp.token.TokenInterceptor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -32,30 +34,39 @@ class RemoteFirstOrderRepository(context: Context) : OrderRepository{
             )
     }
 
-    override suspend fun fetchOrders(token: String): Result<List<Order>> =
+    override suspend fun fetchOrders(): Result<List<Order>> =
         callOrderService(
             updateCache = { orders ->
                 withContext(Dispatchers.IO) {
                     orderDao.insertOrders(orders)
                 }
             }
-        ) { service.getOrders(token) }
+        ) { service.getOrders() }
             .onFailure {
                 return Result.success(withContext(Dispatchers.IO) {
                     orderDao.getOrders()
                 })
             }
 
-    override suspend fun fetchOrderDetails(token: String, orderId: Int): Result<List<OrderDetail>> = callOrderService { service.getOrderDetails(token, orderId) }
+    override suspend fun fetchOrderDetails(orderId: Int): Result<List<OrderDetail>> = callOrderService { service.getOrderDetails(orderId) }
 
-    override suspend fun addOrder(token: String, order: OrderRequest): Result<Unit> = callOrderService { service.addOrder(token, order) }
+    override suspend fun addOrder(order: OrderRequest): Result<Unit> = callOrderService { service.addOrder(order) }
 
     companion object {
-        private val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:5299/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        private fun getOkHttpClient(context: Context): OkHttpClient {
+            return OkHttpClient.Builder()
+                .addInterceptor(TokenInterceptor(context))
+                .build()
+        }
 
-        private val service: OrderService = retrofit.create(OrderService::class.java)
+        private fun getRetrofit(context: Context): Retrofit {
+            return Retrofit.Builder()
+                .baseUrl("http://10.0.2.2:5299/")
+                .client(getOkHttpClient(context))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        }
     }
+
+    private val service: OrderService = getRetrofit(context).create(OrderService::class.java)
 }

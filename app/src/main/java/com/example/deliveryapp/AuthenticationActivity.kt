@@ -1,14 +1,14 @@
 package com.example.deliveryapp
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
+import com.example.deliveryapp.token.TokenManager
 import com.example.deliveryapp.ui.fragments.user.LoginFragment
 import com.example.deliveryapp.ui.fragments.user.SignupFragment
 import com.example.deliveryapp.ui.viewModel.UserViewModel
@@ -22,7 +22,15 @@ class AuthenticationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        TokenManager.initialize(applicationContext)
+
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+
+        if(!TokenManager.isTokenNotValid()){
+            navigateToHomeScreen()
+        }else{
+            TokenManager.clearToken()
+        }
 
         setContentView(R.layout.activity_authentication)
 
@@ -42,5 +50,11 @@ class AuthenticationActivity : AppCompatActivity() {
                 .replace(R.id.auth_fragment_container, fragment)
                 .commit()
         }
+    }
+
+    private fun navigateToHomeScreen() {
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+        this.finish()
     }
 }

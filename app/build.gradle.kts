@@ -49,6 +49,8 @@ android {
 dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
+    implementation(libs.jwtdecode)
+
     // Retrofit
 //    implementation(libs.retrofit)
 //    implementation(libs.converter.gson)
@@ -63,7 +65,7 @@ dependencies {
 //    kapt(libs.androidx.room.compiler.v260)
 
     implementation(libs.androidx.room.ktx)
-    
+
     val composeBom = platform("androidx.compose:compose-bom:2024.10.01")
     implementation(composeBom)
     androidTestImplementation(composeBom)

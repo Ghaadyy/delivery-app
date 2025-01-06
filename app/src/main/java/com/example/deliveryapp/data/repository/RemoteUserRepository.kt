@@ -1,14 +1,17 @@
 package com.example.deliveryapp.data.repository
 
+import android.content.Context
 import com.example.deliveryapp.data.model.JsonPatch
 import com.example.deliveryapp.data.model.TokenResponse
 import com.example.deliveryapp.data.model.User
 import com.example.deliveryapp.data.service.UserService
+import com.example.deliveryapp.token.TokenInterceptor
+import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RemoteUserRepository : UserRepository {
+class RemoteUserRepository(context: Context) : UserRepository {
 
     private suspend fun <T> callUserService(call: suspend () -> Response<T>): Result<T> {
         return kotlin.runCatching { call() }
@@ -21,8 +24,8 @@ class RemoteUserRepository : UserRepository {
             )
     }
 
-    override suspend fun fetchUserInfo(token: String): Result<User> {
-        return callUserService { service.getUserInfo(token) }
+    override suspend fun fetchUserInfo(): Result<User> {
+        return callUserService { service.getUserInfo() }
     }
 
     override suspend fun login(user: User): Result<TokenResponse> {
@@ -33,16 +36,25 @@ class RemoteUserRepository : UserRepository {
         return callUserService { service.signup(user) }
     }
 
-    override suspend fun update(token: String, user: List<JsonPatch>): Result<User> {
-        return callUserService { service.update(token, user) }
+    override suspend fun update(user: List<JsonPatch>): Result<User> {
+        return callUserService { service.update(user) }
     }
 
     companion object {
-        private val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:5299/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        private fun getOkHttpClient(context: Context): OkHttpClient {
+            return OkHttpClient.Builder()
+                .addInterceptor(TokenInterceptor(context))
+                .build()
+        }
 
-        private val service: UserService = retrofit.create(UserService::class.java)
+        private fun getRetrofit(context: Context): Retrofit {
+            return Retrofit.Builder()
+                .baseUrl("http://10.0.2.2:5299/")
+                .client(getOkHttpClient(context))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        }
     }
+
+    private val service: UserService = getRetrofit(context).create(UserService::class.java)
 }
