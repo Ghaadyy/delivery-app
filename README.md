@@ -43,6 +43,6 @@ The main directory contains the android application. However, there is the `api`
 
 ## Demo
 
-<img width="400" src="docs/asstets/homepage.jpg" alt="Homepage" />
+<img width="400" src="docs/assets/homepage.jpg" alt="Homepage" />
 
-<img width="400" src="docs/asstets/restaurant.jpg" alt="Homepage" />
+<img width="400" src="docs/assets/restaurant.jpg" alt="Homepage" />
