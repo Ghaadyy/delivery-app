@@ -29,6 +29,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,31 +43,37 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.deliveryapp.HomeActivity
 import com.example.deliveryapp.R
-import com.example.deliveryapp.data.model.OrderRequest
+import com.example.deliveryapp.data.model.MealRequest
 import com.example.deliveryapp.data.model.menu.Meal
 import com.example.deliveryapp.data.model.menu.MealOption
-import com.example.deliveryapp.ui.viewModel.OrderViewModel
+import com.example.deliveryapp.ui.screens.restaurant.RestaurantViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OptionsBottomSheet(meal: Meal, orderViewModel: OrderViewModel = viewModel(), onDismissRequest: () -> Unit) {
+fun OptionsBottomSheet(meal: Meal, restaurantViewModel: RestaurantViewModel = viewModel(), onDismissRequest: () -> Unit) {
     val bottomSheetState = rememberModalBottomSheetState()
+    val cartViewModel = (LocalContext.current as HomeActivity).cartViewModel
     var options by remember { mutableStateOf<List<MealOption>>(listOf()) }
     var quantity by remember { mutableIntStateOf(1) }
-    val token by (LocalContext.current as HomeActivity).userViewModel.token.observeAsState()
+    val coroutineScope = rememberCoroutineScope()
+    val restaurant by restaurantViewModel.restaurant.observeAsState()
+    val selectedRestaurantId by cartViewModel.selectedRestaurantId.observeAsState()
 
-    fun addOrder() {
+    suspend fun addOrder() {
         if(quantity <= 0) return
-        val request = OrderRequest(
-            1,
-            meal.id,
+
+        val req = MealRequest(
+            meal,
+            price = meal.price + options.sumOf {
+                    opt -> opt.price
+            },
             quantity,
-            options.map { it.id },
-            1,
-            "2025-01-04",
-            "Cash"
+            options,
         )
-        orderViewModel.addOrder(token!!.token, request)
+        if(restaurant != null && (selectedRestaurantId == null || restaurant!!.id == selectedRestaurantId)) {
+            cartViewModel.addToCart(restaurant!!.id, req)
+        }
     }
 
     ModalBottomSheet(
@@ -131,7 +138,7 @@ fun OptionsBottomSheet(meal: Meal, orderViewModel: OrderViewModel = viewModel(),
             }
 
             ExtendedFloatingActionButton(
-                onClick = { addOrder() },
+                onClick = { coroutineScope.launch { addOrder() } },
                 text = { Text("Add to cart") },
                 icon = { Icon(Icons.Filled.ShoppingCart, "Add to cart") },
                 modifier = Modifier

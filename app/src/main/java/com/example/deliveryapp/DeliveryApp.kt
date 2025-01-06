@@ -13,6 +13,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.deliveryapp.ui.navigation.Screen
 import com.example.deliveryapp.ui.screens.account.AccountScreen
+import com.example.deliveryapp.ui.screens.cart.CartPage
+import com.example.deliveryapp.ui.screens.cart.CartScreen
 import com.example.deliveryapp.ui.screens.favorite.FavoritesScreen
 import com.example.deliveryapp.ui.screens.home.HomeScreen
 import com.example.deliveryapp.ui.screens.orders.OrdersScreen
@@ -48,6 +50,7 @@ fun DeliveryApp(fragmentManager: FragmentManager) {
                 }
                 composable(Screen.Orders.route) { OrdersScreen(fragmentManager = fragmentManager) }
                 composable(Screen.Account.route) { AccountScreen() }
+                composable<CartPage> { CartScreen() }
             }
         }
     }
