@@ -4,22 +4,19 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.deliveryapp.data.model.restaurant.Restaurant
 import com.example.deliveryapp.data.model.menu.Menu
 import com.example.deliveryapp.data.model.restaurant.Review
 import com.example.deliveryapp.data.repository.RemoteRestaurantsRepository
 import com.example.deliveryapp.data.repository.ReviewsRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class RestaurantViewModel(application: Application) : AndroidViewModel(application) {
     private val _restaurant = MutableLiveData<Restaurant>()
     private val _menu = MutableLiveData<Menu>()
     private val _reviews = MutableLiveData<List<Review>>()
-    private val restaurantsRepository = RemoteRestaurantsRepository()
+    private val restaurantsRepository = RemoteRestaurantsRepository(application)
     private val reviewsRestaurant = ReviewsRepository(application)
     private val _errorMessage = MutableLiveData<String?>()
     val restaurant: LiveData<Restaurant> = _restaurant
@@ -31,9 +28,9 @@ class RestaurantViewModel(application: Application) : AndroidViewModel(applicati
         _errorMessage.postValue(null)
     }
 
-    fun fetchRestaurant(token: String, restaurantId: Int) {
+    fun fetchRestaurant(restaurantId: Int) {
         viewModelScope.launch {
-            val res = restaurantsRepository.fetchRestaurant("Bearer $token", restaurantId)
+            val res = restaurantsRepository.fetchRestaurant(restaurantId)
             if(res.isSuccess)
                 _restaurant.postValue(res.getOrNull()!!)
             else
@@ -41,9 +38,9 @@ class RestaurantViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    fun fetchMenu(token: String, restaurantId: Int) {
+    fun fetchMenu(restaurantId: Int) {
         viewModelScope.launch {
-            val res = restaurantsRepository.fetchMenu("Bearer $token", restaurantId)
+            val res = restaurantsRepository.fetchMenu(restaurantId)
             if(res.isSuccess)
                 _menu.postValue(res.getOrNull()!!)
             else
@@ -51,9 +48,9 @@ class RestaurantViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    fun getRestaurantReviews(token: String, restaurantId: Int) {
+    fun getRestaurantReviews(restaurantId: Int) {
         viewModelScope.launch {
-            val res = restaurantsRepository.fetchReviews("Bearer $token", restaurantId)
+            val res = restaurantsRepository.fetchReviews(restaurantId)
             if(res.isSuccess)
                 _reviews.postValue(res.getOrNull()!!)
             else
@@ -61,9 +58,9 @@ class RestaurantViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    suspend fun addReview(token: String, review: Review) {
+    suspend fun addReview(review: Review) {
         viewModelScope.launch {
-            val res = restaurantsRepository.addReview("Bearer $token", review)
+            val res = restaurantsRepository.addReview(review)
             if(!res.isSuccess)
                 _errorMessage.postValue("Failed to fetch restaurant: ${res.exceptionOrNull()?.message}")
         }

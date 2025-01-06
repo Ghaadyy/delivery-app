@@ -13,11 +13,11 @@ import retrofit2.http.Path
 interface OrderService {
 
     @GET("orders")
-    suspend fun getOrders(@Header("Authorization") token: String): Response<List<Order>>
+    suspend fun getOrders(): Response<List<Order>>
 
     @GET("orders/{orderId}/details")
-    suspend fun getOrderDetails(@Header("Authorization") token: String, @Path("orderId") orderId: Int): Response<List<OrderDetail>>
+    suspend fun getOrderDetails(@Path("orderId") orderId: Int): Response<List<OrderDetail>>
 
     @POST("orders")
-    suspend fun addOrder(@Header("Authorization") token: String, @Body order: OrderRequest) : Response<Unit>
+    suspend fun addOrder(@Body order: OrderRequest) : Response<Unit>
 }

@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val _restaurants = MutableLiveData<List<Restaurant>>()
     private val _favorites = MutableLiveData<List<Favorite>>()
-    private val restaurantsRepository = RemoteRestaurantsRepository()
+    private val restaurantsRepository = RemoteRestaurantsRepository(application)
     private val favoritesRepository = FavoritesRepository(application)
     val restaurants: LiveData<List<Restaurant>> = _restaurants
     val favorites: LiveData<List<Favorite>> = _favorites
@@ -29,9 +29,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         _errorMessage.postValue(null)
     }
 
-    fun fetchRestaurants(token: String) {
+    fun fetchRestaurants() {
         viewModelScope.launch {
-            val res = restaurantsRepository.fetchRestaurants("Bearer $token")
+            val res = restaurantsRepository.fetchRestaurants()
             if(res.isSuccess)
                 _restaurants.postValue(res.getOrNull()!!)
             else

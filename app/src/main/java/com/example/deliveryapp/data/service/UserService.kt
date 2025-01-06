@@ -12,7 +12,7 @@ import retrofit2.http.POST
 
 interface UserService {
     @GET("users/me")
-    suspend fun getUserInfo(@Header("Authorization") token: String): Response<User>
+    suspend fun getUserInfo(): Response<User>
 
     @POST("users/login")
     suspend fun login(@Body user: User): Response<TokenResponse>
@@ -21,5 +21,5 @@ interface UserService {
     suspend fun signup(@Body user: User): Response<TokenResponse>
 
     @PATCH("users")
-    suspend fun update(@Header("Authorization") token: String, @Body user: List<JsonPatch>): Response<User>
+    suspend fun update(@Body user: List<JsonPatch>): Response<User>
 }

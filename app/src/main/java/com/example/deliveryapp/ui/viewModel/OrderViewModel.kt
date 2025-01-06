@@ -32,9 +32,9 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
         _errorMessage.value = null
     }
 
-    fun getOrders(token: String) {
+    fun getOrders() {
         viewModelScope.launch {
-            val res = orderRepository.fetchOrders("Bearer $token")
+            val res = orderRepository.fetchOrders()
             if (res.isFailure) {
                 _errorMessage.value = res.getOrElse { e -> e.message }.toString()
             } else {
@@ -43,18 +43,18 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun addOrder(token: String, order: OrderRequest) {
+    fun addOrder(order: OrderRequest) {
         viewModelScope.launch {
-            val res = orderRepository.addOrder("Bearer $token", order)
+            val res = orderRepository.addOrder(order)
             if (res.isFailure) {
                 _errorMessage.value = res.getOrElse { e -> e.message }.toString()
             }
         }
     }
 
-    fun getSelectedOrderDetails(token: String, orderId: Int) {
+    fun getSelectedOrderDetails(orderId: Int) {
         viewModelScope.launch {
-            val res = orderRepository.fetchOrderDetails("Bearer $token", orderId)
+            val res = orderRepository.fetchOrderDetails(orderId)
             if (res.isFailure) {
                 _errorMessage.value = res.getOrElse { e -> e.message }.toString()
             } else {

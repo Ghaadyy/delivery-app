@@ -1,17 +1,19 @@
 package com.example.deliveryapp.data.repository
 
-import com.example.deliveryapp.data.api.RestaurantService
+import android.content.Context
+import com.example.deliveryapp.data.service.RestaurantService
 import com.example.deliveryapp.data.model.restaurant.Restaurant
 import com.example.deliveryapp.data.model.menu.Menu
 import com.example.deliveryapp.data.model.restaurant.Review
+import com.example.deliveryapp.token.TokenInterceptor
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Header
 
-class RemoteRestaurantsRepository : RestaurantsRepository {
-    override suspend fun fetchRestaurants(token: String): Result<List<Restaurant>> {
+class RemoteRestaurantsRepository(context: Context) : RestaurantsRepository {
+    override suspend fun fetchRestaurants(): Result<List<Restaurant>> {
         return try {
-            val res = service.getRestaurants(token)
+            val res = service.getRestaurants()
 
             if(res.isSuccessful)
                 Result.success(res.body()!!)
@@ -22,9 +24,9 @@ class RemoteRestaurantsRepository : RestaurantsRepository {
         }
     }
 
-    override suspend fun fetchRestaurant(token: String, id: Int): Result<Restaurant> {
+    override suspend fun fetchRestaurant(id: Int): Result<Restaurant> {
         return try {
-            val res = service.getRestaurant(token, id)
+            val res = service.getRestaurant(id)
 
             if(res.isSuccessful)
                 Result.success(res.body()!!)
@@ -35,9 +37,9 @@ class RemoteRestaurantsRepository : RestaurantsRepository {
         }
     }
 
-    override suspend fun fetchMenu(token: String, restaurantId: Int): Result<Menu> {
+    override suspend fun fetchMenu(restaurantId: Int): Result<Menu> {
         return try {
-            val res = service.getMenu(token, restaurantId)
+            val res = service.getMenu(restaurantId)
 
             if(res.isSuccessful)
                 Result.success(res.body()!!)
@@ -48,9 +50,9 @@ class RemoteRestaurantsRepository : RestaurantsRepository {
         }
     }
 
-    override suspend fun fetchReviews(token: String, restaurantId: Int): Result<List<Review>> {
+    override suspend fun fetchReviews(restaurantId: Int): Result<List<Review>> {
         return try {
-            val res = service.getReviews(token, restaurantId)
+            val res = service.getReviews(restaurantId)
 
             if(res.isSuccessful)
                 Result.success(res.body()!!)
@@ -61,9 +63,9 @@ class RemoteRestaurantsRepository : RestaurantsRepository {
         }
     }
 
-    override suspend fun addReview(token: String, review: Review): Result<Unit> {
+    override suspend fun addReview(review: Review): Result<Unit> {
         try {
-            val res = service.addReview(token, review.restaurantId, review)
+            val res = service.addReview(review.restaurantId, review)
 
             return if(!res.isSuccessful)
                 Result.failure(Exception(res.message()))
@@ -75,12 +77,20 @@ class RemoteRestaurantsRepository : RestaurantsRepository {
     }
 
     companion object {
-        private val retrofit: Retrofit = Retrofit.Builder()
-//            .baseUrl("https://674deb94635bad45618d37ef.mockapi.io/api/")
-            .baseUrl("http://10.0.2.2:5299/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        private fun getOkHttpClient(context: Context): OkHttpClient {
+            return OkHttpClient.Builder()
+                .addInterceptor(TokenInterceptor(context))
+                .build()
+        }
 
-        private val service: RestaurantService = retrofit.create(RestaurantService::class.java)
+        private fun getRetrofit(context: Context): Retrofit {
+            return Retrofit.Builder()
+                .baseUrl("http://10.0.2.2:5299/")
+                .client(getOkHttpClient(context))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        }
     }
+
+    private val service: RestaurantService = getRetrofit(context).create(RestaurantService::class.java)
 }

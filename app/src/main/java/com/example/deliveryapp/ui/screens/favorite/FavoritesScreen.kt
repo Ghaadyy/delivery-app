@@ -34,10 +34,9 @@ fun FavoritesScreen(homeViewModel: HomeViewModel = viewModel()) {
 
     val restaurants by homeViewModel.restaurants.observeAsState()
     val favorites by homeViewModel.favorites.observeAsState()
-    val token by (LocalContext.current as HomeActivity).userViewModel.token.observeAsState()
 
     LaunchedEffect(Unit) {
-        homeViewModel.fetchRestaurants(token!!.token)
+        homeViewModel.fetchRestaurants()
         homeViewModel.fetchFavorites()
     }
 

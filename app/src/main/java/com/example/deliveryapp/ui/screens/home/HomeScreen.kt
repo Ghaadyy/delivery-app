@@ -53,18 +53,14 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
     val restaurants by homeViewModel.restaurants.observeAsState()
     val errorMessage by homeViewModel.errorMessage.observeAsState()
     val favorites by homeViewModel.favorites.observeAsState()
-    val token by (LocalContext.current as HomeActivity).userViewModel.token.observeAsState()
     var isSheetVisible by remember { mutableStateOf(false) }
 
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(token) {
-        if(token != null)
-        {
-            homeViewModel.fetchRestaurants(token!!.token)
-            homeViewModel.fetchFavorites()
-        }
+    LaunchedEffect(Unit) {
+        homeViewModel.fetchRestaurants()
+        homeViewModel.fetchFavorites()
     }
 
     LaunchedEffect(errorMessage) {

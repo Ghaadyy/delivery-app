@@ -17,7 +17,6 @@ class OrderListFragment : Fragment() {
     private lateinit var orderRecyclerView: RecyclerView
     private lateinit var orderAdapter: OrderListAdapter
     private lateinit var orderViewModel: OrderViewModel
-    private lateinit var userViewModel: UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,11 +31,10 @@ class OrderListFragment : Fragment() {
         orderRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         orderViewModel = ViewModelProvider(requireActivity())[OrderViewModel::class.java]
-        userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
 
-        orderViewModel.getOrders(userViewModel.token.value!!.token)
+        orderViewModel.getOrders()
 
-        orderAdapter = OrderListAdapter(requireContext(), listOf(), orderViewModel, userViewModel.token.value!!.token)
+        orderAdapter = OrderListAdapter(requireContext(), listOf(), orderViewModel)
         orderRecyclerView.adapter = orderAdapter
 
         orderViewModel.orders.observe(viewLifecycleOwner) { newOrders ->

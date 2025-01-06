@@ -40,12 +40,11 @@ fun ReviewsScreen(restaurantId: Int, restaurantViewModel: RestaurantViewModel = 
 
     val restaurant by restaurantViewModel.restaurant.observeAsState()
     val reviews by restaurantViewModel.reviews.observeAsState()
-    val token by (LocalContext.current as HomeActivity).userViewModel.token.observeAsState()
 
 
     LaunchedEffect(Unit) {
-        restaurantViewModel.fetchRestaurant(token!!.token, restaurantId)
-        restaurantViewModel.getRestaurantReviews(token!!.token, restaurantId)
+        restaurantViewModel.fetchRestaurant(restaurantId)
+        restaurantViewModel.getRestaurantReviews(restaurantId)
     }
 
     Scaffold(

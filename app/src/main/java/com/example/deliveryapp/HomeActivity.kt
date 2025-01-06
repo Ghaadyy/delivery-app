@@ -26,10 +26,6 @@ class HomeActivity : AppCompatActivity() {
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
         cartViewModel = ViewModelProvider(this)[CartViewModel::class.java]
 
-        val token = intent.getStringExtra("token")
-
-        userViewModel.setToken(token!!)
-
         setContent { DeliveryApp(supportFragmentManager) }
     }
 }
