@@ -1,17 +1,22 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.NetworkInformation;
 
 namespace api.Models;
 
 public class OrderRequest
 {
     public required int RestaurantId;
-    public required int MealId;
-    public required int Quantity;
-    public required List<int> OptionIds;
+    public required List<MealRequest> mealRequests;
     public required int AddressId;
-    public required string OrderDate;
     public required string PaymentMethod;
+}
+
+public class MealRequest
+{
+    public required Meal Meal;
+    public required int Quantity;
+    public required List<MealOption> Options;
 }
 
 public class Order

@@ -2,19 +2,19 @@ package com.example.deliveryapp
 
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.deliveryapp.data.model.User
+import com.example.deliveryapp.ui.screens.cart.CartViewModel
 import com.example.deliveryapp.ui.viewModel.OrderViewModel
 import com.example.deliveryapp.ui.viewModel.UserViewModel
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var orderViewModel: OrderViewModel
     lateinit var userViewModel: UserViewModel
+    lateinit var cartViewModel: CartViewModel
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +24,7 @@ class HomeActivity : AppCompatActivity() {
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
 
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        cartViewModel = ViewModelProvider(this)[CartViewModel::class.java]
 
         val token = intent.getStringExtra("token")
 
