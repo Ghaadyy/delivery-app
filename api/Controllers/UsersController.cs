@@ -1,4 +1,5 @@
 ﻿using api.Models;
+using api.Models.Context;
 using api.Models.Token;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
@@ -9,7 +10,7 @@ namespace api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UsersController(TokenGenerator generator, IUserRepository userRepository, ITokenRepository tokenRepository) : Controller
+public class UsersController(MainContext ctx, TokenGenerator generator, IUserRepository userRepository, ITokenRepository tokenRepository) : Controller
 {
     private readonly TokenGenerator generator = generator;
     private readonly IUserRepository _userRepository = userRepository;
@@ -94,4 +95,34 @@ public class UsersController(TokenGenerator generator, IUserRepository userRepos
         return Ok(user);
     }
 
+    [HttpGet("addresses")]
+    [Authorize]
+    public IActionResult GetAddresses()
+    {
+        int? id = _tokenRepository.GetIdFromToken(User);
+        if (id is null) return BadRequest("User ID missing from token");
+
+        int userId = (int)id;
+
+        var addresses = ctx.Addresses.Where(a => a.UserId == userId);
+
+        return Ok(addresses);
+    }
+
+    [HttpPost("addresses")]
+    [Authorize]
+    public async Task<IActionResult> AddAddress([FromBody] Address address)
+    {
+        int? id = _tokenRepository.GetIdFromToken(User);
+        if (id is null) return BadRequest("User ID missing from token");
+
+        address.Id = 0;
+        address.UserId = (int)id;
+
+        await ctx.Addresses.AddAsync(address);
+
+        await ctx.SaveChangesAsync();
+
+        return Ok();
+    }
 }

@@ -41,6 +41,7 @@ import com.example.deliveryapp.data.model.restaurant.Restaurant
 import com.example.deliveryapp.ui.components.location.LocationPickerBottomSheet
 import com.example.deliveryapp.ui.components.restaurant.RestaurantItem
 import com.example.deliveryapp.ui.components.shared.AppNavigationBar
+import com.example.deliveryapp.ui.screens.address.CreateAddressPage
 import com.example.deliveryapp.ui.screens.cart.CartPage
 import com.example.deliveryapp.ui.screens.restaurant.RestaurantPage
 import kotlinx.coroutines.launch
@@ -49,6 +50,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
     val navController = LocalNavController.current
+    val context = LocalContext.current
+
+    val addressViewModel = (context as HomeActivity).addressViewModel
+    val addresses by addressViewModel.addresses.observeAsState()
 
     val restaurants by homeViewModel.restaurants.observeAsState()
     val errorMessage by homeViewModel.errorMessage.observeAsState()
@@ -61,6 +66,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
     LaunchedEffect(Unit) {
         homeViewModel.fetchRestaurants()
         homeViewModel.fetchFavorites()
+        addressViewModel.getAddresses()
     }
 
     LaunchedEffect(errorMessage) {
@@ -102,7 +108,14 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
         },
         bottomBar = { AppNavigationBar() },
     ) { padding ->
-        if (isSheetVisible) LocationPickerBottomSheet { isSheetVisible = false }
+        if (isSheetVisible) LocationPickerBottomSheet(
+            addresses ?: emptyList(),
+            onSelect = { addr -> addressViewModel.selectAddress(addr) },
+            onClick = {
+                navController.navigate(CreateAddressPage)
+            }) {
+            isSheetVisible = false
+        }
 
         if (restaurants == null) Text("Loading...")
         else LazyColumn(

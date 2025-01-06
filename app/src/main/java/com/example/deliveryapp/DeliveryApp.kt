@@ -12,6 +12,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.deliveryapp.ui.navigation.Screen
+import com.example.deliveryapp.ui.screens.address.CreateAddressPage
+import com.example.deliveryapp.ui.screens.address.CreateAddressScreen
 import com.example.deliveryapp.ui.screens.account.AccountScreen
 import com.example.deliveryapp.ui.screens.cart.CartPage
 import com.example.deliveryapp.ui.screens.cart.CartScreen
@@ -51,6 +53,7 @@ fun DeliveryApp(fragmentManager: FragmentManager) {
                 composable(Screen.Orders.route) { OrdersScreen(fragmentManager = fragmentManager) }
                 composable(Screen.Account.route) { AccountScreen() }
                 composable<CartPage> { CartScreen() }
+                composable<CreateAddressPage> { CreateAddressScreen() }
             }
         }
     }

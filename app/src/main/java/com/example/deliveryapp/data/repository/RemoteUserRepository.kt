@@ -1,6 +1,7 @@
 package com.example.deliveryapp.data.repository
 
 import android.content.Context
+import com.example.deliveryapp.data.model.Address
 import com.example.deliveryapp.data.model.JsonPatch
 import com.example.deliveryapp.data.model.TokenResponse
 import com.example.deliveryapp.data.model.User
@@ -38,6 +39,14 @@ class RemoteUserRepository(context: Context) : UserRepository {
 
     override suspend fun update(user: List<JsonPatch>): Result<User> {
         return callUserService { service.update(user) }
+    }
+
+    override suspend fun getAddresses(): Result<List<Address>> {
+        return callUserService { service.getAddresses() }
+    }
+
+    override suspend fun addAddress(address: Address): Result<Unit> {
+        return callUserService { service.addAddress(address) }
     }
 
     companion object {

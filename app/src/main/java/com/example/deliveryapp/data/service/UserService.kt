@@ -1,5 +1,6 @@
 package com.example.deliveryapp.data.service
 
+import com.example.deliveryapp.data.model.Address
 import com.example.deliveryapp.data.model.JsonPatch
 import com.example.deliveryapp.data.model.TokenResponse
 import com.example.deliveryapp.data.model.User
@@ -22,4 +23,10 @@ interface UserService {
 
     @PATCH("users")
     suspend fun update(@Body user: List<JsonPatch>): Response<User>
+
+    @GET("users/addresses")
+    suspend fun getAddresses(): Response<List<Address>>
+
+    @POST("users/addresses")
+    suspend fun addAddress(@Body address: Address): Response<Unit>
 }
