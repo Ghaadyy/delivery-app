@@ -10,8 +10,6 @@ import com.example.deliveryapp.data.model.OrderDetail
 import com.example.deliveryapp.data.model.OrderRequest
 import com.example.deliveryapp.data.repository.OrderRepository
 import com.example.deliveryapp.data.repository.RemoteFirstOrderRepository
-import com.example.deliveryapp.data.repository.RemoteRestaurantsRepository
-import com.example.deliveryapp.data.repository.RestaurantsRepository
 import kotlinx.coroutines.launch
 
 class OrderViewModel(application: Application) : AndroidViewModel(application) {
@@ -19,30 +17,49 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
     private val _orders = MutableLiveData<List<Order>>()
     private val _currentOrder = MutableLiveData<Order>()
     private val _currentOrderDetails = MutableLiveData<List<OrderDetail>>()
+    private val _errorMessage = MutableLiveData<String?>()
 
     var orders: LiveData<List<Order>> = _orders
     val currentOrder: LiveData<Order> = _currentOrder
     val currentOrderDetails: LiveData<List<OrderDetail>> = _currentOrderDetails
+    val errorMessage: LiveData<String?> = _errorMessage
 
     fun setOrders(orders: List<Order>) { _orders.value = orders }
     fun setCurrentOrder(order: Order) { _currentOrder.value = order }
     fun setCurrentOrderDetails(orderDetails: List<OrderDetail>) { _currentOrderDetails.value = orderDetails }
 
+    fun clearError() {
+        _errorMessage.value = null
+    }
+
     fun getOrders(token: String) {
         viewModelScope.launch {
-            _orders.value = orderRepository.fetchOrders("Bearer $token")
+            val res = orderRepository.fetchOrders("Bearer $token")
+            if (res.isFailure) {
+                _errorMessage.value = res.getOrElse { e -> e.message }.toString()
+            } else {
+                _orders.value = res.getOrDefault(emptyList())
+            }
         }
     }
 
     fun addOrder(token: String, order: OrderRequest) {
         viewModelScope.launch {
-            orderRepository.addOrder("Bearer $token", order)
+            val res = orderRepository.addOrder("Bearer $token", order)
+            if (res.isFailure) {
+                _errorMessage.value = res.getOrElse { e -> e.message }.toString()
+            }
         }
     }
 
     fun getSelectedOrderDetails(token: String, orderId: Int) {
         viewModelScope.launch {
-            _currentOrderDetails.value = orderRepository.fetchOrderDetails("Bearer $token", orderId)
+            val res = orderRepository.fetchOrderDetails("Bearer $token", orderId)
+            if (res.isFailure) {
+                _errorMessage.value = res.getOrElse { e -> e.message }.toString()
+            } else {
+                _currentOrderDetails.value = res.getOrDefault(emptyList())
+            }
         }
     }
 }

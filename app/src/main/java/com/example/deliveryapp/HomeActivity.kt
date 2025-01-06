@@ -12,7 +12,7 @@ import com.example.deliveryapp.ui.viewModel.OrderViewModel
 import com.example.deliveryapp.ui.viewModel.UserViewModel
 
 class HomeActivity : AppCompatActivity() {
-    private lateinit var orderViewModel: OrderViewModel
+    lateinit var orderViewModel: OrderViewModel
     lateinit var userViewModel: UserViewModel
     lateinit var cartViewModel: CartViewModel
 

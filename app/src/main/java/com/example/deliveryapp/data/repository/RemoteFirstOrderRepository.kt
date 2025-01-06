@@ -10,31 +10,45 @@ import com.example.deliveryapp.data.model.OrderRequest
 import com.example.deliveryapp.data.service.OrderService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RemoteFirstOrderRepository(context: Context) : OrderRepository{
     private val orderDao: OrderDao = AppDatabase.getInstance(context).orderDao()
 
-    override suspend fun fetchOrders(token: String): List<Order> {
-        return try {
-            val ordersFromRemote = service.getOrders(token)
-            withContext(Dispatchers.IO) {
-                orderDao.insertOrders(ordersFromRemote)
-            }
-
-            ordersFromRemote
-        } catch (e: Exception) {
-            Log.d("RemoteFirstOrderRepository", e.message.toString())
-            withContext(Dispatchers.IO) {
-                orderDao.getOrders()
-            }
-        }
+    private suspend fun <T> callOrderService(updateCache: suspend (T) -> Unit = {}, call: suspend () -> Response<T>): Result<T> {
+        return kotlin.runCatching { call() }
+            .fold(
+                onSuccess = { res ->
+                    if (res.isSuccessful) {
+                        val orders = res.body()!!
+                        updateCache(orders)
+                        Result.success(orders)
+                    }
+                    else Result.failure(Exception(res.message()))
+                },
+                onFailure = { e -> Result.failure(e) }
+            )
     }
 
-    override suspend fun fetchOrderDetails(token: String, orderId: Int): List<OrderDetail> = service.getOrderDetails(token, orderId)
+    override suspend fun fetchOrders(token: String): Result<List<Order>> =
+        callOrderService(
+            updateCache = { orders ->
+                withContext(Dispatchers.IO) {
+                    orderDao.insertOrders(orders)
+                }
+            }
+        ) { service.getOrders(token) }
+            .onFailure {
+                return Result.success(withContext(Dispatchers.IO) {
+                    orderDao.getOrders()
+                })
+            }
 
-    override suspend fun addOrder(token: String, order: OrderRequest) = service.addOrder(token, order)
+    override suspend fun fetchOrderDetails(token: String, orderId: Int): Result<List<OrderDetail>> = callOrderService { service.getOrderDetails(token, orderId) }
+
+    override suspend fun addOrder(token: String, order: OrderRequest): Result<Unit> = callOrderService { service.addOrder(token, order) }
 
     companion object {
         private val retrofit: Retrofit = Retrofit.Builder()
